@@ -7,7 +7,7 @@ import java.util.Date;
  * Created by Roger on 2016/12/10.
  */
 @Entity
-public class Tools {
+public class Tool {
 
     @Id
     @GeneratedValue

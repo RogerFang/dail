@@ -19,21 +19,22 @@ public class People {
     // 描述
     @Column(columnDefinition = "TEXT")
     private String description;
+    private String email;
     // 职位
     private String position;
     // 顺序
     private Integer sequence;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "department_id")
     private Department department;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "institution_id")
     private Institution institution;
 
     @OneToMany(cascade= CascadeType.ALL,fetch=FetchType.LAZY, mappedBy = "people")
     private Set<Publication> publications;
-    @ManyToMany(fetch=FetchType.LAZY)
+    @ManyToMany
     private Set<ResearchDirection> researchDirections;
 
     public Long getId() {
@@ -70,6 +71,14 @@ public class People {
 
     public String getPosition() {
         return position;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public void setPosition(String position) {

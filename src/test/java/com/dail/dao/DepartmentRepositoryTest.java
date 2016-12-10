@@ -22,8 +22,8 @@ public class DepartmentRepositoryTest {
     @Test
     public void save(){
         Department department = new Department();
-        department.setName("部门1");
-        department.setDescription("部门1描述");
+        department.setName("部门2");
+        department.setDescription("部门2描述");
         department.setCreateTime(new Date());
         departmentRepository.save(department);
     }

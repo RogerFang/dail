@@ -27,6 +27,7 @@ public class News {
     @JoinColumn(name = "institution_id")
     private Institution institution;
     private Date createTime;
+    private Date lastModifiedTime;
 
     public Long getId() {
         return id;
@@ -90,5 +91,13 @@ public class News {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Date getLastModifiedTime() {
+        return lastModifiedTime;
+    }
+
+    public void setLastModifiedTime(Date lastModifiedTime) {
+        this.lastModifiedTime = lastModifiedTime;
     }
 }

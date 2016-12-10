@@ -2,6 +2,7 @@ package com.dail.dao;
 
 import com.dail.entity.Department;
 import com.dail.entity.People;
+import org.hibernate.Hibernate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,21 +19,38 @@ public class PeopleRepositoryTest {
     @Autowired
     private PeopleRepository peopleRepository;
 
+    @Autowired
+    private DepartmentRepository departmentRepository;
+
     @Test
     public void save(){
         People people = new People();
-        people.setName("liuxiaozhong");
-        people.setDescription("Dr. Xiaozhong Liu is an Assistant Professor at Department of Information and Library Science, School of Informatics and Computing, Indiana University Bloomington. His research interests include information retrieval, natural language processing, text/graph mining, digital library, metadata, and human computing.");
+        people.setName("dingying");
         people.setPosition("Professor");
         people.setSequence(1);
-        peopleRepository.save(people);
+        people = peopleRepository.save(people);
+        System.out.println(people.getId());
     }
 
     @Test
     public void findById(){
         People people = peopleRepository.findOne(1l);
-        Department department = people.getDepartment();
-        System.out.println(department.getId());
-        Assert.assertNotNull(people.getDepartment());
+        //Department department = people.getDepartment();
+        //Hibernate.initialize(department);
+        //System.out.println(department.getId());
+        //Assert.assertNotNull(people.getDepartment());
+
+        System.out.println(people.getDepartment().getName());
+    }
+
+    @Test
+    public void update(){
+        //peopleRepository.(2l, 1l);
+        People people = peopleRepository.findOne(1l);
+        people.setEmail("xxxx@xxx");
+        //people.getDepartment().getId();
+        //Department department = departmentRepository.findOne(1l);
+        //people.setDepartment(department);
+        peopleRepository.save(people);
     }
 }
