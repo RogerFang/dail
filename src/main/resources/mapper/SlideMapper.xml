@@ -127,11 +127,11 @@
   </update>
 
 
-    <select id="selectAllEnabled" resultMap="BaseResultMap">
+    <select id="selectAllEnabled" resultMap="BaseResultMap" parameterType="java.lang.Boolean">
         select
         <include refid="Base_Column_List"/>
         from slide
-        where enabled = {#enabled,jdbcType=BIT} order by sequence desc
+        where enabled = #{enabled,jdbcType=BIT} order by sequence desc
     </select>
     <select id="selectAll" resultMap="BaseResultMap">
         select

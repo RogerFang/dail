@@ -14,7 +14,7 @@ import java.util.List;
  * Created by Roger on 2016/12/11.
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class SlideServiceImplTest {
 
     @Autowired
