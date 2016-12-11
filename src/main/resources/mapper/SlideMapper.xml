@@ -131,11 +131,11 @@
         select
         <include refid="Base_Column_List"/>
         from slide
-        where enabled = #{enabled,jdbcType=BIT} order by sequence desc
+        where enabled = #{enabled,jdbcType=BIT} order by sequence desc,enabled desc
     </select>
     <select id="selectAll" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from slide order by sequence desc
+        from slide order by sequence desc,enabled desc
     </select>
 </mapper>

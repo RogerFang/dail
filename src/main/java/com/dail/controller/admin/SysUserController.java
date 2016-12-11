@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 /**
  * Created by Roger on 2016/12/11.
  */
-@RequiresRoles("admin")
+@RequiresRoles("ADMIN")
 @Controller
 @RequestMapping("/system/user")
 public class SysUserController {
