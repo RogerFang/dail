@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dail.dao.PeopleDirectionMapper">
+  <resultMap id="BaseResultMap" type="com.dail.model.PeopleDirectionKey">
+    <id column="people_id" jdbcType="INTEGER" property="peopleId" />
+    <id column="research_directions_id" jdbcType="INTEGER" property="researchDirectionsId" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="com.dail.model.PeopleDirectionKey">
+    delete from people_direction
+    where people_id = #{peopleId,jdbcType=INTEGER}
+      and research_directions_id = #{researchDirectionsId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.dail.model.PeopleDirectionKey">
+    insert into people_direction (people_id, research_directions_id)
+    values (#{peopleId,jdbcType=INTEGER}, #{researchDirectionsId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dail.model.PeopleDirectionKey">
+    insert into people_direction
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="peopleId != null">
+        people_id,
+      </if>
+      <if test="researchDirectionsId != null">
+        research_directions_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="peopleId != null">
+        #{peopleId,jdbcType=INTEGER},
+      </if>
+      <if test="researchDirectionsId != null">
+        #{researchDirectionsId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>

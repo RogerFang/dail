@@ -1,7 +1,9 @@
 package com.dail.config.shiro;
 
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -18,8 +20,17 @@ import java.util.Map;
 public class ShiroConfiguration {
 
     @Bean
+    public EhCacheManager ehCacheManager(){
+        EhCacheManager cacheManager = new EhCacheManager();
+        cacheManager.setCacheManagerConfigFile("classpath:shiro-ehcache.xml");
+        return cacheManager;
+    }
+
+    @Bean
     public SecurityManager securityManager(){
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+        securityManager.setRealm(shiroRealm());
+        securityManager.setCacheManager(ehCacheManager());
         return securityManager;
     }
 
@@ -28,16 +39,18 @@ public class ShiroConfiguration {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         // 设置 SecurityManager
         shiroFilterFactoryBean.setSecurityManager(securityManager);
-        // 拦截器
-        Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
-        // 配置退出过滤器,其中的具体的退出代码Shiro已经替我们实现了
-        filterChainDefinitionMap.put("/logout", "logout");
+
         // 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
         shiroFilterFactoryBean.setLoginUrl("/login");
         // 登录成功后要跳转的链接
         shiroFilterFactoryBean.setSuccessUrl("/");
         // 未授权界面
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");
+
+        // 拦截器
+        Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
+        // 配置退出过滤器,其中的具体的退出代码Shiro已经替我们实现了
+        filterChainDefinitionMap.put("/logout", "logout");
         // authc
         filterChainDefinitionMap.put("/assets/**", "anon");
         filterChainDefinitionMap.put("/images/**", "anon");
@@ -68,6 +81,11 @@ public class ShiroConfiguration {
         ShiroRealm shiroRealm = new ShiroRealm();
         shiroRealm.setCredentialsMatcher(hashedCredentialsMatcher());
         return shiroRealm;
+    }
+
+    @Bean
+    public LifecycleBeanPostProcessor getLifecycleBeanPostProcessor() {
+        return new LifecycleBeanPostProcessor();
     }
 
     /**

@@ -1,0 +1,88 @@
+@media (min-width: 1440px) {
+    .container {
+        width: 1360px;
+    }
+}
+@media (min-width: 1600px) {
+    .container {
+        width: 1440px;
+    }
+}
+@media (min-width: 1920px) {
+    .container {
+        width: 1660px;
+    }
+}
+
+li{
+   list-style: none;
+}
+
+p{
+    margin-bottom: 0;
+}
+
+a:focus{
+    outline: none;
+    text-decoration: none;
+}
+
+main{
+    margin-top: 30px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.main-aside{
+    margin-top: 35px;
+    padding:0 30px;
+}
+
+.main-aside h5{
+    color: #7e7e7e;
+    padding: 5px;
+}
+
+.aside-nav{
+    padding-left: 0;
+}
+
+.main-area h3{
+    line-height: 40px;
+    margin-bottom: 20px;
+    color: #4b4b4b;
+}
+
+.aside-nav-item{
+    border-style: solid;
+    border-width: 1px;
+    border-color: #ccc #ccc transparent #ccc;
+    text-decoration: none;
+    color: #27607D;
+    display: block;
+}
+
+.aside-nav-item>a:hover,.aside-nav-item.active>a{
+    color: #fff;
+    background-color: #27607D;
+}
+
+.aside-nav-item:last-child{
+    border-bottom: 1px solid #ccc;
+}
+
+.aside-nav-item>a{
+    color: inherit;
+    display: block;
+    padding: 6px 20px;
+    -webkit-transition: all .4s ease-in-out 0s;
+    -moz-transition: all .4s ease-in-out 0s;
+    -ms-transition: all .4s ease-in-out 0s;
+    -o-transition: all .4s ease-in-out 0s;
+    transition: all .4s ease-in-out 0s;
+}
+
+.aside-nav-item>a:hover{
+    text-decoration: none;
+}
+

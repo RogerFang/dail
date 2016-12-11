@@ -1,19 +1,19 @@
 package com.dail.controller;
 
-import com.dail.entity.SysRole;
-import com.dail.entity.SysUser;
+import com.dail.model.SysUser;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.util.SavedRequest;
 import org.apache.shiro.web.util.WebUtils;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -23,39 +23,32 @@ import javax.servlet.http.HttpSession;
 public class LoginController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String login(){
+    public String login(@ModelAttribute SysUser sysUser){
         return "login";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String login(String username,
-                        String password,
-                        Boolean rememberMe,
+    public String login(@ModelAttribute SysUser sysUser,
+                        @RequestParam(required = false, defaultValue = "false") Boolean rememberMe,
                         HttpSession session,
                         HttpServletRequest request,
-                        HttpServletResponse response,
-                        Model model){
-        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+                        RedirectAttributes redirectAttributes){
+        UsernamePasswordToken token = new UsernamePasswordToken(sysUser.getUsername(), sysUser.getPassword());
         token.setRememberMe(rememberMe);
-        String error = null;
         Subject subject = SecurityUtils.getSubject();
         try {
             subject.login(token);
         } catch (UnknownAccountException e) {
-            error = "用户名/密码错误";
-            // e.printStackTrace();
+            redirectAttributes.addFlashAttribute("msg", "用户名/密码错误");
         } catch (IncorrectCredentialsException e){
-            error = "用户名/密码错误";
-            // e.printStackTrace();
+            redirectAttributes.addFlashAttribute("msg", "用户名/密码错误");
         } catch (LockedAccountException e){
-            error = "用户被锁定";
-            // e.printStackTrace();
+            redirectAttributes.addFlashAttribute("msg", "用户被锁定");
         } catch (AuthenticationException e){
-            error = "其他错误: " + e.getMessage();
-            // e.printStackTrace();
+            redirectAttributes.addFlashAttribute("msg", "用户名/密码错误");
         }
 
-        if (error == null){
+        if (subject.isAuthenticated()){
             // 将登入用户放入session
             SysUser user = (SysUser) subject.getPrincipal();
             session.setAttribute("sessionUid", user.getId());
@@ -68,13 +61,12 @@ public class LoginController {
                 return "redirect:/";
             }
         }else {
-            model.addAttribute("username", username);
-            model.addAttribute("error", error);
-
-            response.setHeader("Cache-Control", "no-cache");
+            redirectAttributes.addFlashAttribute("username", sysUser.getUsername());
+            token.clear();
+            /*response.setHeader("Cache-Control", "no-cache");
             response.setHeader("Pragma", "no-cache");
-            response.setDateHeader("Expires", 0);
-            return "login";
+            response.setDateHeader("Expires", 0);*/
+            return "redirect:/login";
         }
     }
 }

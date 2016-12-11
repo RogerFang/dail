@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dail.dao.SlideMapper">
+    <resultMap id="BaseResultMap" type="com.dail.model.Slide">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="enabled" jdbcType="BIT" property="enabled"/>
+        <result column="img_url" jdbcType="VARCHAR" property="imgUrl"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="sequence" jdbcType="INTEGER" property="sequence"/>
+        <result column="href" jdbcType="VARCHAR" property="href"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, create_time, description, enabled, img_url, title, sequence, href
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from slide
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from slide
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.dail.model.Slide">
+    insert into slide (id, create_time, description, 
+      enabled, img_url, title, 
+      sequence, href)
+    values (#{id,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{description,jdbcType=VARCHAR}, 
+      #{enabled,jdbcType=BIT}, #{imgUrl,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{sequence,jdbcType=INTEGER}, #{href,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.dail.model.Slide">
+        insert into slide
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="enabled != null">
+                enabled,
+            </if>
+            <if test="imgUrl != null">
+                img_url,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="sequence != null">
+                sequence,
+            </if>
+            <if test="href != null">
+                href,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="enabled != null">
+                #{enabled,jdbcType=BIT},
+            </if>
+            <if test="imgUrl != null">
+                #{imgUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="sequence != null">
+                #{sequence,jdbcType=INTEGER},
+            </if>
+            <if test="href != null">
+                #{href,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.dail.model.Slide">
+        update slide
+        <set>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="enabled != null">
+                enabled = #{enabled,jdbcType=BIT},
+            </if>
+            <if test="imgUrl != null">
+                img_url = #{imgUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="sequence != null">
+                sequence = #{sequence,jdbcType=INTEGER},
+            </if>
+            <if test="href != null">
+                href = #{href,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.dail.model.Slide">
+    update slide
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      description = #{description,jdbcType=VARCHAR},
+      enabled = #{enabled,jdbcType=BIT},
+      img_url = #{imgUrl,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      sequence = #{sequence,jdbcType=INTEGER},
+      href = #{href,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+    <select id="selectAllEnabled" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from slide
+        where enabled = {#enabled,jdbcType=BIT} order by sequence desc
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from slide order by sequence desc
+    </select>
+</mapper>
