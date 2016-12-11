@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dail.dao.SysConstMapper">
+  <resultMap id="BaseResultMap" type="com.dail.model.SysConst">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="index_slide_count" jdbcType="INTEGER" property="indexSlideCount" />
+    <result column="index_project_count" jdbcType="INTEGER" property="indexProjectCount" />
+    <result column="index_news_count" jdbcType="INTEGER" property="indexNewsCount" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, index_slide_count, index_project_count, index_news_count
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_const
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_const
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.dail.model.SysConst">
+    insert into sys_const (id, index_slide_count, index_project_count, 
+      index_news_count)
+    values (#{id,jdbcType=INTEGER}, #{indexSlideCount,jdbcType=INTEGER}, #{indexProjectCount,jdbcType=INTEGER}, 
+      #{indexNewsCount,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dail.model.SysConst">
+    insert into sys_const
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="indexSlideCount != null">
+        index_slide_count,
+      </if>
+      <if test="indexProjectCount != null">
+        index_project_count,
+      </if>
+      <if test="indexNewsCount != null">
+        index_news_count,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="indexSlideCount != null">
+        #{indexSlideCount,jdbcType=INTEGER},
+      </if>
+      <if test="indexProjectCount != null">
+        #{indexProjectCount,jdbcType=INTEGER},
+      </if>
+      <if test="indexNewsCount != null">
+        #{indexNewsCount,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dail.model.SysConst">
+    update sys_const
+    <set>
+      <if test="indexSlideCount != null">
+        index_slide_count = #{indexSlideCount,jdbcType=INTEGER},
+      </if>
+      <if test="indexProjectCount != null">
+        index_project_count = #{indexProjectCount,jdbcType=INTEGER},
+      </if>
+      <if test="indexNewsCount != null">
+        index_news_count = #{indexNewsCount,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dail.model.SysConst">
+    update sys_const
+    set index_slide_count = #{indexSlideCount,jdbcType=INTEGER},
+      index_project_count = #{indexProjectCount,jdbcType=INTEGER},
+      index_news_count = #{indexNewsCount,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

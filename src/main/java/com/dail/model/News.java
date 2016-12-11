@@ -19,7 +19,39 @@ public class News {
 
     private Date lastModifiedTime;
 
+    private Integer uid;
+
     private String content;
+
+    private SysUser sysUser;
+
+    private Institution institution;
+
+    private Department department;
+
+    public SysUser getSysUser() {
+        return sysUser;
+    }
+
+    public void setSysUser(SysUser sysUser) {
+        this.sysUser = sysUser;
+    }
+
+    public Institution getInstitution() {
+        return institution;
+    }
+
+    public void setInstitution(Institution institution) {
+        this.institution = institution;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
 
     public Integer getId() {
         return id;
@@ -83,6 +115,14 @@ public class News {
 
     public void setLastModifiedTime(Date lastModifiedTime) {
         this.lastModifiedTime = lastModifiedTime;
+    }
+
+    public Integer getUid() {
+        return uid;
+    }
+
+    public void setUid(Integer uid) {
+        this.uid = uid;
     }
 
     public String getContent() {

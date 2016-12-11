@@ -45,4 +45,9 @@ public class NewsServiceImpl implements NewsService {
         List<News> newsList = newsMapper.selectAllBase();
         return new PageInfo<>(newsList);
     }
+
+    @Override
+    public News selectByPrimaryKeyWithDetail(Integer id) {
+        return newsMapper.selectByPrimaryKeyWithDetail(id);
+    }
 }

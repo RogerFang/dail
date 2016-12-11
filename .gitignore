@@ -16,6 +16,7 @@ target/
 *.ipr
 
 logs/
+generatorConfig.xml
 
 ### NetBeans ###
 nbproject/private/

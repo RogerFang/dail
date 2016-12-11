@@ -17,4 +17,7 @@ public interface NewsService {
     int updateByPrimaryKeySelective(News record);
 
     PageInfo<News> page(int pageNumber, int pageSize);
+
+    News selectByPrimaryKeyWithDetail(Integer id);
+
 }

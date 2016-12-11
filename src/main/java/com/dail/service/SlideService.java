@@ -1,6 +1,7 @@
 package com.dail.service;
 
 import com.dail.model.Slide;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
@@ -20,4 +21,6 @@ public interface SlideService {
     List<Slide> selectAllEnabled(Boolean enabled);
 
     List<Slide> selectAll();
+
+    PageInfo<Slide> pageEnabled(Boolean enabled, int pageNumber, int pageSize);
 }

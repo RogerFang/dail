@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="client/layout">
+<head>
+    <title th:text="${news.title}"></title>
+
+    <link th:href="@{/assets/css/newsdetail.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div layout:fragment="content">
+    <header class="nav-bg"></header>
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="main-aside col-lg-3 col-md-3 col-sm-12 col-xs-12" th:unless="${#lists.isEmpty(newsPage.list)}">
+                    <h5>Related Links:</h5>
+                    <ul class="aside-nav">
+                        <li th:each="nw:${newsPage.list}">
+                            <a th:href="@{/news/detail/{id}(id=${nw.id})}" th:text="${nw.title}"></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="main-area col-lg-9 col-md-9 col-sm-12 col-xs-12 row" th:if="${news != null}">
+                    <h3 class="news-title" th:text="${news.title}"></h3>
+                    <div class="news-detail col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                        <p class="news-time" th:text="${#dates.format(news.createTime, 'MMM dd, yyyy')}"></p>
+                        <p class="news-author" th:if="${news.sysUser != null}" th:text="'By: '+${news.sysUser.username}"></p>
+                        <p class="news-ins" th:if="${news.institution != null}" th:text="'Insititute: '+${news.institution.name}"></p>
+                        <p class="news-depart" th:if="${news.department != null}" th:text="'Department: '+${news.department.name}"></p>
+                        <div class="news-detail" th:text="${news.content}">
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" th:if="${news.imgUrl != null}">
+                        <div class="news-img">
+                            <img th:src="${news.imgUrl}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

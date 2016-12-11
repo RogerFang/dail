@@ -24,4 +24,6 @@ public interface NewsMapper {
     List<News> selectAllBase();
 
     List<News> selectAllWithBlob();
+
+    News selectByPrimaryKeyWithDetail(Integer id);
 }

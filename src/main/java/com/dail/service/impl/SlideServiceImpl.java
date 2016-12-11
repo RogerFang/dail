@@ -3,6 +3,8 @@ package com.dail.service.impl;
 import com.dail.dao.SlideMapper;
 import com.dail.model.Slide;
 import com.dail.service.SlideService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,5 +47,12 @@ public class SlideServiceImpl implements SlideService {
     @Override
     public List<Slide> selectAll() {
         return slideMapper.selectAll();
+    }
+
+    @Override
+    public PageInfo<Slide> pageEnabled(Boolean enabled, int pageNumber, int pageSize) {
+        PageHelper.startPage(pageNumber, pageSize);
+        List<Slide> slides = slideMapper.selectAllEnabled(enabled);
+        return new PageInfo<>(slides);
     }
 }
