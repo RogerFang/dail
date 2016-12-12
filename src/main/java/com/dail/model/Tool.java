@@ -19,6 +19,26 @@ public class Tool {
 
     private String content;
 
+    private Institution institution;
+
+    private Department department;
+
+    public Institution getInstitution() {
+        return institution;
+    }
+
+    public void setInstitution(Institution institution) {
+        this.institution = institution;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
     public Integer getId() {
         return id;
     }

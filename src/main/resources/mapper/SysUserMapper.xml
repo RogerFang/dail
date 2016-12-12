@@ -116,6 +116,18 @@
   </update>
 
 
+
+    <resultMap id="ResultMapWithPeople" extends="BaseResultMap" type="com.dail.model.SysUser">
+        <association property="people" column="people_id" javaType="com.dail.model.People" select="queryPeople">
+        </association>
+    </resultMap>
+    <resultMap id="PeopleMap" type="com.dail.model.People">
+        <id property="id" column="people_id" />
+        <result property="name" column="people_name" />
+    </resultMap>
+    <select id="queryPeople" resultMap="PeopleMap" parameterType="java.lang.Integer">
+        select id as people_id,name as people_name from people where id = #{id}
+    </select>
     <select id="selectByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
@@ -126,5 +138,11 @@
         select
         <include refid="Base_Column_List"/>
         from sys_user
+    </select>
+    <select id="selectByIdWithPeople" parameterType="java.lang.Integer" resultMap="ResultMapWithPeople">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user
+        where id = #{id,jdbcType=INTEGER}
     </select>
 </mapper>

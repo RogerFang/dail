@@ -21,7 +21,10 @@ public interface ProjectMapper {
 
     int updateByPrimaryKey(Project record);
 
-    List<Project> selectAllBase();
+    List<Project> selectAllBaseInfo();
 
-    List<Project> selectAllWithBlob();
+    List<Project> selectAllWithBlobInfo();
+
+    Project selectByIdWithInfo(Integer id);
+
 }

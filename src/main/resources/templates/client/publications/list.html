@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="client/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Publications</title>
+
+    <link th:href="@{/assets/css/publication.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div layout:fragment="content">
+    <header class="nav-bg"></header>
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="main-aside col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    <h5>In This Section:</h5>
+                    <ul class="aside-nav">
+                        <li class="aside-nav-item active">
+                            <a href="#">Knowledge Lab</a>
+                        </li>
+                        <li class="aside-nav-item active">
+                            <a href="#">Metaknowledge Network Leadership</a>
+                        </li>
+                        <li class="aside-nav-item active">
+                            <a href="#">Metaknowledge Research Network</a>
+                        </li>
+                        <li class="aside-nav-item active">
+                            <a href="#">Knowledge Lab Alumni</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="main-area col-lg-9 col-md-9 col-sm-12 col-xs-12 row">
+                    <h3>Publications:</h3>
+                    <ul class="pub-list" th:unless="${#lists.isEmpty(pubPage.list)}">
+                        <li class="pub-item" th:each="pub:${pubPage.list}">
+                            [[${pub.apaText}]]
+                            <a th:href="@{${pub.fullTextUrl}}">[Full Text]</a>
+                        </li>
+                        <nav th:replace="fragment/page :: client(${pubPage}, '/pubs')"/>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

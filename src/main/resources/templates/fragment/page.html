@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body>
+
+<nav th:fragment="client(contentPage, pageUrl)" th:if="${contentPage.pages > 1}">
+    <ul class="pagination">
+        <li th:unless="${contentPage.isFirstPage}">
+            <a th:href="@{${pageUrl}(page=${contentPage.prePage},size=${contentPage.pageSize})}" >&laquo;</a>
+        </li>
+        <li th:each="pageNo:${#numbers.sequence(1, contentPage.pages)}" th:class="${contentPage.pageNum eq pageNo} ? 'active'">
+            <a th:if="${contentPage.pageNum eq pageNo}" href="javascript:void(0);" th:text="${pageNo}"></a>
+            <a th:if="${not (contentPage.pageNum eq pageNo)}" th:href="@{${pageUrl}(page=${pageNo},size=${contentPage.pageSize})}" th:text="${pageNo}"></a>
+        </li>
+        <li th:unless="${contentPage.isLastPage}">
+            <a th:href="@{${pageUrl}(page=${contentPage.nextPage},size=${contentPage.pageSize})}" >&raquo;</a>
+        </li>
+    </ul>
+</nav>
+</body>
+</html>

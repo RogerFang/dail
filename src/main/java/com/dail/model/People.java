@@ -1,5 +1,7 @@
 package com.dail.model;
 
+import java.util.List;
+
 public class People {
     private Integer id;
 
@@ -17,7 +19,49 @@ public class People {
 
     private String email;
 
+    private String pureDesc;
+
     private String description;
+
+    private SysUser sysUser;
+
+    private Department department;
+
+    private Institution institution;
+
+    private List<Publication> publications;
+
+    public SysUser getSysUser() {
+        return sysUser;
+    }
+
+    public void setSysUser(SysUser sysUser) {
+        this.sysUser = sysUser;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
+    public Institution getInstitution() {
+        return institution;
+    }
+
+    public void setInstitution(Institution institution) {
+        this.institution = institution;
+    }
+
+    public List<Publication> getPublications() {
+        return publications;
+    }
+
+    public void setPublications(List<Publication> publications) {
+        this.publications = publications;
+    }
 
     public Integer getId() {
         return id;
@@ -81,6 +125,14 @@ public class People {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPureDesc() {
+        return pureDesc;
+    }
+
+    public void setPureDesc(String pureDesc) {
+        this.pureDesc = pureDesc;
     }
 
     public String getDescription() {

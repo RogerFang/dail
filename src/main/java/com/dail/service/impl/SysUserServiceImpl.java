@@ -80,6 +80,10 @@ public class SysUserServiceImpl implements SysUserService {
         return 0;
     }
 
+    @Override
+    public SysUser selectByIdWithPeople(Integer id) {
+        return userMapper.selectByIdWithPeople(id);
+    }
 
     private String entryptPassword(String password, String salt) {
         return new Md5Hash(password, salt+salt, 2).toHex();

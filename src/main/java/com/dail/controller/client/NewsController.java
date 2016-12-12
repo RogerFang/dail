@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Created by Roger on 2016/12/12.
@@ -17,6 +18,14 @@ public class NewsController {
 
     @Autowired
     private NewsService newsService;
+
+    @RequestMapping
+    public String list(@RequestParam(required = false, defaultValue = "1") Integer page,
+                       @RequestParam(required = false, defaultValue = "10") Integer size,
+                       Model model){
+        model.addAttribute("newsPage", newsService.page(page, size));
+        return "client/news/list";
+    }
 
     @RequestMapping("/detail/{id}")
     public String detail(@PathVariable Integer id,

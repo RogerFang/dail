@@ -3,6 +3,8 @@ package com.dail.dao;
 import com.dail.model.Institution;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface InstitutionMapper {
     int deleteByPrimaryKey(Integer id);
@@ -16,4 +18,6 @@ public interface InstitutionMapper {
     int updateByPrimaryKeySelective(Institution record);
 
     int updateByPrimaryKey(Institution record);
+
+    List<Institution> selectAll();
 }

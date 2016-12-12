@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="client/layout">
+<head>
+    <meta charset="UTF-8">
+    <title th:if="${people != null}" th:text="${people.name}"></title>
+
+    <link th:href="@{/assets/css/peopledetail.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div layout:fragment="content">
+    <header class="nav-bg"></header>
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="main-aside col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    <h5>In This Section:</h5>
+                    <ul class="aside-nav">
+                        <li class="aside-nav-item">
+                            <a href="#">Knowledge Lab</a>
+                        </li>
+                        <li class="aside-nav-item">
+                            <a href="#">Metaknowledge Network Leadership</a>
+                        </li>
+                        <li class="aside-nav-item">
+                            <a href="#">Metaknowledge Research Network</a>
+                        </li>
+                        <li class="aside-nav-item">
+                            <a href="#">Knowledge Lab Alumni</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="main-area col-lg-9 col-md-9 col-sm-12 col-xs-12 row" th:if="${people != null}">
+                    <h3 th:text="${people.name}"></h3>
+                    <div class="person-info col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                        <p><strong>Post:</strong><span th:if="${people.position != null}">[[${people.position}]]</span></p>
+                        <p><strong>Institution:</strong><span th:if="${people.institution != null}">[[${people.institution.name}]]</span></p>
+                        <p><strong>Department:</strong><span th:if="${people.department != null}">[[${people.department.name}]]</span></p>
+                        <div class="person-desc">
+                            <strong>Introduction:</strong>
+                            [[${people.description}]]
+                        </div>
+                        <div class="person-pub">
+                            <strong>Publications:</strong>
+                            <ul class="pub-list" th:unless="${#lists.isEmpty(people.publications)}">
+                                <li class="pub-item" th:each="publication,status:${people.publications}">
+                                    [[${status.index}]].[[${publication.apaText}]]
+                                    <a th:href="@{${publication.fullTextUrl}}">[Full Text]</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" th:if="${people != null}">
+                        <div class="person-avatar">
+                            <img th:src="@{${people.imgUrl}}">
+                        </div>
+                        <p class="person-name" th:text="${people.name}"></p>
+                        <p class="person-link" th:if="${people.email != null}">
+                            e-mail:[[${people.email}]]
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

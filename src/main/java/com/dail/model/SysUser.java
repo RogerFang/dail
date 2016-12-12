@@ -20,6 +20,16 @@ public class SysUser {
 
     private Set<SysRole> roleSet;
 
+    private People people;
+
+    public People getPeople() {
+        return people;
+    }
+
+    public void setPeople(People people) {
+        this.people = people;
+    }
+
     public Integer getId() {
         return id;
     }

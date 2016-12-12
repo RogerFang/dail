@@ -1,9 +1,9 @@
 package com.dail.dao;
 
 import com.dail.model.People;
-import org.springframework.stereotype.Repository;
 
-@Repository
+import java.util.List;
+
 public interface PeopleMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -18,4 +18,12 @@ public interface PeopleMapper {
     int updateByPrimaryKeyWithBLOBs(People record);
 
     int updateByPrimaryKey(People record);
+
+    List<People> selectAllBase();
+
+    List<People> selectAllBaseWithDetail();
+
+    List<People> selectAllBaseWithInfo();
+
+    People selectByIdWithDetail(Integer id);
 }

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="client/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Tools</title>
+
+    <link th:href="@{/assets/css/tools.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div layout:fragment="content">
+    <header class="nav-bg"></header>
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="main-aside col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    <h5>In This Section:</h5>
+                    <ul class="aside-nav">
+                        <li class="aside-nav-item active">
+                            <a href="#">Knowledge Lab</a>
+                            <ul class="aside-subnav">
+                                <li class="aside-subnav-item">
+                                    <a href="#">Aesthetics of Explanation</a>
+                                </li>
+                                <li class="aside-subnav-item">
+                                    <a href="#">Big Questions</a>
+                                </li>
+                                <li class="aside-subnav-item">
+                                    <a href="#">Cognitive and Evolutionary Foundations of Science</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="aside-nav-item">
+                            <a href="#">Metaknowledge Network Leadership</a>
+                        </li>
+                        <li class="aside-nav-item">
+                            <a href="#">Metaknowledge Research Network</a>
+                        </li>
+                        <li class="aside-nav-item">
+                            <a href="#">Knowledge Lab Alumni</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="main-area col-lg-9 col-md-9 col-sm-12 col-xs-12 row" th:unless="${#lists.isEmpty(toolPage.list)}">
+                    <h3>Our Tools:</h3>
+                    <div class="tool-item col-lg-6 col-md-6 col-sm-12 col-xs-12" th:each="tool:${toolPage.list}">
+                        <div class="tool-item-main">
+                            <div class="tool-avatar" th:if="${tool.imgUrl != null}">
+                                <img th:src="@{${tool.imgUrl}}">
+                            </div>
+                            <div class="tool-info">
+                                <h4><a th:href="@{/tools/detail/{id}(id=${tool.id})}" th:text="${tool.title}"></a></h4>
+                                <p><strong>Time:</strong>[[${#dates.format(tool.createTime, 'MMM dd, yyyy')}]]</p>
+                                <p th:if="${tool.institution != null}"><strong>Institution:</strong>[[${tool.institution.name}]]</p>
+                                <p th:if="${tool.department != null}"><strong>Department:</strong>[[${tool.department.name}]]</p>
+                            </div>
+                            <div class="tool-desc">
+                                [[${tool.description}]]
+                                <a th:href="@{/tools/detail/{id}(id=${tool.id})}">Read More>></a>
+                            </div>
+                        </div>
+                        <nav th:replace="fragment/page :: client(${toolPage}, '/tools')"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="client/layout">
+<head>
+    <meta charset="UTF-8">
+    <title th:if="${project != null}" th:text="${project.title}"></title>
+
+    <link th:href="@{/assets/css/projectdetail.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div layout:fragment="content">
+    <header class="nav-bg"></header>
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="main-aside col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    <h5>Related Links:</h5>
+                    <ul class="aside-nav">
+                        <li class="aside-nav-item active">
+                            <a href="#">Knowledge Lab</a>
+                            <ul class="aside-subnav">
+                                <li class="aside-subnav-item">
+                                    <a href="#">Aesthetics of Explanation</a>
+                                </li>
+                                <li class="aside-subnav-item">
+                                    <a href="#">Big Questions</a>
+                                </li>
+                                <li class="aside-subnav-item">
+                                    <a href="#">Cognitive and Evolutionary Foundations of Science</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="aside-nav-item">
+                            <a href="#">Metaknowledge Network Leadership</a>
+                        </li>
+                        <li class="aside-nav-item">
+                            <a href="#">Metaknowledge Research Network</a>
+                        </li>
+                        <li class="aside-nav-item">
+                            <a href="#">Knowledge Lab Alumni</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="main-area col-lg-9 col-md-9 col-sm-12 col-xs-12 row" th:if="${project != null}">
+                    <h3 class="pro-title" th:text="${project.title}"></h3>
+                    <div class="pro-detail col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                        <p class="pro-time" th:text="${#dates.format(project.createTime, 'MMM dd, yyyy')}"></p>
+                        <p class="pro-ins" th:if="${project.institution != null}">Insititute: [[${project.institution.name}]]</p>
+                        <p class="pro-depart" th:if="${project.department != null}">Department: [[project.department]]</p>
+                        <div class="pro-detail" th:text="${project.content}">
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <div class="pro-img">
+                            <img th:src="@{${project.imgUrl}}" th:if="${project.imgUrl != null}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

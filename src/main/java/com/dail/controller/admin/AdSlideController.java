@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiresRoles("ADMIN")
 @Controller
 @RequestMapping("/system/slide")
-public class SlideController {
+public class AdSlideController {
 
     @Autowired
     private SlideService slideService;

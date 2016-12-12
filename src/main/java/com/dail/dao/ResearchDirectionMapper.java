@@ -3,6 +3,8 @@ package com.dail.dao;
 import com.dail.model.ResearchDirection;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ResearchDirectionMapper {
     int deleteByPrimaryKey(Integer id);
@@ -15,7 +17,7 @@ public interface ResearchDirectionMapper {
 
     int updateByPrimaryKeySelective(ResearchDirection record);
 
-    int updateByPrimaryKeyWithBLOBs(ResearchDirection record);
-
     int updateByPrimaryKey(ResearchDirection record);
+
+    List<ResearchDirection> selectAll();
 }

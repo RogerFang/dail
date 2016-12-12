@@ -22,4 +22,6 @@ public interface SysUserMapper {
     SysUser selectByUsername(String username);
 
     List<SysUser> selectAll();
+
+    SysUser selectByIdWithPeople(Integer id);
 }

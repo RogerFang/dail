@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="client/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Projects</title>
+    <link th:href="@{/assets/css/project.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div layout:fragment="content">
+    <header class="nav-bg"></header>
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="main-aside col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    <h5>In This Section:</h5>
+                    <ul class="aside-nav">
+                        <li class="aside-nav-item active">
+                            <a href="#">Knowledge Lab</a>
+                            <ul class="aside-subnav">
+                                <li class="aside-subnav-item">
+                                    <a href="#">Aesthetics of Explanation</a>
+                                </li>
+                                <li class="aside-subnav-item">
+                                    <a href="#">Big Questions</a>
+                                </li>
+                                <li class="aside-subnav-item">
+                                    <a href="#">Cognitive and Evolutionary Foundations of Science</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="aside-nav-item">
+                            <a href="#">Metaknowledge Network Leadership</a>
+                        </li>
+                        <li class="aside-nav-item">
+                            <a href="#">Metaknowledge Research Network</a>
+                        </li>
+                        <li class="aside-nav-item">
+                            <a href="#">Knowledge Lab Alumni</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="main-area col-lg-9 col-md-9 col-sm-12 col-xs-12 row">
+                    <h3>OUR PROJECTS:</h3>
+                    <ul class="pro-detail col-lg-8 col-md-8 col-sm-12 col-xs-12" th:unless="${#lists.isEmpty(projectPage.list)}">
+                        <li class="pro-item" th:each="project:${projectPage.list}">
+                            <div class="pro-name">
+                                <a th:href="@{/projects/detail/{id}(id=${project.id})}" th:text="${project.title}"></a>
+                            </div>
+                            <div class="pro-img pull-left" th:if="${project.imgUrl != null}">
+                                <img th:src="@{${project.imgUrl}}">
+                            </div>
+                            <p class="pro-time" th:if="${project.continuedDate != null}">Time: [[${project.continuedDate}]]</p>
+                            <p class="pro-ins" th:if="${project.institution != null}">Insititute: [[${project.institution.name}]]</p>
+                            <p class="pro-depart" th:if="${project.department != null}">Department: [[${project.department.name}]]</p>
+                            <div class="pro-desc" th:if="${project.description != null}">
+                                [[${project.description}]]
+                                <a th:href="@{/projects/detail/{id}(id=${project.id})}" class="pro-more">Read more>></a>
+                            </div>
+                        </li>
+                        <nav th:replace="fragment/page :: client(${projectPage}, '/projects')"/>
+                    </ul>
+
+                    <div class="aside-area col-lg-4 col-md-4 col-sm-12 col-xs-12" th:unless="${#lists.isEmpty(newsPage.list)}">
+                        <h5>News</h5>
+                        <ul class="news-list">
+                            <li class="news-item" th:each="news:${newsPage.list}">
+                                <a th:href="@{/news/detail/{id}(id=${news.id})}">[[${news.title}]]<span th:text="${#dates.format(news.createTime, 'MMM dd, yyyy')}"></span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

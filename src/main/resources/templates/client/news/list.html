@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="client/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>News</title>
+
+    <link th:href="@{/assets/css/news.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<div layout:fragment="content">
+    <header class="nav-bg"></header>
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="main-aside col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    <h5>In This Section:</h5>
+                    <ul class="aside-nav">
+                        <li class="aside-nav-item active">
+                            <a href="#">Knowledge Lab</a>
+                        </li>
+                        <li class="aside-nav-item active">
+                            <a href="#">Metaknowledge Network Leadership</a>
+                        </li>
+                        <li class="aside-nav-item active">
+                            <a href="#">Metaknowledge Research Network</a>
+                        </li>
+                        <li class="aside-nav-item active">
+                            <a href="#">Knowledge Lab Alumni</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="main-area col-lg-9 col-md-9 col-sm-12 col-xs-12 row">
+                    <h3>News</h3>
+                    <ul class="news-list" th:unless="${#lists.isEmpty(newsPage.list)}">
+                        <li class="news-item" th:each="news:${newsPage.list}">
+                            <a class="news-title" th:href="@{/news/detail/{id}(id=${news.id})}" th:text="${news.title}"></a>
+                            <p class="news-time" th:text="${#dates.format(news.createTime, 'MMM dd, yyyy')}"></p>
+                            <p class="news-abs">[[${news.description}]]<a th:href="@{/news/detail/{id}(id=${news.id})}" class="more">more>></a></p>
+                        </li>
+                        <nav th:replace="fragment/page :: client(${newsPage}, '/news')"/>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

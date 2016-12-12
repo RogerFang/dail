@@ -20,18 +20,18 @@
         </javaTypeResolver>
 
         <javaModelGenerator targetPackage="com.dail.model"
-                            targetProject="E:\irlab\Java_Project\dail\src\main\java">
+                            targetProject="E:\irlab\Java\dail\src\main\java">
             <!-- 在targetPackage的基础上，根据数据库的schema再生成一层package，最终生成的类放在这个package下，默认为false -->
             <property name="enableSubPackages" value="true"/>
         </javaModelGenerator>
         <sqlMapGenerator targetPackage="mapper"
-                         targetProject="E:\irlab\Java_Project\dail\src\main\resources\">
+                         targetProject="E:\irlab\Java\dail\src\main\resources\">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
-        <!--<javaClientGenerator targetPackage="com.dail.dao"
-                             targetProject="E:\irlab\Java_Project\dail\src\main\java\" type="XMLMAPPER">
+        <javaClientGenerator targetPackage="com.dail.dao"
+                             targetProject="E:\irlab\Java\dail\src\main\java\" type="XMLMAPPER">
             <property name="enableSubPackages" value="true"/>
-        </javaClientGenerator>-->
+        </javaClientGenerator>
 
         <!--<table tableName="department" domainObjectName="Department" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
@@ -42,25 +42,25 @@
         <table tableName="logo" domainObjectName="Logo" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"/>-->
-        <table tableName="news" domainObjectName="News" enableCountByExample="false"
+        <!--<table tableName="news" domainObjectName="News" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"/>
+               selectByExampleQueryId="false"/>-->
         <!--<table tableName="people" domainObjectName="People" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"/>
-        <table tableName="people_direction" domainObjectName="PeopleDirection" enableCountByExample="false"
+               selectByExampleQueryId="false"/>-->
+        <!--<table tableName="people_direction" domainObjectName="PeopleDirection" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"/>
-        <table tableName="project" domainObjectName="Project" enableCountByExample="false"
+               selectByExampleQueryId="false"/>-->
+        <!--<table tableName="project" domainObjectName="Project" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"/>
-        <table tableName="publication" domainObjectName="Publication" enableCountByExample="false"
+               selectByExampleQueryId="false"/>-->
+        <!--<table tableName="publication" domainObjectName="Publication" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"/>
+               selectByExampleQueryId="false"/>-->
         <table tableName="research_direction" domainObjectName="ResearchDirection" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"/>
-        <table tableName="section" domainObjectName="Section" enableCountByExample="false"
+        <!--<table tableName="section" domainObjectName="Section" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"/>-->
         <!--<table tableName="slide" domainObjectName="Slide" enableCountByExample="false"
@@ -81,5 +81,8 @@
         <!--<table tableName="sys_const" domainObjectName="SysConst" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"/>-->
+        <table tableName="project_people" domainObjectName="ProjectPeople" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"/>
     </context>
 </generatorConfiguration>

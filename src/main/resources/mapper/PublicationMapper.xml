@@ -1,107 +1,159 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dail.dao.PublicationMapper">
-  <resultMap id="BaseResultMap" type="com.dail.model.Publication">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="full_text_url" jdbcType="VARCHAR" property="fullTextUrl" />
-    <result column="people_id" jdbcType="INTEGER" property="peopleId" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.dail.model.Publication">
-    <result column="apa_text" jdbcType="LONGVARCHAR" property="apaText" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, create_time, full_text_url, people_id
+    <resultMap id="BaseResultMap" type="com.dail.model.Publication">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="full_text_url" jdbcType="VARCHAR" property="fullTextUrl"/>
+        <result column="people_id" jdbcType="INTEGER" property="peopleId"/>
+        <result column="pub_date" jdbcType="TIMESTAMP" property="pubDate"/>
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.dail.model.Publication">
+        <result column="apa_text" jdbcType="LONGVARCHAR" property="apaText"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, create_time, full_text_url, people_id, pub_date
   </sql>
-  <sql id="Blob_Column_List">
+    <sql id="Blob_Column_List">
     apa_text
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
-    select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from publication
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from publication
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from publication
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.dail.model.Publication">
+    <insert id="insert" parameterType="com.dail.model.Publication">
     insert into publication (id, create_time, full_text_url, 
-      people_id, apa_text)
+      people_id, pub_date, apa_text
+      )
     values (#{id,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{fullTextUrl,jdbcType=VARCHAR}, 
-      #{peopleId,jdbcType=INTEGER}, #{apaText,jdbcType=LONGVARCHAR})
+      #{peopleId,jdbcType=INTEGER}, #{pubDate,jdbcType=TIMESTAMP}, #{apaText,jdbcType=LONGVARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.dail.model.Publication">
-    insert into publication
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="createTime != null">
-        create_time,
-      </if>
-      <if test="fullTextUrl != null">
-        full_text_url,
-      </if>
-      <if test="peopleId != null">
-        people_id,
-      </if>
-      <if test="apaText != null">
-        apa_text,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="fullTextUrl != null">
-        #{fullTextUrl,jdbcType=VARCHAR},
-      </if>
-      <if test="peopleId != null">
-        #{peopleId,jdbcType=INTEGER},
-      </if>
-      <if test="apaText != null">
-        #{apaText,jdbcType=LONGVARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.dail.model.Publication">
-    update publication
-    <set>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="fullTextUrl != null">
-        full_text_url = #{fullTextUrl,jdbcType=VARCHAR},
-      </if>
-      <if test="peopleId != null">
-        people_id = #{peopleId,jdbcType=INTEGER},
-      </if>
-      <if test="apaText != null">
-        apa_text = #{apaText,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.dail.model.Publication">
+    <insert id="insertSelective" parameterType="com.dail.model.Publication">
+        insert into publication
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="fullTextUrl != null">
+                full_text_url,
+            </if>
+            <if test="peopleId != null">
+                people_id,
+            </if>
+            <if test="pubDate != null">
+                pub_date,
+            </if>
+            <if test="apaText != null">
+                apa_text,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fullTextUrl != null">
+                #{fullTextUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="peopleId != null">
+                #{peopleId,jdbcType=INTEGER},
+            </if>
+            <if test="pubDate != null">
+                #{pubDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="apaText != null">
+                #{apaText,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.dail.model.Publication">
+        update publication
+        <set>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fullTextUrl != null">
+                full_text_url = #{fullTextUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="peopleId != null">
+                people_id = #{peopleId,jdbcType=INTEGER},
+            </if>
+            <if test="pubDate != null">
+                pub_date = #{pubDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="apaText != null">
+                apa_text = #{apaText,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.dail.model.Publication">
     update publication
     set create_time = #{createTime,jdbcType=TIMESTAMP},
       full_text_url = #{fullTextUrl,jdbcType=VARCHAR},
       people_id = #{peopleId,jdbcType=INTEGER},
+      pub_date = #{pubDate,jdbcType=TIMESTAMP},
       apa_text = #{apaText,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.dail.model.Publication">
+    <update id="updateByPrimaryKey" parameterType="com.dail.model.Publication">
     update publication
     set create_time = #{createTime,jdbcType=TIMESTAMP},
       full_text_url = #{fullTextUrl,jdbcType=VARCHAR},
-      people_id = #{peopleId,jdbcType=INTEGER}
+      people_id = #{peopleId,jdbcType=INTEGER},
+      pub_date = #{pubDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+
+
+    <resultMap id="ResultMapWithBLOBsInfo" extends="ResultMapWithBLOBs" type="com.dail.model.Publication">
+        <association property="people" column="people_id" javaType="com.dail.model.People" select="com.dail.dao.PeopleMapper.selectByPrimaryKey">
+        </association>
+    </resultMap>
+    <select id="selectByPeopleId" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from publication
+        where people_id = #{peopleId,jdbcType=INTEGER}
+        order by pub_date desc,create_time desc
+    </select>
+    <select id="selectByIdWithInfo" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBsInfo">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from publication
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectAll" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from publication
+    </select>
+    <select id="selectAllWithInfo" resultMap="ResultMapWithBLOBsInfo">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from publication
+    </select>
 </mapper>

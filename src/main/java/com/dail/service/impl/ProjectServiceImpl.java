@@ -41,8 +41,13 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public PageInfo<Project> page(int pageNumber, int pageSize) {
-        PageHelper.startPage(pageNumber, pageSize, "id desc");
-        List<Project> projects = projectMapper.selectAllBase();
+        PageHelper.startPage(pageNumber, pageSize);
+        List<Project> projects = projectMapper.selectAllBaseInfo();
         return new PageInfo<>(projects);
+    }
+
+    @Override
+    public Project selectByIdWithInfo(Integer id) {
+        return projectMapper.selectByIdWithInfo(id);
     }
 }

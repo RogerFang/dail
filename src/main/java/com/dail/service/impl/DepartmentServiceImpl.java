@@ -6,6 +6,8 @@ import com.dail.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by Roger on 2016/12/11.
  */
@@ -43,5 +45,10 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public int updateByPrimaryKey(Department record) {
         return departmentMapper.updateByPrimaryKey(record);
+    }
+
+    @Override
+    public List<Department> selectAll() {
+        return departmentMapper.selectAll();
     }
 }

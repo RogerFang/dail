@@ -3,8 +3,12 @@ package com.dail.service.impl;
 import com.dail.dao.PublicationMapper;
 import com.dail.model.Publication;
 import com.dail.service.PublicationService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Created by Roger on 2016/12/11.
@@ -48,5 +52,24 @@ public class PublicationServiceImpl implements PublicationService {
     @Override
     public int updateByPrimaryKey(Publication record) {
         return publicationMapper.updateByPrimaryKey(record);
+    }
+
+    @Override
+    public Publication selectByIdWithInfo(Integer id) {
+        return publicationMapper.selectByIdWithInfo(id);
+    }
+
+    @Override
+    public PageInfo<Publication> page(int pageNumber, int pageSize) {
+        PageHelper.startPage(pageNumber, pageSize);
+        List<Publication> publications= publicationMapper.selectAll();
+        return new PageInfo<>(publications);
+    }
+
+    @Override
+    public PageInfo<Publication> pageWithInfo(int pageNumber, int pageSize) {
+        PageHelper.startPage(pageNumber, pageSize);
+        List<Publication> publications = publicationMapper.selectAllWithInfo();
+        return new PageInfo<>(publications);
     }
 }

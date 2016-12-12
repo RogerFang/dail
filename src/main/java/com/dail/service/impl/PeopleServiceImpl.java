@@ -3,8 +3,12 @@ package com.dail.service.impl;
 import com.dail.dao.PeopleMapper;
 import com.dail.model.People;
 import com.dail.service.PeopleService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Created by Roger on 2016/12/10.
@@ -18,11 +22,6 @@ public class PeopleServiceImpl implements PeopleService {
     @Override
     public int deleteByPrimaryKey(Integer id) {
         return peopleMapper.deleteByPrimaryKey(id);
-    }
-
-    @Override
-    public int insert(People record) {
-        return peopleMapper.insert(record);
     }
 
     @Override
@@ -41,12 +40,21 @@ public class PeopleServiceImpl implements PeopleService {
     }
 
     @Override
-    public int updateByPrimaryKeyWithBLOBs(People record) {
-        return peopleMapper.updateByPrimaryKeyWithBLOBs(record);
+    public PageInfo<People> pageWithInfo(int pageNumber, int pageSize) {
+        PageHelper.startPage(pageNumber, pageSize);
+        List<People> peopleList = peopleMapper.selectAllBaseWithInfo();
+        return new PageInfo<>(peopleList);
     }
 
     @Override
-    public int updateByPrimaryKey(People record) {
-        return peopleMapper.updateByPrimaryKey(record);
+    public PageInfo<People> pageWithDetail(int pageNumber, int pageSize) {
+        PageHelper.startPage(pageNumber, pageSize);
+        List<People> peopleList = peopleMapper.selectAllBaseWithDetail();
+        return new PageInfo<>(peopleList);
+    }
+
+    @Override
+    public People selectByIdWithDetail(Integer id) {
+        return peopleMapper.selectByIdWithDetail(id);
     }
 }

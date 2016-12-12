@@ -17,4 +17,6 @@ public interface ProjectService {
     int updateByPrimaryKeySelective(Project record);
 
     PageInfo<Project> page(int pageNumber, int pageSize);
+
+    Project selectByIdWithInfo(Integer id);
 }

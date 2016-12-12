@@ -11,7 +11,19 @@ public class Publication {
 
     private Integer peopleId;
 
+    private Date pubDate;
+
     private String apaText;
+
+    private People people;
+
+    public People getPeople() {
+        return people;
+    }
+
+    public void setPeople(People people) {
+        this.people = people;
+    }
 
     public Integer getId() {
         return id;
@@ -43,6 +55,14 @@ public class Publication {
 
     public void setPeopleId(Integer peopleId) {
         this.peopleId = peopleId;
+    }
+
+    public Date getPubDate() {
+        return pubDate;
+    }
+
+    public void setPubDate(Date pubDate) {
+        this.pubDate = pubDate;
     }
 
     public String getApaText() {

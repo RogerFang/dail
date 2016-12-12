@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequiresRoles("ADMIN")
 @Controller
 @RequestMapping("/system/user")
-public class SysUserController {
+public class AdSysUserController {
 
     @Autowired
     private SysUserService sysUserService;

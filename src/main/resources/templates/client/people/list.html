@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="client/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>People</title>
+    <link th:href="@{/assets/css/people.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div layout:fragment="content">
+    <header class="nav-bg"></header>
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="main-aside col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    <h5>In This Section:</h5>
+                    <ul class="aside-nav">
+                        <li class="aside-nav-item active">
+                            <a href="#">Knowledge Lab</a>
+                        </li>
+                        <li class="aside-nav-item">
+                            <a href="#">Metaknowledge Network Leadership</a>
+                        </li>
+                        <li class="aside-nav-item">
+                            <a href="#">Metaknowledge Research Network</a>
+                        </li>
+                        <li class="aside-nav-item">
+                            <a href="#">Knowledge Lab Alumni</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="main-area col-lg-9 col-md-9 col-sm-12 col-xs-12 row"
+                     th:unless="${#lists.isEmpty(peoplePage.list)}">
+                    <h3>Knowledge Lab</h3>
+                    <div class="person-item col-lg-6 col-md-6 col-sm-12 col-xs-12" th:each="people:${peoplePage.list}">
+                        <div class="person-item-main">
+                            <div class="person-avatar pull-left">
+                                <img th:src="@{${people.imgUrl}}" th:if="${people.imgUrl != null}">
+                            </div>
+                            <div class="person-info">
+                                <h4><a th:href="@{/people/detail/{id}(id=${people.id})}" th:text="${people.name}"></a>
+                                </h4>
+                                <p><strong>Post:</strong><span
+                                        th:if="${people.position != null}">[[${people.position}]]</span></p>
+                                <p><strong>Institution:</strong><span th:if="${people.institution != null}">[[${people.institution.name}]]</span>
+                                </p>
+                                <p><strong>Department:</strong><span th:if="${people.department != null}">[[${people.department.name}]]</span>
+                                </p>
+                                <div class="person-desc" th:text="${people.pureDesc}">
+                                </div>
+                            </div>
+                        </div>
+                        <a th:href="@{/people/detail/{id}(id=${people.id})}" class="person-more">Read more<span
+                                class="glyphicon glyphicon-play-circle"></span></a>
+                        <div class="cover"></div>
+                    </div>
+                    <nav th:replace="fragment/page :: client(${peoplePage}, '/people')"/>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>
