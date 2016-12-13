@@ -1,5 +1,6 @@
 package com.dail.config.shiro;
 
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
@@ -100,5 +101,12 @@ public class ShiroConfiguration {
         AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
         authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
         return authorizationAttributeSourceAdvisor;
+    }
+
+
+    /** * 添加ShiroDialect 为了在thymeleaf里使用shiro的标签的bean * @return */
+    @Bean
+    public ShiroDialect shiroDialect(){
+        return new ShiroDialect();
     }
 }

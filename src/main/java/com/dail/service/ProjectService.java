@@ -18,5 +18,11 @@ public interface ProjectService {
 
     PageInfo<Project> page(int pageNumber, int pageSize);
 
+    PageInfo<Project> pageByUid(Integer uid, int pageNumber, int pageSize);
+
     Project selectByIdWithInfo(Integer id);
+
+    Project selectByIdWithDetail(Integer id);
+
+    void update(Project record);
 }

@@ -37,13 +37,13 @@
                     <div class="person-item col-lg-6 col-md-6 col-sm-12 col-xs-12" th:each="people:${peoplePage.list}">
                         <div class="person-item-main">
                             <div class="person-avatar pull-left">
-                                <img th:src="@{${people.imgUrl}}" th:if="${people.imgUrl != null}">
+                                <img th:src="@{${people.imgUrl}}" th:unless="${#strings.isEmpty(people.imgUrl)}">
                             </div>
                             <div class="person-info">
                                 <h4><a th:href="@{/people/detail/{id}(id=${people.id})}" th:text="${people.name}"></a>
                                 </h4>
                                 <p><strong>Post:</strong><span
-                                        th:if="${people.position != null}">[[${people.position}]]</span></p>
+                                        th:unless="${#strings.isEmpty(people.position)}">[[${people.position}]]</span></p>
                                 <p><strong>Institution:</strong><span th:if="${people.institution != null}">[[${people.institution.name}]]</span>
                                 </p>
                                 <p><strong>Department:</strong><span th:if="${people.department != null}">[[${people.department.name}]]</span>

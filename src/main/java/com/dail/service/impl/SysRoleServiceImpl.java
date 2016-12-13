@@ -32,4 +32,9 @@ public class SysRoleServiceImpl implements SysRoleService {
     public Set<SysRole> selectByUserId(Integer userId) {
         return roleMapper.selectByUserId(userId);
     }
+
+    @Override
+    public Set<String> selectStrByUserId(Integer userId) {
+        return roleMapper.selectStrByUserId(userId);
+    }
 }

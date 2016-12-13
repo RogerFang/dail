@@ -20,4 +20,8 @@ public interface ResearchDirectionMapper {
     int updateByPrimaryKey(ResearchDirection record);
 
     List<ResearchDirection> selectAll();
+
+    List<ResearchDirection> selectByPeopleId(Integer peopleId);
+
+    List<ResearchDirection> selectByProjectId(Integer projectId);
 }

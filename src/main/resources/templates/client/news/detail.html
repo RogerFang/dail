@@ -32,7 +32,7 @@
                         <div class="news-detail" th:text="${news.content}">
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" th:if="${news.imgUrl != null}">
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" th:unless="${#strings.isEmpty(news.imgUrl)}">
                         <div class="news-img">
                             <img th:src="${news.imgUrl}">
                         </div>

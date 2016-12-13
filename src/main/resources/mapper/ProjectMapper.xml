@@ -11,13 +11,14 @@
         <result column="institution_id" jdbcType="INTEGER" property="institutionId"/>
         <result column="last_modified_time" jdbcType="TIMESTAMP" property="lastModifiedTime"/>
         <result column="continued_date" jdbcType="VARCHAR" property="continuedDate"/>
+        <result column="uid" jdbcType="INTEGER" property="uid"/>
     </resultMap>
     <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.dail.model.Project">
         <result column="content" jdbcType="LONGVARCHAR" property="content"/>
     </resultMap>
     <sql id="Base_Column_List">
     id, create_time, description, img_url, title, department_id, institution_id, last_modified_time, 
-    continued_date
+    continued_date, uid
   </sql>
     <sql id="Blob_Column_List">
     content
@@ -38,11 +39,11 @@
     insert into project (id, create_time, description, 
       img_url, title, department_id, 
       institution_id, last_modified_time, continued_date, 
-      content)
+      uid, content)
     values (#{id,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{description,jdbcType=VARCHAR}, 
       #{imgUrl,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{departmentId,jdbcType=INTEGER}, 
       #{institutionId,jdbcType=INTEGER}, #{lastModifiedTime,jdbcType=TIMESTAMP}, #{continuedDate,jdbcType=VARCHAR}, 
-      #{content,jdbcType=LONGVARCHAR})
+      #{uid,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR})
   </insert>
     <insert id="insertSelective" parameterType="com.dail.model.Project">
         insert into project
@@ -73,6 +74,9 @@
             </if>
             <if test="continuedDate != null">
                 continued_date,
+            </if>
+            <if test="uid != null">
+                uid,
             </if>
             <if test="content != null">
                 content,
@@ -106,6 +110,9 @@
             <if test="continuedDate != null">
                 #{continuedDate,jdbcType=VARCHAR},
             </if>
+            <if test="uid != null">
+                #{uid,jdbcType=INTEGER},
+            </if>
             <if test="content != null">
                 #{content,jdbcType=LONGVARCHAR},
             </if>
@@ -138,6 +145,9 @@
             <if test="continuedDate != null">
                 continued_date = #{continuedDate,jdbcType=VARCHAR},
             </if>
+            <if test="uid != null">
+                uid = #{uid,jdbcType=INTEGER},
+            </if>
             <if test="content != null">
                 content = #{content,jdbcType=LONGVARCHAR},
             </if>
@@ -154,6 +164,7 @@
       institution_id = #{institutionId,jdbcType=INTEGER},
       last_modified_time = #{lastModifiedTime,jdbcType=TIMESTAMP},
       continued_date = #{continuedDate,jdbcType=VARCHAR},
+      uid = #{uid,jdbcType=INTEGER},
       content = #{content,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -166,42 +177,74 @@
       department_id = #{departmentId,jdbcType=INTEGER},
       institution_id = #{institutionId,jdbcType=INTEGER},
       last_modified_time = #{lastModifiedTime,jdbcType=TIMESTAMP},
-      continued_date = #{continuedDate,jdbcType=VARCHAR}
+      continued_date = #{continuedDate,jdbcType=VARCHAR},
+      uid = #{uid,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
 
-
     <resultMap id="ResultMapWithInfo" extends="BaseResultMap" type="com.dail.model.Project">
-        <association property="institution" column="institution_id" javaType="com.dail.model.Institution" select="queryIns">
-        </association>
-        <association property="department" column="department_id" javaType="com.dail.model.Department" select="queryDep">
-        </association>
+        <association property="institution" column="institution_id" javaType="com.dail.model.Institution"
+                     select="queryIns"/>
+        <association property="department" column="department_id" javaType="com.dail.model.Department"
+                     select="queryDep" />
+        <collection property="researchDirections" column="id" ofType="com.dail.model.ResearchDirection" select="com.dail.dao.ResearchDirectionMapper.selectByProjectId"/>
     </resultMap>
     <resultMap id="ResultMapWithBLOBsInfo" extends="ResultMapWithBLOBs" type="com.dail.model.Project">
-        <association property="institution" column="institution_id" javaType="com.dail.model.Institution" select="queryIns">
-        </association>
-        <association property="department" column="department_id" javaType="com.dail.model.Department" select="queryDep">
-        </association>
+        <association property="institution" column="institution_id" javaType="com.dail.model.Institution"
+                     select="queryIns"/>
+        <association property="department" column="department_id" javaType="com.dail.model.Department"
+                     select="queryDep"/>
+        <collection property="researchDirections" column="id" ofType="com.dail.model.ResearchDirection" select="com.dail.dao.ResearchDirectionMapper.selectByProjectId"/>
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBsDetail" extends="ResultMapWithBLOBs" type="com.dail.model.Project">
+        <association property="institution" column="institution_id" javaType="com.dail.model.Institution"
+                     select="queryIns"/>
+        <association property="department" column="department_id" javaType="com.dail.model.Department"
+                     select="queryDep"/>
+        <association property="sysUser" column="uid" javaType="com.dail.model.SysUser"
+                     select="queryUser"/>
+        <collection property="researchDirections" column="id" ofType="com.dail.model.ResearchDirection" select="com.dail.dao.ResearchDirectionMapper.selectByProjectId"/>
+        <collection property="participants" column="id" ofType="com.dail.model.People" select="queryPeople"/>
     </resultMap>
     <resultMap id="InsMap" type="com.dail.model.Institution">
-        <id property="id" column="ins_id" />
-        <result property="name" column="ins_name" />
+        <id property="id" column="ins_id"/>
+        <result property="name" column="ins_name"/>
     </resultMap>
     <resultMap id="DepMap" type="com.dail.model.Department">
-        <id property="id" column="dep_id" />
-        <result property="name" column="dep_name" />
+        <id property="id" column="dep_id"/>
+        <result property="name" column="dep_name"/>
+    </resultMap>
+    <resultMap id="PeopleMap" type="com.dail.model.People">
+        <id property="id" column="people_id"/>
+        <result property="name" column="people_name"/>
+    </resultMap>
+    <resultMap id="UserMap" type="com.dail.model.SysUser">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
     </resultMap>
     <select id="queryIns" resultMap="InsMap" parameterType="java.lang.Integer">
-        select id as ins_id,name as ins_name from institution where id = #{id}
-    </select>
+    select id as ins_id,name as ins_name from institution where id = #{id}
+  </select>
     <select id="queryDep" resultMap="DepMap" parameterType="java.lang.Integer">
-        select id as dep_id,name as dep_name from department where id = #{id}
-    </select>
+    select id as dep_id,name as dep_name from department where id = #{id}
+  </select>
+    <select id="queryUser" resultMap="UserMap" parameterType="java.lang.Integer">
+    select id ,username from sys_user where id = #{id}
+  </select>
+    <select id="queryPeople" resultMap="PeopleMap" parameterType="java.lang.Integer">
+    select id as people_id,name as people_name from people left join project_people pp on id = pp.people_id where pp.project_id = #{id}
+  </select>
     <select id="selectAllBaseInfo" resultMap="ResultMapWithInfo">
         select
         <include refid="Base_Column_List"/>
         from project order by create_time desc
+    </select>
+    <select id="selectAllBaseInfoByUid" resultMap="ResultMapWithInfo">
+        select
+        <include refid="Base_Column_List"/>
+        from project
+        wherer uid = #{uid,jdbcType=INTEGER} order by create_time desc
     </select>
     <select id="selectAllWithBlobInfo" resultMap="ResultMapWithBLOBsInfo">
         select
@@ -211,6 +254,15 @@
         from project order by create_time desc
     </select>
     <select id="selectByIdWithInfo" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBsInfo">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from project
+        where id = #{id,jdbcType=INTEGER}
+        order by create_time desc
+    </select>
+    <select id="selectByIdWithDetail" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBsDetail">
         select
         <include refid="Base_Column_List"/>
         ,

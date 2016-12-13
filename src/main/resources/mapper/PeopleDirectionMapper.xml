@@ -33,4 +33,11 @@
       </if>
     </trim>
   </insert>
+
+
+
+  <delete id="deleteByPeopleId" parameterType="java.lang.Integer">
+    delete from people_direction
+    where people_id = #{peopleId,jdbcType=INTEGER}
+  </delete>
 </mapper>

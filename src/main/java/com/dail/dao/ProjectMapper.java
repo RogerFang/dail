@@ -23,8 +23,11 @@ public interface ProjectMapper {
 
     List<Project> selectAllBaseInfo();
 
+    List<Project> selectAllBaseInfoByUid(Integer uid);
+
     List<Project> selectAllWithBlobInfo();
 
     Project selectByIdWithInfo(Integer id);
 
+    Project selectByIdWithDetail(Integer id);
 }

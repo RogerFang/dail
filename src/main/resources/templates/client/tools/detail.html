@@ -46,7 +46,7 @@
                 <div class="main-area col-lg-9 col-md-9 col-sm-12 col-xs-12 row" th:if="${tool != null}">
                     <h3 th:text="${tool.title}"></h3>
                     <div class="tool-detail col-lg-8 col-md-8 col-sm-12 col-xs-12">
-                        <div class="tool-img" th:if="${tool.imgUrl != null}">
+                        <div class="tool-img" th:unless="${#strings.isEmpty(tool.imgUrl)}">
                             <img th:src="@{${tool.imgUrl}}">
                         </div>
                         <p class="tool-time">Time: [[${#dates.format(tool.createTime, 'MMM dd, yyyy')}]]</p>

@@ -37,7 +37,7 @@
                     <ul class="pub-list" th:unless="${#lists.isEmpty(pubPage.list)}">
                         <li class="pub-item" th:each="pub:${pubPage.list}">
                             [[${pub.apaText}]]
-                            <a th:href="@{${pub.fullTextUrl}}">[Full Text]</a>
+                            <a th:href="@{${pub.fullTextUrl}}" th:unless="${#strings.isEmpty(pub.fullTextUrl)}">[Full Text]</a>
                         </li>
                         <nav th:replace="fragment/page :: client(${pubPage}, '/pubs')"/>
                     </ul>

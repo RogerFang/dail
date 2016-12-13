@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 /**
  * Created by Roger on 2016/12/12.
@@ -31,13 +32,17 @@ public class AdPeopleController {
     private DepartmentService departmentService;
     @Autowired
     private ResearchDirectionService researchDirectionService;
+    @Autowired
+    private ArchiveService archiveService;
+
+    private static final String PEOPLE_DIR = "people";
 
     @RequiresRoles(value = {"ADMIN", "GENERAL"}, logical = Logical.OR)
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String edit(Model model, HttpSession session){
         Integer sessionUid = (Integer) session.getAttribute("sessionUid");
         if (sessionUid != null){
-            People people = sysUserService.selectByIdWithPeople(sessionUid).getPeople();
+            People people = sysUserService.selectByIdWithPeopleInfo(sessionUid).getPeople();
             model.addAttribute("people", people);
         }
         model.addAttribute("institutions", institutionService.selectAll());
@@ -48,8 +53,23 @@ public class AdPeopleController {
 
     @RequiresRoles(value = {"ADMIN", "GENERAL"}, logical = Logical.OR)
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public String edit(People people, MultipartFile file){
-        return "";
+    public String edit(People people,
+                       MultipartFile file,
+                       HttpSession session) throws IOException {
+        Integer sessionUid = (Integer) session.getAttribute("sessionUid");
+        if (sessionUid != null){
+            People bindPeople = sysUserService.selectByIdWithPeople(sessionUid).getPeople();
+            if (bindPeople != null){
+                if (file!=null && !file.isEmpty()){
+                    String fileUrl = archiveService.saveMultipartFile(file, PEOPLE_DIR);
+                    people.setImgUrl(fileUrl);
+                }
+                people.setId(bindPeople.getId());
+                peopleService.updateByPrimaryKeySelective(people);
+            }
+        }
+        return "redirect:/people/detail/"+people.getId();
+        // return "redirect:edit";
     }
 
     @RequiresRoles("ADMIN")

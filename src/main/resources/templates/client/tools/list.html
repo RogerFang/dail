@@ -47,7 +47,7 @@
                     <h3>Our Tools:</h3>
                     <div class="tool-item col-lg-6 col-md-6 col-sm-12 col-xs-12" th:each="tool:${toolPage.list}">
                         <div class="tool-item-main">
-                            <div class="tool-avatar" th:if="${tool.imgUrl != null}">
+                            <div class="tool-avatar" th:unless="${#strings.isEmpty(tool.imgUrl)}">
                                 <img th:src="@{${tool.imgUrl}}">
                             </div>
                             <div class="tool-info">

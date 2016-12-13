@@ -1,36 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dail.dao.ProjectPeopleMapper">
-  <resultMap id="BaseResultMap" type="com.dail.model.ProjectPeopleKey">
-    <id column="people_id" jdbcType="INTEGER" property="peopleId" />
-    <id column="project_id" jdbcType="INTEGER" property="projectId" />
-  </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="com.dail.model.ProjectPeopleKey">
+    <resultMap id="BaseResultMap" type="com.dail.model.ProjectPeopleKey">
+        <id column="people_id" jdbcType="INTEGER" property="peopleId"/>
+        <id column="project_id" jdbcType="INTEGER" property="projectId"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="com.dail.model.ProjectPeopleKey">
     delete from project_people
     where people_id = #{peopleId,jdbcType=INTEGER}
       and project_id = #{projectId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.dail.model.ProjectPeopleKey">
+    <insert id="insert" parameterType="com.dail.model.ProjectPeopleKey">
     insert into project_people (people_id, project_id)
     values (#{peopleId,jdbcType=INTEGER}, #{projectId,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.dail.model.ProjectPeopleKey">
-    insert into project_people
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="peopleId != null">
-        people_id,
-      </if>
-      <if test="projectId != null">
-        project_id,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="peopleId != null">
-        #{peopleId,jdbcType=INTEGER},
-      </if>
-      <if test="projectId != null">
-        #{projectId,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
+    <insert id="insertSelective" parameterType="com.dail.model.ProjectPeopleKey">
+        insert into project_people
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="peopleId != null">
+                people_id,
+            </if>
+            <if test="projectId != null">
+                project_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="peopleId != null">
+                #{peopleId,jdbcType=INTEGER},
+            </if>
+            <if test="projectId != null">
+                #{projectId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+
+
+    <delete id="deleteByProjectId" parameterType="java.lang.Integer">
+        delete from project_people
+        where project_id = #{projectId,jdbcType=INTEGER}
+    </delete>
 </mapper>

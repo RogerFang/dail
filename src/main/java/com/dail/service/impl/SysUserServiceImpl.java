@@ -85,6 +85,11 @@ public class SysUserServiceImpl implements SysUserService {
         return userMapper.selectByIdWithPeople(id);
     }
 
+    @Override
+    public SysUser selectByIdWithPeopleInfo(Integer id) {
+        return userMapper.selectByIdWithPeopleInfo(id);
+    }
+
     private String entryptPassword(String password, String salt) {
         return new Md5Hash(password, salt+salt, 2).toHex();
     }

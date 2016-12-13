@@ -2,12 +2,16 @@
  * Created by Administrator on 2016/12/11 0011.
  */
 $(function () {
-    $(document).on("change","#userAvatar",function (e) {
-        imgPreview($(".user-avatar img"),e);
+    $(document).on("change", "#userAvatar", function (e) {
+        imgPreview($(".user-avatar img"), e);
     })
 
-    var editor = new wangEditor('userEditor');
-
+    editor = new wangEditor('userEditor');
+    editor.config.lang = wangEditor.langs['en'];
+    editor.config.pasteText = true;
+    wangEditor.config.printLog = false;
+    editor.config.uploadImgUrl = '/img/upload/people';
+    editor.config.uploadImgFileName = 'file';
     editor.config.menus = [
         'source',
         'bold',

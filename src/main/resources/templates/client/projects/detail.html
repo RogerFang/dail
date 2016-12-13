@@ -47,14 +47,18 @@
                     <h3 class="pro-title" th:text="${project.title}"></h3>
                     <div class="pro-detail col-lg-8 col-md-8 col-sm-12 col-xs-12">
                         <p class="pro-time" th:text="${#dates.format(project.createTime, 'MMM dd, yyyy')}"></p>
+                        <p class="pro-ins" th:unless="${#strings.isEmpty(project.continuedDate)}">Time: [[${project.continuedDate}]]</p>
                         <p class="pro-ins" th:if="${project.institution != null}">Insititute: [[${project.institution.name}]]</p>
-                        <p class="pro-depart" th:if="${project.department != null}">Department: [[project.department]]</p>
-                        <div class="pro-detail" th:text="${project.content}">
+                        <p class="pro-depart" th:if="${project.department != null}">Department: [[${project.department.name}]]</p>
+                        <p class="pro-depart" th:unless="${#lists.isEmpty(project.researchDirections)}">
+                            Research Directions:  <span th:each="direction:${project.researchDirections}" th:remove="tag">[[${direction.name}]]  |</span>
+                        </p>
+                        <div class="pro-detail" th:utext="${project.content}">
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                         <div class="pro-img">
-                            <img th:src="@{${project.imgUrl}}" th:if="${project.imgUrl != null}">
+                            <img th:src="@{${project.imgUrl}}" th:unless="${#strings.isEmpty(project.imgUrl)}">
                         </div>
                     </div>
                 </div>

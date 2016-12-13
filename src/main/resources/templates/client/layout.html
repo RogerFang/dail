@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
@@ -38,6 +39,13 @@
                     <input type="text" name="query" placeholder="input keyword">
                     <button type="submit"></button>
                 </form>
+            </li>
+            <li shiro:notAuthenticated="">Please <a th:href="@{/login}">login</a></li>
+            <li shiro:authenticated="">
+                Hello, <span shiro:principal=""></span>
+            </li>
+            <li shiro:authenticated="">
+                <a th:href="@{/system}">BackStage Management</a>
             </li>
         </ul>
     </div>

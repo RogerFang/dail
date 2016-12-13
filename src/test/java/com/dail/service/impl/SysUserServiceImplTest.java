@@ -1,6 +1,8 @@
 package com.dail.service.impl;
 
+import com.dail.model.SysUser;
 import com.dail.service.SysUserService;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,13 +18,12 @@ public class SysUserServiceImplTest {
     private SysUserService sysUserService;
 
 
-   /*
     @Test
     public void register() throws Exception {
         SysUser sysUser = new SysUser();
-        sysUser.setUsername("roger");
+        sysUser.setUsername("fanglong");
         sysUser.setPassword("123456");
-        // sysUser.setEnabled(true);
-        userService.register(sysUser);
-    }*/
+        sysUser.setEnabled(true);
+        sysUserService.register(sysUser);
+    }
 }

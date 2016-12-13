@@ -5,6 +5,7 @@ import com.dail.model.People;
 import com.dail.service.PeopleService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,5 +57,14 @@ public class PeopleServiceImpl implements PeopleService {
     @Override
     public People selectByIdWithDetail(Integer id) {
         return peopleMapper.selectByIdWithDetail(id);
+    }
+
+    @Override
+    public List<People> selectAllNotParticipants(List<People> list) {
+        List<Integer> ids = Lists.newArrayList();
+        for (People people: list){
+            ids.add(people.getId());
+        }
+        return peopleMapper.selectAllNotParticipants(ids);
     }
 }

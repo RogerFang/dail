@@ -50,8 +50,8 @@ public class LoginController {
 
         if (subject.isAuthenticated()){
             // 将登入用户放入session
-            SysUser user = (SysUser) subject.getPrincipal();
-            session.setAttribute("sessionUid", user.getId());
+           /* SysUser user = (SysUser) subject.getPrincipal();
+            session.setAttribute("sessionUid", user.getId());*/
 
             SavedRequest savedRequest = WebUtils.getAndClearSavedRequest(request);
             if (savedRequest != null){

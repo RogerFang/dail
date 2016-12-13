@@ -49,13 +49,13 @@
                             <div class="pro-name">
                                 <a th:href="@{/projects/detail/{id}(id=${project.id})}" th:text="${project.title}"></a>
                             </div>
-                            <div class="pro-img pull-left" th:if="${project.imgUrl != null}">
+                            <div class="pro-img pull-left" th:unless="${#strings.isEmpty(project.imgUrl)}">
                                 <img th:src="@{${project.imgUrl}}">
                             </div>
                             <p class="pro-time" th:if="${project.continuedDate != null}">Time: [[${project.continuedDate}]]</p>
                             <p class="pro-ins" th:if="${project.institution != null}">Insititute: [[${project.institution.name}]]</p>
                             <p class="pro-depart" th:if="${project.department != null}">Department: [[${project.department.name}]]</p>
-                            <div class="pro-desc" th:if="${project.description != null}">
+                            <div class="pro-desc" th:unless="${#strings.isEmpty(project.description)}">
                                 [[${project.description}]]
                                 <a th:href="@{/projects/detail/{id}(id=${project.id})}" class="pro-more">Read more>></a>
                             </div>

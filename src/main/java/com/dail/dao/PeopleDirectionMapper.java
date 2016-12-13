@@ -10,4 +10,6 @@ public interface PeopleDirectionMapper {
     int insert(PeopleDirectionKey record);
 
     int insertSelective(PeopleDirectionKey record);
+
+    int deleteByPeopleId(Integer peopleId);
 }

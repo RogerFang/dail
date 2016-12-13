@@ -83,10 +83,19 @@
 
 
 
-
     <select id="selectAll" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
         from research_direction order by create_time desc
+    </select>
+    <select id="selectByPeopleId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from research_direction left join people_direction pd on id = pd.people_id order by create_time desc
+    </select>
+    <select id="selectByProjectId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from research_direction left join project_direction pd on id = pd.research_direction_id where pd.project_id = #{projectId} order by create_time desc
     </select>
 </mapper>

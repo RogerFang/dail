@@ -17,4 +17,5 @@ public interface SysRoleService {
 
     Set<SysRole> selectByUserId(Integer userId);
 
+    Set<String> selectStrByUserId(Integer userId);
 }

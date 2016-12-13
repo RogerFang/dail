@@ -3,6 +3,8 @@ package com.dail.service;
 import com.dail.model.People;
 import com.github.pagehelper.PageInfo;
 
+import java.util.List;
+
 /**
  * Created by Roger on 2016/12/10.
  */
@@ -21,4 +23,6 @@ public interface PeopleService {
     PageInfo<People> pageWithDetail(int pageNumber, int pageSize);
 
     People selectByIdWithDetail(Integer id);
+
+    List<People> selectAllNotParticipants(List<People> list);
 }

@@ -51,15 +51,15 @@
         <!--<table tableName="people_direction" domainObjectName="PeopleDirection" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"/>-->
-        <!--<table tableName="project" domainObjectName="Project" enableCountByExample="false"
+        <table tableName="project_direction" domainObjectName="ProjectDirection" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"/>-->
+               selectByExampleQueryId="false"/>
         <!--<table tableName="publication" domainObjectName="Publication" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"/>-->
-        <table tableName="research_direction" domainObjectName="ResearchDirection" enableCountByExample="false"
+        <!--<table tableName="research_direction" domainObjectName="ResearchDirection" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"/>
+               selectByExampleQueryId="false"/>-->
         <!--<table tableName="section" domainObjectName="Section" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"/>-->
@@ -81,8 +81,8 @@
         <!--<table tableName="sys_const" domainObjectName="SysConst" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"/>-->
-        <table tableName="project_people" domainObjectName="ProjectPeople" enableCountByExample="false"
+        <!--<table tableName="project_people" domainObjectName="ProjectPeople" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"/>
+               selectByExampleQueryId="false"/>-->
     </context>
 </generatorConfiguration>

@@ -1,6 +1,9 @@
 package com.dail.model;
 
+import com.google.common.collect.Lists;
+
 import java.util.Date;
+import java.util.List;
 
 public class Project {
     private Integer id;
@@ -21,11 +24,73 @@ public class Project {
 
     private String continuedDate;
 
+    private Integer uid;
+
     private String content;
 
     private Institution institution;
 
     private Department department;
+
+    private List<ResearchDirection> researchDirections;
+
+    private List<Integer> researchDirectionIds;
+
+    private List<Integer> directionIds;
+
+    private List<People> participants;
+
+    private List<Integer> participantIds;
+
+    private SysUser sysUser;
+
+    public List<Integer> getParticipantIds() {
+        return participantIds;
+    }
+
+    public void setParticipantIds(List<Integer> participantIds) {
+        this.participantIds = participantIds;
+    }
+
+    public SysUser getSysUser() {
+        return sysUser;
+    }
+
+    public void setSysUser(SysUser sysUser) {
+        this.sysUser = sysUser;
+    }
+
+    public List<People> getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(List<People> participants) {
+        this.participants = participants;
+    }
+
+    public List<ResearchDirection> getResearchDirections() {
+        return researchDirections;
+    }
+
+    public void setResearchDirections(List<ResearchDirection> researchDirections) {
+        this.researchDirections = researchDirections;
+    }
+
+    public List<Integer> getResearchDirectionIds() {
+        List<Integer> list = Lists.newArrayList();
+        for (ResearchDirection direction: researchDirections){
+            list.add(direction.getId());
+        }
+        return list;
+    }
+
+    public List<Integer> getDirectionIds() {
+        return directionIds;
+    }
+
+    public void setDirectionIds(List<Integer> directionIds) {
+        this.directionIds = directionIds;
+    }
 
     public Institution getInstitution() {
         return institution;
@@ -113,6 +178,14 @@ public class Project {
 
     public void setContinuedDate(String continuedDate) {
         this.continuedDate = continuedDate;
+    }
+
+    public Integer getUid() {
+        return uid;
+    }
+
+    public void setUid(Integer uid) {
+        this.uid = uid;
     }
 
     public String getContent() {

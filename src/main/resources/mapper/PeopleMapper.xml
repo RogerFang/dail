@@ -171,19 +171,21 @@
 
 
     <resultMap id="ResultMapWithInfo" extends="BaseResultMap" type="com.dail.model.People">
-        <association property="institution" column="institution_id" javaType="com.dail.model.Institution" select="queryIns">
-        </association>
-        <association property="department" column="department_id" javaType="com.dail.model.Department" select="queryDep">
-        </association>
+        <association property="institution" column="institution_id" javaType="com.dail.model.Institution" select="queryIns"/>
+        <association property="department" column="department_id" javaType="com.dail.model.Department" select="queryDep"/>
+        <collection property="researchDirections" column="id" ofType="com.dail.model.ResearchDirection" select="com.dail.dao.ResearchDirectionMapper.selectByPeopleId"/>
     </resultMap>
     <resultMap id="ResultMapWithDetail" extends="ResultMapWithInfo" type="com.dail.model.People">
         <association property="sysUser" column="uid" javaType="com.dail.model.SysUser" select="queryUser">
         </association>
     </resultMap>
-    <resultMap id="ResultMapWithBLOBsDetail" extends="ResultMapWithBLOBs" type="com.dail.model.People">
-        <association property="sysUser" column="uid" javaType="com.dail.model.SysUser" select="queryUser"/>
+    <resultMap id="ResultMapWithBLOBsInfo" extends="ResultMapWithBLOBs" type="com.dail.model.People">
         <association property="institution" column="institution_id" javaType="com.dail.model.Institution" select="queryIns"/>
         <association property="department" column="department_id" javaType="com.dail.model.Department" select="queryDep"/>
+        <collection property="researchDirections" column="id" ofType="com.dail.model.ResearchDirection" select="com.dail.dao.ResearchDirectionMapper.selectByPeopleId"/>
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBsDetail" extends="ResultMapWithBLOBsInfo" type="com.dail.model.People">
+        <association property="sysUser" column="uid" javaType="com.dail.model.SysUser" select="queryUser"/>
         <collection property="publications" column="id" ofType="com.dail.model.Publication" select="com.dail.dao.PublicationMapper.selectByPeopleId"/>
     </resultMap>
     <resultMap id="UserMap" type="com.dail.model.SysUser">
@@ -230,6 +232,25 @@
         <include refid="Blob_Column_List"/>
         from people
         where id = #{id,jdbcType=INTEGER}
-        order by sequence desc, name desc
+    </select>
+    <select id="selectByIdWithInfo" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBsInfo">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from people
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectAllNotParticipants" parameterType="java.util.List" resultMap="BaseResultMap">
+        select id, name
+        from people
+        <if test="list != null and list.size > 0">
+            where
+            id not in
+            <foreach item="item" index="id" collection="list" open="("
+                     separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
     </select>
 </mapper>

@@ -35,7 +35,7 @@
                 <div class="main-area col-lg-9 col-md-9 col-sm-12 col-xs-12 row" th:if="${people != null}">
                     <h3 th:text="${people.name}"></h3>
                     <div class="person-info col-lg-8 col-md-8 col-sm-12 col-xs-12">
-                        <p><strong>Post:</strong><span th:if="${people.position != null}">[[${people.position}]]</span></p>
+                        <p><strong>Post:</strong><span th:unless="${#strings.isEmpty(people.position)}">[[${people.position}]]</span></p>
                         <p><strong>Institution:</strong><span th:if="${people.institution != null}">[[${people.institution.name}]]</span></p>
                         <p><strong>Department:</strong><span th:if="${people.department != null}">[[${people.department.name}]]</span></p>
                         <div class="person-desc">
@@ -47,17 +47,17 @@
                             <ul class="pub-list" th:unless="${#lists.isEmpty(people.publications)}">
                                 <li class="pub-item" th:each="publication,status:${people.publications}">
                                     [[${status.index}]].[[${publication.apaText}]]
-                                    <a th:href="@{${publication.fullTextUrl}}">[Full Text]</a>
+                                    <a th:href="@{${publication.fullTextUrl}}" th:unless="${#strings.isEmpty(publication.fullTextUrl)}">[Full Text]</a>
                                 </li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" th:if="${people != null}">
-                        <div class="person-avatar">
+                        <div class="person-avatar" th:unless="${#strings.isEmpty(people.imgUrl)}">
                             <img th:src="@{${people.imgUrl}}">
                         </div>
                         <p class="person-name" th:text="${people.name}"></p>
-                        <p class="person-link" th:if="${people.email != null}">
+                        <p class="person-link" th:unless="${#strings.isEmpty(people.email)}">
                             e-mail:[[${people.email}]]
                         </p>
                     </div>

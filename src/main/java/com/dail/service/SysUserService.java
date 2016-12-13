@@ -26,4 +26,6 @@ public interface SysUserService {
     int bind(SysUser sysUser, People people);
 
     SysUser selectByIdWithPeople(Integer id);
+
+    SysUser selectByIdWithPeopleInfo(Integer id);
 }

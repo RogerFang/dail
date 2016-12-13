@@ -25,4 +25,6 @@ public interface SysRoleMapper {
     List<SysRole> selectAll();
 
     Set<SysRole> selectByUserId(Integer userId);
+
+    Set<String> selectStrByUserId(Integer userId);
 }
