@@ -63,6 +63,13 @@ public class PeopleServiceImpl implements PeopleService {
     }
 
     @Override
+    public PageInfo<People> pageWithInfoUserLike(int pageNumber, int pageSize, String query) {
+        PageHelper.startPage(pageNumber, pageSize);
+        List<People> peopleList = peopleMapper.selectAllBaseWithInfoUserLike(query);
+        return new PageInfo<>(peopleList);
+    }
+
+    @Override
     public People selectByIdWithDetail(Integer id) {
         return peopleMapper.selectByIdWithDetail(id);
     }

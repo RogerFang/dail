@@ -1,10 +1,14 @@
 package com.dail.service.impl;
 
+import com.dail.constant.RoleEnum;
 import com.dail.dao.SysUserMapper;
 import com.dail.model.People;
+import com.dail.model.SysRole;
 import com.dail.model.SysUser;
+import com.dail.model.SysUserRoleKey;
 import com.dail.service.PeopleService;
 import com.dail.service.SysRoleService;
+import com.dail.service.SysUserRoleService;
 import com.dail.service.SysUserService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -13,7 +17,9 @@ import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -25,14 +31,20 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Autowired
     private SysUserMapper userMapper;
-
     @Autowired
     private SysRoleService sysRoleService;
+    @Autowired
+    private SysUserRoleService sysUserRoleService;
 
     @Autowired
     private PeopleService peopleService;
 
     private static RandomNumberGenerator randomNumberGenerator = new SecureRandomNumberGenerator();
+
+    @Override
+    public int deleteByPrimaryKey(Integer id) {
+        return userMapper.deleteByPrimaryKey(id);
+    }
 
     @Override
     public SysUser selectById(Integer userId) {
@@ -44,10 +56,17 @@ public class SysUserServiceImpl implements SysUserService {
         return userMapper.selectByUsername(username);
     }
 
+    @Transactional
     @Override
-    public int register(SysUser user) {
+    public void register(SysUser user) {
         entryptPassword(user);
-        return userMapper.insertSelective(user);
+        user.setEnabled(true);
+        user.setCreateTime(new Date());
+        userMapper.insertSelective(user);
+        // default role: general
+        SysRole role = sysRoleService.selectByName(RoleEnum.GENERAL.name());
+        SysUserRoleKey key = new SysUserRoleKey(user.getId(), role.getId());
+        sysUserRoleService.insert(key);
     }
 
     /**
@@ -75,7 +94,10 @@ public class SysUserServiceImpl implements SysUserService {
      */
     @Override
     public int bind(Integer userId, Integer peopleId) {
-        return 0;
+        SysUser user = new SysUser();
+        user.setId(userId);
+        user.setPeopleId(peopleId);
+        return userMapper.updateByPrimaryKeySelective(user);
     }
 
     @Override
@@ -98,6 +120,12 @@ public class SysUserServiceImpl implements SysUserService {
         PageHelper.startPage(pageNumber, pageSize);
         List<SysUser> users = userMapper.selectAllWithPeople();
         return new PageInfo<>(users);
+    }
+
+    @Override
+    public void resetPassword(SysUser sysUser) {
+        entryptPassword(sysUser);
+        userMapper.updateByPrimaryKeySelective(sysUser);
     }
 
     private String entryptPassword(String password, String salt) {

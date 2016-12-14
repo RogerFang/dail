@@ -44,11 +44,12 @@
         <script th:inline="javascript">
             $(function () {
                 $(".delete-btn").on("click", function () {
+                    var $ele = $(this);
                     var $peopleId = $(this).parents(".mem-item").attr("data");
                     if(confirm("Are you sure you want to delete the member?")){
                         $.post("/system/people/delete/"+$peopleId, function () {
                             alert("Delete successfully!");
-                            window.location.reload();
+                            $ele.parents(".mem-item").remove();
                         });
                     }
                 })

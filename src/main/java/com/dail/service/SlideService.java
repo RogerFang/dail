@@ -22,5 +22,7 @@ public interface SlideService {
 
     List<Slide> selectAll();
 
+    PageInfo<Slide> page(int pageNumber, int pageSize);
+
     PageInfo<Slide> pageEnabled(Boolean enabled, int pageNumber, int pageSize);
 }

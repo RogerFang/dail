@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="admin/layout">
+<head>
+    <title>User Bind</title>
+
+    <link th:href="@{/assets/css/userbind.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div layout:fragment="content">
+    <main th:if="${user == null}">
+        Something wrong!
+    </main>
+    <main th:if="${user != null}">
+        <div class="container">
+            <h3 th:if="${user.people != null}">You have bind to <a th:href="@{/people/detail/{id}(id=${user.peopleId})}">[[${user.people.name}]]</a></h3>
+            <h3>Select a member you want to bind below:</h3>
+            <div class="member-area">
+                <form method="post" th:action="@{/system/user/bind/{id}(id=${user.id})}">
+                    <div class="form-group">
+                        <label>You can search member here:</label>
+                        <input text="text" name="query" placeholder="Fast Search" class="form-control" th:value="${query}">
+                    </div>
+                </form>
+                <form method="post" th:action="@{/system/user/bind/{id}(id=${user.id})}">
+                    <input type="submit" value="Bind" class="btn btn-primary">
+                    <ul class="member-list" th:unless="${#lists.isEmpty(peoplePage.list)}">
+                        <li class="member-item" th:each="people:${peoplePage.list}" th:if="${people.id != user.peopleId}">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="peopleId" th:value="${people.id}" th:selected="${people.id == user.peopleId}">
+                                    <a th:text="${people.name}" th:href="@{/people/detail/{id}(id=${people.id})}"></a>
+                                    <span th:if="${people.institution != null}">Institute: [[${people.institution.name}]]</span>
+                                    <span th:if="${people.department != null}">Department: [[${people.department.name}]]</span>
+                                    <strong th:if="${people.sysUser != null}">Bind to [[${people.sysUser.username}]]</strong>
+                                </label>
+                            </div>
+                        </li>
+                    </ul>
+                </form>
+                <nav th:replace="fragment/page :: client(${peoplePage}, '/system/user/bind/'+${user.id}+${query!=null?'?query='+query:''})"/>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

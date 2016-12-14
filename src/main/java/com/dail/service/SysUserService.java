@@ -12,11 +12,13 @@ import java.util.Set;
  */
 public interface SysUserService {
 
+    int deleteByPrimaryKey(Integer id);
+
     SysUser selectById(Integer userId);
 
     SysUser selectByUsername(String username);
 
-    int register(SysUser user);
+    void register(SysUser user);
 
     Set<SysUser> selectAllGenerals();
 
@@ -32,4 +34,5 @@ public interface SysUserService {
 
     PageInfo<SysUser> page(int pageNumber, int pageSize);
 
+    void resetPassword(SysUser sysUser);
 }

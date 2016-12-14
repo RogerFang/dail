@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="admin/layout">
+<head>
+    <title>Department Settings</title>
+    <link th:href="@{/assets/css/settings.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div layout:fragment="content">
+    <main>
+        <div class="container">
+            <h3 class="main-title">Add Department</h3>
+            <form method="post" th:action="@{/system/dep/add}">
+                <div class="form-group">
+                    <input type="text" name="name" class="form-control" placeholder="Enter a new department name">
+                </div>
+                <div class="btn-area">
+                    <button class="btn btn-default btn-primary" type="submit">Submit</button>
+                </div>
+            </form>
+            <h3 class="main-title">Department List</h3>
+            <div class="tag-area" th:each="dep:${departments}" th:data="${dep.id}">
+                <div class="tag">
+                    <span th:text="${dep.name}"></span>
+                    <span class="glyphicon glyphicon-remove tag-remove"></span>
+                </div>
+            </div>
+        </div>
+
+        <script th:inline="javascript">
+            $(function () {
+                $(".tag-remove").on("click", function () {
+                    if(confirm("Are you sure to delete this department?")){
+                        var $ele = $(this);
+                        var $depId = $ele.parents(".tag-area").attr("data");
+                        $.post("/system/dep/delete/"+$depId, function () {
+                            $ele.parents(".tag-area").remove();
+                        });
+                    }
+                });
+            });
+        </script>
+    </main>
+</div>
+</body>
+</html>

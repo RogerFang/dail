@@ -227,6 +227,17 @@
         <include refid="Base_Column_List" />
         from people order by sequence desc, name desc
     </select>
+    <select id="selectAllBaseWithInfoUserLike" parameterType="java.lang.String" resultMap="ResultMapWithInfoUser">
+        select
+        <include refid="Base_Column_List" />
+        from people
+        <where>
+            <if test="query != null">
+                name like CONCAT('%',#{query},'%' )
+            </if>
+        </where>
+        order by sequence desc, name desc
+    </select>
 
     <select id="selectByIdWithDetail" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBsDetail">
         select

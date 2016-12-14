@@ -22,6 +22,8 @@ public interface PeopleService {
 
     PageInfo<People> pageWithInfoUser(int pageNumber, int pageSize);
 
+    PageInfo<People> pageWithInfoUserLike(int pageNumber, int pageSize, String query);
+
     People selectByIdWithDetail(Integer id);
 
     People selectByIdWithInfoUser(Integer id);

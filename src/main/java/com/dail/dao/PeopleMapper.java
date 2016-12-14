@@ -1,6 +1,7 @@
 package com.dail.dao;
 
 import com.dail.model.People;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -26,6 +27,8 @@ public interface PeopleMapper {
     List<People> selectAllBaseWithInfo();
 
     List<People> selectAllBaseWithInfoUser();
+
+    List<People> selectAllBaseWithInfoUserLike(@Param("query") String query);
 
     People selectByIdWithDetail(Integer id);
 

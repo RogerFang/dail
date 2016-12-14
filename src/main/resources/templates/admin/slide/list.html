@@ -1,10 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="admin/layout">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Carousel Setting</title>=
+    <link th:href="@{/assets/css/exsitingcarousel.css}" rel="stylesheet" type="text/css">
 </head>
 <body>
-
+<div layout:fragment="content">
+    <main>
+        <div class="container">
+            <h3 class="main-title">Carousel Settings</h3>
+            <form th:action="@{/system/slide/set}" method="post">
+                <div class="form-group">
+                    <label class="pull-left">Carousel Numbers For Displaying<br></label>
+                    <div class="form-group-wrapper">
+                        <input type="number" name="count" class="form-control" placeholder="Enter a number for displaying carousel" th:value="${count}">
+                    </div>
+                </div>
+                <div class="btn-area">
+                    <button type="submit" class="btn btn-default btn-primary">Save</button>
+                </div>
+            </form>
+            <h3 class="main-title">Carousel List<a th:href="@{/system/slide/add}" class="add-btn">Add Carousel</a></h3>
+            <div class="carousel-item row" th:each="slide:${slidePage.list}" th:data="${slide.id}">
+                <div class="carousel-img col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                    <img th:src="@{${slide.imgUrl}}">
+                </div>
+                <div class="col-lg-8 col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                    <p class="carousel-title"><strong>Title:</strong>[[${slide.title}]]</p>
+                    <p class="carousel-subtitle"><strong>Description:</strong>[[${slide.description}]]</p>
+                    Link to: <a th:href="@{${slide.href}}" th:if="${slide.href != null}" th:utext="${slide.href}"></a>
+                </div>
+                <div class="col-lg-1 col-lg-1 col-md-1 col-sm-1 col-xs-12">
+                    <div class="carousel-info">
+                        <span class="carousel-seq">[[${slide.sequence}]]</span>
+                        <div class="carousel-opera">
+                            <a th:href="@{/system/slide/edit/{id}(id=${slide.id})}" class="carousel-opera">编辑</a>
+                            <a href="javascript:void(0);" class="carousel-opera delete-btn">删除</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script th:inline="javascript">
+            $(function () {
+                $(".delete-btn").on("click", function () {
+                   if (confirm("Are you sure to delete this carousel?")){
+                       var $ele = $(this);
+                       var $slideId = $ele.parents(".carousel-item").attr("data");
+                       $.post("/system/slide/delete/"+$slideId, function () {
+                           $ele.parents(".carousel-item").remove();
+                       });
+                   }
+                });
+            });
+        </script>
+    </main>
+</div>
 </body>
 </html>

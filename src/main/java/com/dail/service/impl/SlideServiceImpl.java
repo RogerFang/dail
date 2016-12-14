@@ -50,6 +50,13 @@ public class SlideServiceImpl implements SlideService {
     }
 
     @Override
+    public PageInfo<Slide> page(int pageNumber, int pageSize) {
+        PageHelper.startPage(pageNumber, pageSize);
+        List<Slide> slides = slideMapper.selectAll();
+        return new PageInfo<>(slides);
+    }
+
+    @Override
     public PageInfo<Slide> pageEnabled(Boolean enabled, int pageNumber, int pageSize) {
         PageHelper.startPage(pageNumber, pageSize);
         List<Slide> slides = slideMapper.selectAllEnabled(enabled);
