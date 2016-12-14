@@ -1,6 +1,7 @@
 package com.dail.service;
 
 import com.dail.model.People;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 
 import java.util.List;
@@ -25,4 +26,6 @@ public interface PeopleService {
     People selectByIdWithDetail(Integer id);
 
     List<People> selectAllNotParticipants(List<People> list);
+
+    List<People> selectAll();
 }

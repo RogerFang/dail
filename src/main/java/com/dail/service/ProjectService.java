@@ -25,4 +25,6 @@ public interface ProjectService {
     Project selectByIdWithDetail(Integer id);
 
     void update(Project record);
+
+    void insert(Project record);
 }

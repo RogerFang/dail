@@ -118,8 +118,8 @@
 
 
     <resultMap id="ResultMapWithPeople" extends="BaseResultMap" type="com.dail.model.SysUser">
-        <association property="people" column="people_id" javaType="com.dail.model.People" select="queryPeople">
-        </association>
+        <association property="people" column="people_id" javaType="com.dail.model.People" select="queryPeople"/>
+        <collection property="roleSet" column="id" ofType="com.dail.model.SysRole" select="com.dail.dao.SysRoleMapper.selectByUserId"/>
     </resultMap>
     <resultMap id="ResultMapWithPeopleInfo" extends="BaseResultMap" type="com.dail.model.SysUser">
         <association property="people" column="people_id" javaType="com.dail.model.People" select="com.dail.dao.PeopleMapper.selectByIdWithInfo">
@@ -135,6 +135,11 @@
         where username = #{username,jdbcType=VARCHAR}
     </select>
     <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user
+    </select>
+    <select id="selectAllWithPeople" resultMap="ResultMapWithPeople">
         select
         <include refid="Base_Column_List"/>
         from sys_user

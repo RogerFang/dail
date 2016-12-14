@@ -3,6 +3,7 @@ package com.dail.service;
 
 import com.dail.model.People;
 import com.dail.model.SysUser;
+import com.github.pagehelper.PageInfo;
 
 import java.util.Set;
 
@@ -28,4 +29,7 @@ public interface SysUserService {
     SysUser selectByIdWithPeople(Integer id);
 
     SysUser selectByIdWithPeopleInfo(Integer id);
+
+    PageInfo<SysUser> page(int pageNumber, int pageSize);
+
 }

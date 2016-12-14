@@ -1,8 +1,10 @@
 package com.dail.controller.admin;
 
 import com.dail.constant.RoleEnum;
+import com.dail.model.People;
 import com.dail.model.Project;
 import com.dail.service.*;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,7 +41,7 @@ public class AdProjectController {
     @Autowired
     private ArchiveService archiveService;
 
-    @RequiresRoles({"ADMIN, GENERAL"})
+    @RequiresRoles(value = {"ADMIN", "GENERAL"}, logical = Logical.OR)
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String list(@RequestParam(required = false, defaultValue = "1") Integer page,
                        @RequestParam(required = false, defaultValue = "10") Integer size,
@@ -58,11 +60,35 @@ public class AdProjectController {
 
     @RequiresRoles("ADMIN")
     @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public String add(){
+    public String add(Model model){
+        model.addAttribute("institutions", institutionService.selectAll());
+        model.addAttribute("departments", departmentService.selectAll());
+        model.addAttribute("researchDirections", researchDirectionService.selectAll());
+        model.addAttribute("notparticipants", peopleService.selectAll());
         return "admin/projects/add";
     }
 
-    @RequiresRoles({"ADMIN, GENERAL"})
+    @RequiresRoles("ADMIN")
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public String add(Project project,
+                      MultipartFile file,
+                      HttpSession session){
+        Integer sessionUid = (Integer) session.getAttribute("sessionUid");
+        if (sessionUid != null){
+            if (file!=null && !file.isEmpty()){
+                String fileUrl = archiveService.saveMultipartFile(file, PROJECTS_DIR);
+                project.setImgUrl(fileUrl);
+            }
+            project.setUid(sessionUid);
+            projectService.insert(project);
+        }
+        if (project.getId() != null){
+            return "redirect:/projects/detail/"+project.getId();
+        }
+        return "admin/projects/add";
+    }
+
+    @RequiresRoles(value = {"ADMIN", "GENERAL"}, logical = Logical.OR)
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String edit(@PathVariable Integer id, HttpSession session, Model model){
         Integer sessionUid = (Integer) session.getAttribute("sessionUid");
@@ -79,7 +105,7 @@ public class AdProjectController {
         return "admin/projects/edit";
     }
 
-    @RequiresRoles({"ADMIN, GENERAL"})
+    @RequiresRoles(value = {"ADMIN","GENERAL"}, logical = Logical.OR)
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
     public String edit(@PathVariable Integer id,
                        Project project,

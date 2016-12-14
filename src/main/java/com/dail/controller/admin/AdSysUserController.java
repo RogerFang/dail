@@ -1,17 +1,17 @@
 package com.dail.controller.admin;
 
+import com.dail.model.People;
 import com.dail.model.Result;
 import com.dail.model.SysUser;
+import com.dail.service.PeopleService;
 import com.dail.service.SysUserRoleService;
 import com.dail.service.SysUserService;
+import com.github.pagehelper.PageInfo;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by Roger on 2016/12/11.
@@ -25,9 +25,15 @@ public class AdSysUserController {
     private SysUserService sysUserService;
     @Autowired
     private SysUserRoleService sysUserRoleService;
+    @Autowired
+    private PeopleService peopleService;
 
-    @RequestMapping("/list")
-    public String list(Model model){
+    @RequestMapping
+    public String list(@RequestParam(required = false, defaultValue = "1") Integer page,
+                       @RequestParam(required = false, defaultValue = "10") Integer size,
+                       Model model){
+        model.addAttribute("userPage", sysUserService.page(page, size));
+        model.addAttribute("peopleList", peopleService.selectAll());
         return "admin/user/list";
     }
 
@@ -39,7 +45,7 @@ public class AdSysUserController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String registerHandle(@ModelAttribute SysUser sysUser){
         sysUserService.register(sysUser);
-        return "redirect:list";
+        return "redirect:";
     }
 
     @RequestMapping(value = "/role", method = RequestMethod.POST)
@@ -48,5 +54,12 @@ public class AdSysUserController {
         sysUserRoleService.changeRole(uid, rid);
         Result result = new Result(200);
         return result;
+    }
+
+    @RequestMapping("/people")
+    @ResponseBody
+    public PageInfo<People> people(@RequestParam(required = false, defaultValue = "1") Integer page,
+                                   @RequestParam(required = false, defaultValue = "10") Integer size){
+        return peopleService.pageWithInfo(page, size);
     }
 }

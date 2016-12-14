@@ -23,6 +23,8 @@ public interface SysUserMapper {
 
     List<SysUser> selectAll();
 
+    List<SysUser> selectAllWithPeople();
+
     SysUser selectByIdWithPeople(Integer id);
 
     SysUser selectByIdWithPeopleInfo(Integer id);

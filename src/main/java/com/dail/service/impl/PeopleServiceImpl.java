@@ -67,4 +67,9 @@ public class PeopleServiceImpl implements PeopleService {
         }
         return peopleMapper.selectAllNotParticipants(ids);
     }
+
+    @Override
+    public List<People> selectAll() {
+        return peopleMapper.selectAllBaseWithInfo();
+    }
 }

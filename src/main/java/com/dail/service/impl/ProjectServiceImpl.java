@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -79,6 +80,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void update(Project record) {
         record.setDescription(StrUtil.getShortContent(record.getContent(), MAX_LENGTH));
+        record.setLastModifiedTime(new Date());
         projectMapper.updateByPrimaryKeySelective(record);
         List<Integer> participantIds = record.getParticipantIds();
         List<Integer> directionIds = record.getDirectionIds();
@@ -93,6 +95,34 @@ public class ProjectServiceImpl implements ProjectService {
         }
         if (directionIds != null && directionIds.size() > 0){
             projectDirectionService.deleteByProjectId(record.getId());
+            for (Integer did: directionIds){
+                ProjectDirectionKey key = new ProjectDirectionKey();
+                key.setProjectId(record.getId());
+                key.setResearchDirectionId(did);
+                projectDirectionService.insert(key);
+            }
+        }
+    }
+
+    @Transactional
+    @Override
+    public void insert(Project record) {
+        Date now = new Date();
+        record.setLastModifiedTime(now);
+        record.setCreateTime(now);
+        record.setDescription(StrUtil.getShortContent(record.getContent(), MAX_LENGTH));
+        projectMapper.insertSelective(record);
+        List<Integer> participantIds = record.getParticipantIds();
+        List<Integer> directionIds = record.getDirectionIds();
+        if (participantIds != null && participantIds.size() > 0){
+            for (Integer pid: participantIds){
+                ProjectPeopleKey key = new ProjectPeopleKey();
+                key.setPeopleId(pid);
+                key.setProjectId(record.getId());
+                projectPeopleService.insert(key);
+            }
+        }
+        if (directionIds != null && directionIds.size() > 0){
             for (Integer did: directionIds){
                 ProjectDirectionKey key = new ProjectDirectionKey();
                 key.setProjectId(record.getId());

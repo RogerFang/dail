@@ -85,13 +85,13 @@
     <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
         r.*
-        from sys_user u left join sys_user_role ur on u.id = ur.user_id left join sys_role r on ur.role_id = r.id
-         where u.id = #{userId, jdbcType=INTEGER}
+        from sys_role r  left join sys_user_role ur on ur.role_id = r.id
+        where ur.user_id = #{userId, jdbcType=INTEGER}
     </select>
     <select id="selectStrByUserId" parameterType="java.lang.Integer" resultType="java.lang.String">
         select
         r.name
-        from sys_user u left join sys_user_role ur on u.id = ur.user_id left join sys_role r on ur.role_id = r.id
-         where u.id = #{userId, jdbcType=INTEGER}
+        from sys_role r  left join sys_user_role ur on ur.role_id = r.id
+        where ur.user_id = #{userId, jdbcType=INTEGER}
     </select>
 </mapper>

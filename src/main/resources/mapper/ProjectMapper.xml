@@ -45,7 +45,7 @@
       #{institutionId,jdbcType=INTEGER}, #{lastModifiedTime,jdbcType=TIMESTAMP}, #{continuedDate,jdbcType=VARCHAR}, 
       #{uid,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR})
   </insert>
-    <insert id="insertSelective" parameterType="com.dail.model.Project">
+    <insert id="insertSelective" parameterType="com.dail.model.Project" useGeneratedKeys="true" keyProperty="id">
         insert into project
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">

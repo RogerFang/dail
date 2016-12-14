@@ -6,12 +6,15 @@ import com.dail.model.SysUser;
 import com.dail.service.PeopleService;
 import com.dail.service.SysRoleService;
 import com.dail.service.SysUserService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.apache.shiro.crypto.RandomNumberGenerator;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -88,6 +91,13 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public SysUser selectByIdWithPeopleInfo(Integer id) {
         return userMapper.selectByIdWithPeopleInfo(id);
+    }
+
+    @Override
+    public PageInfo<SysUser> page(int pageNumber, int pageSize) {
+        PageHelper.startPage(pageNumber, pageSize);
+        List<SysUser> users = userMapper.selectAllWithPeople();
+        return new PageInfo<>(users);
     }
 
     private String entryptPassword(String password, String salt) {
