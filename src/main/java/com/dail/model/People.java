@@ -42,15 +42,16 @@ public class People {
     }
 
     public void setResearchDirections(List<ResearchDirection> researchDirections) {
-        this.researchDirections = researchDirections;
-    }
-
-    public List<Integer> getResearchDirectionIds() {
         List<Integer> list = Lists.newArrayList();
         for (ResearchDirection direction: researchDirections){
             list.add(direction.getId());
         }
-        return list;
+        this.setResearchDirectionIds(list);
+        this.researchDirections = researchDirections;
+    }
+
+    public List<Integer> getResearchDirectionIds() {
+        return researchDirectionIds;
     }
 
     public void setResearchDirectionIds(List<Integer> researchDirectionIds) {

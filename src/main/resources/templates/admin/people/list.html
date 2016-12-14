@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="admin/layout">
+<head>
+    <title>Member List</title>
+    <link th:href="@{/assets/css/memberadmin.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div layout:fragment="content">
+    <main>
+        <div class="container">
+            <h3 class="main-title">Member List<a th:href="@{/system/people/add}" class="pull-right" target="_blank">Add Member</a></h3>
+            <div class="row" th:unless="${#lists.isEmpty(peoplePage.list)}">
+                <div class="mem-item col-lg-3 col-md-4 col-sm-6 col-xs-12" th:each="people:${peoplePage.list}" th:data="${people.id}">
+                    <div class="mem-item-main">
+                        <div class="mem-img">
+                            <img th:src="@{${#strings.isEmpty(people.imgUrl)?'/assets/img/avatar.jpg':people.imgUrl}}">
+                        </div>
+                        <div class="mem-info">
+                            <p class="mem-name"><strong>Name:</strong>[[${people.name}]]</p>
+                            <p class="mem-title" th:unless="${#strings.isEmpty(people.position)}"><strong>Title: </strong>[[${people.position}]]</p>
+                            <p class="mem-depart" th:if="${people.institution != null}"><strong>Institute: </strong>[[${people.institution.name}]]</p>
+                            <p class="mem-ins" th:if="${people.department != null}"><strong>Department: </strong>[[${people.department.name}]]</p>
+                        </div>
+                        <div class="mem-btn">
+                            <a th:href="@{/system/people/edit/{id}(id=${people.id})}" target="_blank">Edit</a>
+                            <a href="javascript:void (0);" class="delete-btn">Delete</a>
+                        </div>
+                        <span class="mem-moment unbind-moment" th:if="${people.sysUser==null}">Unbinded</span>
+                        <span class="mem-moment bind-moment" th:if="${people.sysUser!=null}">Binded:[[${people.sysUser.username}]]</span>
+                    </div>
+                </div>
+                <!--<div class="add-btn col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                    <a class="add-btn-main" th:href="@{/system/people/add}" target="_blank">
+                        <span>Click to add New Member</span>
+                    </a>
+                </div>-->
+            </div>
+            <nav th:replace="fragment/page :: client(${peoplePage}, '/system/people')"/>
+        </div>
+
+        <script th:inline="javascript">
+            $(function () {
+                $(".delete-btn").on("click", function () {
+                    var $peopleId = $(this).parents(".mem-item").attr("data");
+                    if(confirm("Are you sure you want to delete the member?")){
+                        $.post("/system/people/delete/"+$peopleId, function () {
+                            alert("Delete successfully!");
+                            window.location.reload();
+                        });
+                    }
+                })
+            })
+        </script>
+    </main>
+</div>
+</body>
+</html>

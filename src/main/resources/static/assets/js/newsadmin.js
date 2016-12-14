@@ -1,12 +1,16 @@
 /**
  * Created by Administrator on 2016/12/12 0012.
  */
-$(document).on("change","#newsAvatar",function (e) {
-    imgPreview($(".news-avatar img"),e);
+$(document).on("change", "#newsAvatar", function (e) {
+    imgPreview($(".news-avatar img"), e);
 })
 
-var editor = new wangEditor('newsEditor');
-
+editor = new wangEditor('newsEditor');
+editor.config.lang = wangEditor.langs['en'];
+editor.config.pasteText = true;
+wangEditor.config.printLog = false;
+editor.config.uploadImgUrl = '/img/upload/news';
+editor.config.uploadImgFileName = 'file';
 editor.config.menus = [
     'source',
     'bold',

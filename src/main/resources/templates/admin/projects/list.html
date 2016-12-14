@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="admin/layout">
+<head>
+    <title>Project List</title>
+    <link th:href="@{/assets/css/existingproject.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div layout:fragment="content">
+    <main>
+        <div class="container">
+            <h3 class="main-title">Project List<a th:href="@{/system/projects/add}" class="add-btn pull-right" target="_blank">Add new project</a></h3>
+            <div class="row" th:unless="${#lists.isEmpty(projectPage.list)}">
+                <div class="pro-item col-lg-3 col-md-4 col-sm-6 col-xs-12" th:each="project:${projectPage.list}"
+                     th:data="${project.id}">
+                    <div class="pro-item-main">
+                        <div class="pro-img">
+                            <img th:src="@{${#strings.isEmpty(project.imgUrl)?'/assets/img/default.png':project.imgUrl}}">
+                        </div>
+                        <div class="pro-info">
+                            <p class="pro-name"><strong>Name:</strong>[[${project.title}]]</p>
+                            <p class="pro-time" th:unless="${#strings.isEmpty(project.continuedDate)}"><strong>Time:</strong>[[${project.continuedDate}]]</p>
+                            <p class="pro-ins" th:if="${project.institution != null}"><strong>Institute:</strong>[[${project.institution.name}]]</p>
+                            <p class="pro-depart" th:if="${project.department != null}"><strong>Department</strong>[[${project.department.name}]]</p>
+                        </div>
+                        <div class="pro-btn">
+                            <a th:href="@{/projects/detail/{id}(id=${project.id})}" target="_blank">View</a>
+                            <a th:href="@{/system/projects/edit/{id}(id=${project.id})}" target="_blank">Edit</a>
+                            <a class="delete-btn" href="javascript:void(0);">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <nav th:replace="fragment/page :: client(${projectPage}, '/system/projects')"/>
+        </div>
+        <script th:inline="javascript">
+            $(function () {
+                $(".delete-btn").on("click", function () {
+                    var $projectId = $(this).parents(".pro-item").attr("data");
+                    if(confirm("Are you sure you want to delete the project?")) {
+                        $.post("/system/projects/delete/" + $projectId, function () {
+                            alert("Delete successfully!");
+                            window.location.reload();
+                        });
+                    }
+                })
+            })
+        </script>
+    </main>
+</div>
+
+</body>
+</html>

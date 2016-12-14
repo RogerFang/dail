@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<nav th:fragment="client(contentPage, pageUrl)" th:if="${contentPage.pages > 1}">
+<nav class="pager-nav" th:fragment="client(contentPage, pageUrl)" th:if="${contentPage.pages > 1}">
     <ul class="pagination">
         <li th:unless="${contentPage.isFirstPage}">
             <a th:href="@{${pageUrl}(page=${contentPage.prePage},size=${contentPage.pageSize})}" >&laquo;</a>

@@ -35,12 +35,15 @@
                 <div class="main-area col-lg-9 col-md-9 col-sm-12 col-xs-12 row" th:if="${people != null}">
                     <h3 th:text="${people.name}"></h3>
                     <div class="person-info col-lg-8 col-md-8 col-sm-12 col-xs-12">
-                        <p><strong>Post:</strong><span th:unless="${#strings.isEmpty(people.position)}">[[${people.position}]]</span></p>
-                        <p><strong>Institution:</strong><span th:if="${people.institution != null}">[[${people.institution.name}]]</span></p>
-                        <p><strong>Department:</strong><span th:if="${people.department != null}">[[${people.department.name}]]</span></p>
+                        <p><strong>Post: </strong><span th:unless="${#strings.isEmpty(people.position)}">[[${people.position}]]</span></p>
+                        <p><strong>Institution: </strong><span th:if="${people.institution != null}">[[${people.institution.name}]]</span></p>
+                        <p><strong>Department: </strong><span th:if="${people.department != null}">[[${people.department.name}]]</span></p>
+                        <p th:unless="${#lists.isEmpty(people.researchDirections)}">
+                            <strong>Research Directions: </strong><span th:each="direction:${people.researchDirections}" th:remove="tag">[[${direction.name}]]  |</span>
+                        </p>
                         <div class="person-desc">
                             <strong>Introduction:</strong>
-                            [[${people.description}]]
+                            [(${people.description})]
                         </div>
                         <div class="person-pub">
                             <strong>Publications:</strong>

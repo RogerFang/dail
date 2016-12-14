@@ -86,3 +86,7 @@ main{
     text-decoration: none;
 }
 
+.pager-nav{
+    text-align: center;
+    width: 100%;
+}

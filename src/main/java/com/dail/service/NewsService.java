@@ -18,6 +18,11 @@ public interface NewsService {
 
     PageInfo<News> page(int pageNumber, int pageSize);
 
+    PageInfo<News> pageByUid(int pageNumber, int pageSize, Integer uid);
+
     News selectByPrimaryKeyWithDetail(Integer id);
 
+    void insert(News news);
+
+    void update(News news);
 }

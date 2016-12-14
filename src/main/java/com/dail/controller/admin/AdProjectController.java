@@ -1,18 +1,17 @@
 package com.dail.controller.admin;
 
 import com.dail.constant.RoleEnum;
-import com.dail.model.People;
 import com.dail.model.Project;
 import com.dail.service.*;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
@@ -42,9 +41,9 @@ public class AdProjectController {
     private ArchiveService archiveService;
 
     @RequiresRoles(value = {"ADMIN", "GENERAL"}, logical = Logical.OR)
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping
     public String list(@RequestParam(required = false, defaultValue = "1") Integer page,
-                       @RequestParam(required = false, defaultValue = "10") Integer size,
+                       @RequestParam(required = false, defaultValue = "8") Integer size,
                        HttpSession session,
                        Model model){
         Integer sessionUid = (Integer) session.getAttribute("sessionUid");
@@ -126,5 +125,24 @@ public class AdProjectController {
             }
         }
         return "redirect:/projects/detail/"+id;
+    }
+
+    @RequiresRoles(value = {"ADMIN", "GENERAL"}, logical = Logical.OR)
+    @RequestMapping(value = "/delete/{id}" ,method = RequestMethod.POST)
+    @ResponseBody
+    public HttpEntity delete(@PathVariable Integer id, HttpSession session){
+        Integer sessionUid = (Integer) session.getAttribute("sessionUid");
+        if (sessionUid != null){
+            if (id != null) {
+                Project project = projectService.selectByPrimaryKey(id);
+                if (project != null){
+                    if (sysRoleService.selectStrByUserId(sessionUid).contains(RoleEnum.ADMIN.name()) || project.getUid() == sessionUid){
+                        projectService.deleteByPrimaryKey(id);
+                        return new ResponseEntity("Delete successfully", HttpStatus.OK);
+                    }
+                }
+            }
+        }
+        return new ResponseEntity("Fail to delete project", HttpStatus.FORBIDDEN);
     }
 }

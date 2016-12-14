@@ -44,7 +44,7 @@
       #{institutionId,jdbcType=INTEGER}, #{lastModifiedTime,jdbcType=TIMESTAMP}, #{uid,jdbcType=INTEGER}, 
       #{content,jdbcType=LONGVARCHAR})
   </insert>
-    <insert id="insertSelective" parameterType="com.dail.model.News">
+    <insert id="insertSelective" parameterType="com.dail.model.News" useGeneratedKeys="true" keyProperty="id">
         insert into news
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -171,7 +171,7 @@
   </update>
 
 
-    <resultMap id="ResultMapWithDetail" extends="BaseResultMap" type="com.dail.model.News">
+    <resultMap id="ResultMapWithDetail" extends="ResultMapWithBLOBs" type="com.dail.model.News">
         <association property="sysUser" column="uid" javaType="com.dail.model.SysUser" select="queryUser">
         </association>
         <association property="institution" column="institution_id" javaType="com.dail.model.Institution" select="queryIns">
@@ -179,6 +179,10 @@
         <association property="department" column="department_id" javaType="com.dail.model.Department" select="queryDep">
         </association>
     </resultMap>
+    <resultMap id="ResultMapWithUser" extends="BaseResultMap" type="com.dail.model.News">
+        <association property="sysUser" column="uid" javaType="com.dail.model.SysUser" select="queryUser"/>
+    </resultMap>
+
     <resultMap id="UserMap" type="com.dail.model.SysUser">
         <id property="id" column="user_id" />
         <result property="username" column="user_name" />
@@ -206,6 +210,17 @@
         <include refid="Base_Column_List"/>
         from news
     </select>
+    <select id="selectAllBaseWithUser" resultMap="ResultMapWithUser">
+        select
+        <include refid="Base_Column_List"/>
+        from news
+    </select>
+    <select id="selectAllBaseWithUserByUid" parameterType="java.lang.Integer" resultMap="ResultMapWithUser">
+        select
+        <include refid="Base_Column_List"/>
+        from news
+        where uid = #{userId,jdbcType=INTEGER}
+    </select>
     <select id="selectAllWithBlob" resultMap="ResultMapWithBLOBs">
         select
         <include refid="Base_Column_List"/>
@@ -216,6 +231,8 @@
     <select id="selectByPrimaryKeyWithDetail" parameterType="java.lang.Integer" resultMap="ResultMapWithDetail">
         select
         <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
         from news
         where id = #{id,jdbcType=INTEGER}
     </select>

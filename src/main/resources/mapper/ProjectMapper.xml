@@ -244,7 +244,7 @@
         select
         <include refid="Base_Column_List"/>
         from project
-        wherer uid = #{uid,jdbcType=INTEGER} order by create_time desc
+        where uid = #{uid,jdbcType=INTEGER} order by create_time desc
     </select>
     <select id="selectAllWithBlobInfo" resultMap="ResultMapWithBLOBsInfo">
         select

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="admin/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>News List</title>
+    <link th:href="@{/assets/css/existingnews.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div layout:fragment="content">
+    <main>
+        <div class="container">
+            <h3 class="main-title">News List<a th:href="@{/system/news/add}" class="add-btn pull-right" target="_blank">Add News</a></h3>
+            <ul class="news-list" th:unless="${#lists.isEmpty(newsPage.list)}">
+                <li class="news-item" th:each="news:${newsPage.list}" th:data="${news.id}">
+                    <div class="news-img pull-left">
+                        <img th:src="@{${#strings.isEmpty(news.imgUrl) ? '/assets/img/default.png': news.imgUrl}}">
+                    </div>
+                    <div class="news-info">
+                        <a th:href="@{/news/detail/{id}(id=${news.id})}" class="news-title" th:text="${news.title}" target="_blank"></a>
+                        <p class="news-meta"><span th:if="${news.sysUser != null}"><strong>By:</strong>[[${news.sysUser.username}]]</span><span><strong>Added time:</strong>[[${#dates.format(news.createTime, 'MMM dd, yyyy')}]]</span>
+                        </p>
+                        <div class="news-abs">
+                            [[${news.description}]]
+                            <a th:href="@{/news/detail/{id}(id=${news.id})}" target="_blank">more>></a>
+                        </div>
+                    </div>
+                    <div class="news-btn">
+                        <a th:href="@{/system/news/edit/{id}(id=${news.id})}" target="_blank">Edit</a>
+                        <a href="javascript:void (0);" class="delete-btn">Delete</a>
+                    </div>
+                </li>
+            </ul>
+            <nav th:replace="fragment/page :: client(${newsPage}, '/system/news')"/>
+        </div>
+
+        <script th:inline="javascript">
+            $(function () {
+                $(".delete-btn").on("click", function (){
+                    var $newsId = $(this).parents("li").attr("data");
+                    if(confirm("Are you sure you want to delete the news?")) {
+                        $.post("/system/news/delete/" + $newsId, function () {
+                            alert("Delete Successfully!");
+                            window.location.reload();
+                        });
+                    }
+                });
+            })
+        </script>
+    </main>
+</div>
+</body>
+</html>

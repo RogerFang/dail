@@ -29,7 +29,7 @@
                         <p class="news-author" th:if="${news.sysUser != null}" th:text="'By: '+${news.sysUser.username}"></p>
                         <p class="news-ins" th:if="${news.institution != null}" th:text="'Insititute: '+${news.institution.name}"></p>
                         <p class="news-depart" th:if="${news.department != null}" th:text="'Department: '+${news.department.name}"></p>
-                        <div class="news-detail" th:text="${news.content}">
+                        <div class="news-detail" th:utext="${news.content}">
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" th:unless="${#strings.isEmpty(news.imgUrl)}">

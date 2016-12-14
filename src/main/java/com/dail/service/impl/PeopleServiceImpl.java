@@ -2,12 +2,16 @@ package com.dail.service.impl;
 
 import com.dail.dao.PeopleMapper;
 import com.dail.model.People;
+import com.dail.model.PeopleDirectionKey;
+import com.dail.service.PeopleDirectionService;
 import com.dail.service.PeopleService;
+import com.dail.util.StrUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,8 +21,12 @@ import java.util.List;
 @Service
 public class PeopleServiceImpl implements PeopleService {
 
+    private static final int MAX_LENGTH= 650;
+
     @Autowired
     private PeopleMapper peopleMapper;
+    @Autowired
+    private PeopleDirectionService peopleDirectionService;
 
     @Override
     public int deleteByPrimaryKey(Integer id) {
@@ -48,15 +56,20 @@ public class PeopleServiceImpl implements PeopleService {
     }
 
     @Override
-    public PageInfo<People> pageWithDetail(int pageNumber, int pageSize) {
+    public PageInfo<People> pageWithInfoUser(int pageNumber, int pageSize) {
         PageHelper.startPage(pageNumber, pageSize);
-        List<People> peopleList = peopleMapper.selectAllBaseWithDetail();
+        List<People> peopleList = peopleMapper.selectAllBaseWithInfoUser();
         return new PageInfo<>(peopleList);
     }
 
     @Override
     public People selectByIdWithDetail(Integer id) {
         return peopleMapper.selectByIdWithDetail(id);
+    }
+
+    @Override
+    public People selectByIdWithInfoUser(Integer id) {
+        return peopleMapper.selectByIdWithInfoUser(id);
     }
 
     @Override
@@ -71,5 +84,38 @@ public class PeopleServiceImpl implements PeopleService {
     @Override
     public List<People> selectAll() {
         return peopleMapper.selectAllBaseWithInfo();
+    }
+
+    @Transactional
+    @Override
+    public void update(People record) {
+        record.setPureDesc(StrUtil.getShortContent(record.getDescription(), MAX_LENGTH));
+        peopleMapper.updateByPrimaryKeySelective(record);
+        List<Integer> directionIds = record.getResearchDirectionIds();
+        if (directionIds != null && directionIds.size() > 0){
+            peopleDirectionService.deleteByPeopleId(record.getId());
+            for (Integer did: directionIds){
+                PeopleDirectionKey key = new PeopleDirectionKey();
+                key.setPeopleId(record.getId());
+                key.setResearchDirectionsId(did);
+                peopleDirectionService.insert(key);
+            }
+        }
+    }
+
+    @Transactional
+    @Override
+    public void insert(People record) {
+        record.setPureDesc(StrUtil.getShortContent(record.getDescription(), MAX_LENGTH));
+        peopleMapper.insertSelective(record);
+        List<Integer> directionIds = record.getResearchDirectionIds();
+        if (directionIds != null && directionIds.size() > 0){
+            for (Integer did: directionIds){
+                PeopleDirectionKey key = new PeopleDirectionKey();
+                key.setPeopleId(record.getId());
+                key.setResearchDirectionsId(did);
+                peopleDirectionService.insert(key);
+            }
+        }
     }
 }

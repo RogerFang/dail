@@ -23,13 +23,15 @@ public interface PeopleMapper {
 
     List<People> selectAllBase();
 
-    List<People> selectAllBaseWithDetail();
-
     List<People> selectAllBaseWithInfo();
+
+    List<People> selectAllBaseWithInfoUser();
 
     People selectByIdWithDetail(Integer id);
 
     People selectByIdWithInfo(Integer id);
+
+    People selectByIdWithInfoUser(Integer id);
 
     List<People> selectAllNotParticipants(List<Integer> list);
 }

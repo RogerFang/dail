@@ -23,6 +23,10 @@ public interface NewsMapper {
 
     List<News> selectAllBase();
 
+    List<News> selectAllBaseWithUser();
+
+    List<News> selectAllBaseWithUserByUid(Integer userId);
+
     List<News> selectAllWithBlob();
 
     News selectByPrimaryKeyWithDetail(Integer id);
