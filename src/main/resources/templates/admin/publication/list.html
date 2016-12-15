@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="admin/layout">
+<head>
+    <title>Member Publications</title>
+    <link th:href="@{/assets/css/userpubadmin.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div layout:fragment="content">
+    <main th:if="${people == null}">
+        The member may be no exist, or you have no permission to access this!
+    </main>
+    <main th:if="${people != null}">
+        <div class="container">
+            <h3>From: <a th:href="@{/people/detail/{id}(id=${people.id})}">[[${people.name}]]</a></h3>
+            <h3 class="main-title">Add Publication</h3>
+            <form method="post" th:action="@{/system/pubs/add/{id}(id=${people.id})}">
+                <div class="form-group">
+                    <label for="cite" class="pull-left">Cite:</label>
+                    <div class="form-control-wrapper">
+                        <textarea rows="3" name="apaText" id="cite" class="form-control"
+                                  placeholder="Enter cite format"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="link" class="pull-left">Full text link:</label>
+                    <div class="form-control-wrapper">
+                        <input type="text" name="fullTextUrl" id="link" class="form-control"
+                               placeholder="Enter full text link, please input absolute link.">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="year" class="pull-left">Year:</label>
+                    <div class="form-control-wrapper">
+                        <input type="text" name="pubDate" id="year" class="form-control"
+                               placeholder="Enter publication year">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+
+            <div class="pub-added">
+                <h3 class="main-title">Publications</h3>
+                <!--<div class="pub-added-inner">-->
+                <ul class="pub-year-list" th:unless="${#lists.isEmpty(publicationPage.list)}">
+                    <li class="pub-year-item" th:each="pub,status:${publicationPage.list}" th:data="${pub.id}">
+                        <strong>[[${publicationPage.startRow + status.index}]]. </strong>
+                        [[${pub.apaText}]] <a th:href="${pub.fullTextUrl}"
+                                              th:unless="${#strings.isEmpty(pub.fullTextUrl)}" target="_blank">[full text]</a>
+                    </li>
+                </ul>
+                <nav th:replace="fragment/page :: client(${publicationPage}, '/system/pubs/for/'+${people.id})"/>
+                <!--</div>-->
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

@@ -51,12 +51,12 @@
         <!--<table tableName="people_direction" domainObjectName="PeopleDirection" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"/>-->
-        <table tableName="project_direction" domainObjectName="ProjectDirection" enableCountByExample="false"
-               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"/>
-        <!--<table tableName="publication" domainObjectName="Publication" enableCountByExample="false"
+        <!--<table tableName="project_direction" domainObjectName="ProjectDirection" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"/>-->
+        <table tableName="publication" domainObjectName="Publication" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"/>
         <!--<table tableName="research_direction" domainObjectName="ResearchDirection" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"/>-->

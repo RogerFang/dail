@@ -67,6 +67,13 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
+    public PageInfo<Publication> pageByPeopleId(int pageNumber, int pageSize, Integer peopleId) {
+        PageHelper.startPage(pageNumber, pageSize);
+        List<Publication> publications= publicationMapper.selectByPeopleId(peopleId);
+        return new PageInfo<>(publications);
+    }
+
+    @Override
     public PageInfo<Publication> pageWithInfo(int pageNumber, int pageSize) {
         PageHelper.startPage(pageNumber, pageSize);
         List<Publication> publications = publicationMapper.selectAllWithInfo();

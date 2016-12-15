@@ -11,7 +11,7 @@ public class Publication {
 
     private Integer peopleId;
 
-    private Date pubDate;
+    private String pubDate;
 
     private String apaText;
 
@@ -57,11 +57,11 @@ public class Publication {
         this.peopleId = peopleId;
     }
 
-    public Date getPubDate() {
+    public String getPubDate() {
         return pubDate;
     }
 
-    public void setPubDate(Date pubDate) {
+    public void setPubDate(String pubDate) {
         this.pubDate = pubDate;
     }
 

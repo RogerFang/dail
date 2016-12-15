@@ -23,6 +23,7 @@
                             <p class="mem-title" th:unless="${#strings.isEmpty(people.position)}"><strong>Title: </strong>[[${people.position}]]</p>
                             <p class="mem-depart" th:if="${people.institution != null}"><strong>Institute: </strong>[[${people.institution.name}]]</p>
                             <p class="mem-ins" th:if="${people.department != null}"><strong>Department: </strong>[[${people.department.name}]]</p>
+                            <a th:href="@{/system/pubs/for/{id}(id=${people.id})}" target="_blank">Publications</a>
                         </div>
                         <div class="mem-btn">
                             <a th:href="@{/system/people/edit/{id}(id=${people.id})}" target="_blank">Edit</a>

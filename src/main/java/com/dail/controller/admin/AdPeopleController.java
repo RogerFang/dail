@@ -76,7 +76,7 @@ public class AdPeopleController {
         Integer sessionUid = (Integer) session.getAttribute("sessionUid");
         if (sessionUid != null) {
             SysUser user = sysUserService.selectById(sessionUid);
-            if (sysRoleService.selectStrByUserId(sessionUid).contains(RoleEnum.ADMIN.name()) || user.getPeopleId() == id) {
+            if (sysRoleService.selectStrByUserId(sessionUid).contains(RoleEnum.ADMIN.name()) || user.getPeopleId().equals(id)) {
                 model.addAttribute("people", peopleService.selectByIdWithInfoUser(id));
                 model.addAttribute("institutions", institutionService.selectAll());
                 model.addAttribute("departments", departmentService.selectAll());
@@ -95,7 +95,7 @@ public class AdPeopleController {
         Integer sessionUid = (Integer) session.getAttribute("sessionUid");
         if (sessionUid != null) {
             SysUser user = sysUserService.selectById(sessionUid);
-            if (sysRoleService.selectStrByUserId(sessionUid).contains(RoleEnum.ADMIN.name()) || user.getPeopleId() == id) {
+            if (sysRoleService.selectStrByUserId(sessionUid).contains(RoleEnum.ADMIN.name()) || user.getPeopleId().equals(id)) {
                 if (file != null && !file.isEmpty()) {
                     String fileUrl = archiveService.saveMultipartFile(file, PEOPLE_DIR);
                     people.setImgUrl(fileUrl);

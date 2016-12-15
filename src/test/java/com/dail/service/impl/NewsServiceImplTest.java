@@ -2,6 +2,7 @@ package com.dail.service.impl;
 
 import com.dail.model.News;
 import com.dail.service.NewsService;
+import com.github.pagehelper.PageInfo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Date;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by Roger on 2016/12/12.
@@ -51,7 +50,20 @@ public class NewsServiceImplTest {
 
     @Test
     public void page() throws Exception {
-
+        PageInfo<News> pageInfo = newsService.page(2, 3);
+        System.out.println(pageInfo.getList().size());
+        System.out.println(pageInfo.getEndRow());
+        System.out.println(pageInfo.getFirstPage());
+        System.out.println(pageInfo.getLastPage());
+        for (int i: pageInfo.getNavigatepageNums()){
+            System.out.print(i+",");
+        }
+        System.out.println();
+        System.out.println(pageInfo.getNavigatePages());
+        System.out.println(pageInfo.getPageNum());
+        System.out.println(pageInfo.getPages());
+        System.out.println(pageInfo.getStartRow());
+        System.out.println(pageInfo.getTotal());
     }
 
     @Test

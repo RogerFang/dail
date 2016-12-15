@@ -26,5 +26,7 @@ public interface PublicationService {
 
     PageInfo<Publication> page(int pageNumber, int pageSize);
 
+    PageInfo<Publication> pageByPeopleId(int pageNumber, int pageSize, Integer peopleId);
+
     PageInfo<Publication> pageWithInfo(int pageNumber, int pageSize);
 }

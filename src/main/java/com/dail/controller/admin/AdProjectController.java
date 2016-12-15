@@ -93,7 +93,7 @@ public class AdProjectController {
         Integer sessionUid = (Integer) session.getAttribute("sessionUid");
         if (sessionUid != null){
             Project project = projectService.selectByIdWithDetail(id);
-            if (sysRoleService.selectStrByUserId(sessionUid).contains(RoleEnum.ADMIN.name()) || project.getUid() == sessionUid){
+            if (sysRoleService.selectStrByUserId(sessionUid).contains(RoleEnum.ADMIN.name()) || project.getUid().equals(sessionUid)){
                 model.addAttribute("project", project);
                 model.addAttribute("institutions", institutionService.selectAll());
                 model.addAttribute("departments", departmentService.selectAll());
@@ -114,7 +114,7 @@ public class AdProjectController {
         if (sessionUid != null){
             Project pro = projectService.selectByPrimaryKey(id);
             if (pro != null){
-                if (sysRoleService.selectStrByUserId(sessionUid).contains(RoleEnum.ADMIN.name()) || pro.getUid() == sessionUid){
+                if (sysRoleService.selectStrByUserId(sessionUid).contains(RoleEnum.ADMIN.name()) || pro.getUid().equals(sessionUid)){
                     if (file!=null && !file.isEmpty()){
                         String fileUrl = archiveService.saveMultipartFile(file, PROJECTS_DIR);
                         project.setImgUrl(fileUrl);
@@ -136,7 +136,7 @@ public class AdProjectController {
             if (id != null) {
                 Project project = projectService.selectByPrimaryKey(id);
                 if (project != null){
-                    if (sysRoleService.selectStrByUserId(sessionUid).contains(RoleEnum.ADMIN.name()) || project.getUid() == sessionUid){
+                    if (sysRoleService.selectStrByUserId(sessionUid).contains(RoleEnum.ADMIN.name()) || project.getUid().equals(sessionUid)){
                         projectService.deleteByPrimaryKey(id);
                         return new ResponseEntity("Delete successfully", HttpStatus.OK);
                     }

@@ -10,15 +10,25 @@
 
 <nav class="pager-nav" th:fragment="client(contentPage, pageUrl)" th:if="${contentPage.pages > 1}">
     <ul class="pagination">
-        <li th:unless="${contentPage.isFirstPage}">
-            <a th:href="@{${pageUrl}(page=${contentPage.prePage},size=${contentPage.pageSize})}" >&laquo;</a>
+        <li th:unless="${contentPage.isFirstPage || contentPage.pages < 8}">
+            <a th:href="@{${pageUrl}(page=1,size=${contentPage.pageSize})}" >&laquo;</a>
         </li>
-        <li th:each="pageNo:${#numbers.sequence(1, contentPage.pages)}" th:class="${contentPage.pageNum eq pageNo} ? 'active'">
+        <li th:unless="${contentPage.isFirstPage}">
+            <a th:href="@{${pageUrl}(page=${contentPage.prePage},size=${contentPage.pageSize})}" >&lsaquo;</a>
+        </li>
+        <!--<li th:each="pageNo:${#numbers.sequence(1, contentPage.pages)}" th:class="${contentPage.pageNum eq pageNo} ? 'active'">
+            <a th:if="${contentPage.pageNum eq pageNo}" href="javascript:void(0);" th:text="${pageNo}"></a>
+            <a th:if="${not (contentPage.pageNum eq pageNo)}" th:href="@{${pageUrl}(page=${pageNo},size=${contentPage.pageSize})}" th:text="${pageNo}"></a>
+        </li>-->
+        <li th:each="pageNo:${contentPage.navigatepageNums}" th:class="${contentPage.pageNum eq pageNo} ? 'active'">
             <a th:if="${contentPage.pageNum eq pageNo}" href="javascript:void(0);" th:text="${pageNo}"></a>
             <a th:if="${not (contentPage.pageNum eq pageNo)}" th:href="@{${pageUrl}(page=${pageNo},size=${contentPage.pageSize})}" th:text="${pageNo}"></a>
         </li>
         <li th:unless="${contentPage.isLastPage}">
-            <a th:href="@{${pageUrl}(page=${contentPage.nextPage},size=${contentPage.pageSize})}" >&raquo;</a>
+            <a th:href="@{${pageUrl}(page=${contentPage.nextPage},size=${contentPage.pageSize})}" >&rsaquo;</a>
+        </li>
+        <li th:unless="${contentPage.isLastPage || contentPage.pages < 8}">
+            <a th:href="@{${pageUrl}(page=${contentPage.pages},size=${contentPage.pageSize})}" >&raquo;</a>
         </li>
     </ul>
 </nav>

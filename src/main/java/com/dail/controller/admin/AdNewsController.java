@@ -90,7 +90,7 @@ public class AdNewsController {
         if (sessionUid != null) {
             News news = newsService.selectByPrimaryKey(id);
             if (news != null) {
-                if (sysRoleService.selectStrByUserId(sessionUid).contains(RoleEnum.ADMIN.name()) || news.getUid() == sessionUid) {
+                if (sysRoleService.selectStrByUserId(sessionUid).contains(RoleEnum.ADMIN.name()) || news.getUid().equals(sessionUid)) {
                     model.addAttribute("news", news);
                     model.addAttribute("institutions", institutionService.selectAll());
                     model.addAttribute("departments", departmentService.selectAll());
@@ -110,7 +110,7 @@ public class AdNewsController {
         if (sessionUid != null) {
             News ne = newsService.selectByPrimaryKey(id);
             if (ne != null) {
-                if (sysRoleService.selectStrByUserId(sessionUid).contains(RoleEnum.ADMIN.name()) || ne.getUid() == sessionUid) {
+                if (sysRoleService.selectStrByUserId(sessionUid).contains(RoleEnum.ADMIN.name()) || ne.getUid().equals(sessionUid)) {
                     if (file != null && !file.isEmpty()) {
                         String fileUrl = archiveService.saveMultipartFile(file, NEWS_DIR);
                         news.setImgUrl(fileUrl);
@@ -132,7 +132,7 @@ public class AdNewsController {
             if (id != null) {
                 News news = newsService.selectByPrimaryKey(id);
                 if (news != null){
-                    if (sysRoleService.selectStrByUserId(sessionUid).contains(RoleEnum.ADMIN.name()) || news.getUid() == sessionUid){
+                    if (sysRoleService.selectStrByUserId(sessionUid).contains(RoleEnum.ADMIN.name()) || news.getUid().equals(sessionUid)){
                         newsService.deleteByPrimaryKey(id);
                         return new ResponseEntity("Delete successfully", HttpStatus.OK);
                     }

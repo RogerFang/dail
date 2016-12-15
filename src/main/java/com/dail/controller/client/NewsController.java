@@ -21,7 +21,7 @@ public class NewsController {
 
     @RequestMapping
     public String list(@RequestParam(required = false, defaultValue = "1") Integer page,
-                       @RequestParam(required = false, defaultValue = "10") Integer size,
+                       @RequestParam(required = false, defaultValue = "20") Integer size,
                        Model model){
         model.addAttribute("newsPage", newsService.page(page, size));
         return "client/news/list";
