@@ -5,7 +5,7 @@
       layout:decorator="admin/layout">
 <head>
     <title>Member Publications</title>
-    <link th:href="@{/assets/css/userpubadmin.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/assets/css/pubadmin.css}" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div layout:fragment="content">
@@ -14,50 +14,136 @@
     </main>
     <main th:if="${people != null}">
         <div class="container">
-            <h3>From: <a th:href="@{/people/detail/{id}(id=${people.id})}">[[${people.name}]]</a></h3>
-            <h3 class="main-title">Add Publication</h3>
-            <form method="post" th:action="@{/system/pubs/add/{id}(id=${people.id})}">
-                <div class="form-group">
-                    <label for="cite" class="pull-left">Cite:</label>
-                    <div class="form-control-wrapper">
-                        <textarea rows="3" name="apaText" id="cite" class="form-control"
-                                  placeholder="Enter cite format"></textarea>
+            <h3 class="main-title">Publications List<span>  (From: <a th:href="@{/people/detail/{id}(id=${people.id})}">[[${people.name}]]</a>)</span><a
+                    href="#" class="pub-add-btn pull-right">Add Publication</a></h3>
+            <ul class="pub-list" th:unless="${#lists.isEmpty(publicationPage.list)}">
+                <li class="pub-item row" th:each="pub,status:${publicationPage.list}" th:data="${pub.id}">
+                    <div class="col-lg-1 col-lg-1 col-md-1 col-sm-1 col-xs-12">
+                        [[${publicationPage.startRow + status.index}]]
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="link" class="pull-left">Full text link:</label>
-                    <div class="form-control-wrapper">
-                        <input type="text" name="fullTextUrl" id="link" class="form-control"
-                               placeholder="Enter full text link, please input absolute link.">
+                    <div class="pub-detail col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                        <div class="apa-text">[[${pub.apaText}]]</div>
+                        <a th:href="${pub.fullTextUrl}"
+                                              th:unless="${#strings.isEmpty(pub.fullTextUrl)}" target="_blank" class="full-text-url">[full
+                        text]</a>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="year" class="pull-left">Year:</label>
-                    <div class="form-control-wrapper">
-                        <input type="text" name="pubDate" id="year" class="form-control"
-                               placeholder="Enter publication year">
+                    <div class="pub-year col-lg-1 col-lg-1 col-md-1 col-sm-1 col-xs-12">[[${pub.pubDate}]]</div>
+                    <div class="pub-opera col-lg-2 col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                        <a href="javascript:void (0);" class="pub-edit-btn">Edit</a>
+                        <a href="javascript:void (0);" class="pub-del-btn">Delete</a>
                     </div>
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </div>
-            </form>
-
-            <div class="pub-added">
-                <h3 class="main-title">Publications</h3>
-                <!--<div class="pub-added-inner">-->
-                <ul class="pub-year-list" th:unless="${#lists.isEmpty(publicationPage.list)}">
-                    <li class="pub-year-item" th:each="pub,status:${publicationPage.list}" th:data="${pub.id}">
-                        <strong>[[${publicationPage.startRow + status.index}]]. </strong>
-                        [[${pub.apaText}]] <a th:href="${pub.fullTextUrl}"
-                                              th:unless="${#strings.isEmpty(pub.fullTextUrl)}" target="_blank">[full text]</a>
-                    </li>
-                </ul>
+                </li>
                 <nav th:replace="fragment/page :: client(${publicationPage}, '/system/pubs/for/'+${people.id})"/>
-                <!--</div>-->
-            </div>
+            </ul>
         </div>
     </main>
+
+    <div class="modal fade pub-edit-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <form method="post" th:action="@{/system/pubs/edit/{peopleId}(peopleId=${people.id})}">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span
+                                aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">Edit Publication</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="id" id="pubEditId">
+                        <div class="form-group">
+                            <label for="pubEditDetail">Publication Cite</label>
+                            <textarea class="form-control" id="pubEditDetail" name="apaText"
+                                      placeholder="Enter publication"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="pubEditYear">Publication Year</label>
+                            <input type="text" class="form-control" id="pubEditYear" name="pubDate"
+                                   placeholder="Enter publication year">
+                        </div>
+                        <div class="form-group">
+                            <label for="pubEditLink">Full Text Link</label>
+                            <input type="text" class="form-control" id="pubEditLink" name="fullTextUrl"
+                                   placeholder="Enter full text link, please user absolute link.">
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal fade pub-add-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <form method="post" th:action="@{/system/pubs/add/{peopleId}(peopleId=${people.id})}">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span
+                                aria-hidden="true">&times;</span><span
+                                class="sr-only">Close</span></button>
+                        <h4 class="modal-title">Add Publication</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="pubdetail">Publication Cite</label>
+                            <textarea class="form-control" id="pubdetail" name="apaText"
+                                      placeholder="Enter publication"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="pubyear">Publication Year</label>
+                            <input type="text" class="form-control" id="pubyear" name="pubDate"
+                                   placeholder="Enter publication year">
+                        </div>
+                        <div class="form-group">
+                            <label for="publink">Full Text Link</label>
+                            <input type="text" class="form-control" id="publink" name="fullTextUrl"
+                                   placeholder="Enter full text link, please user absolute link.">
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script>
+        $(function () {
+            $(document).on("click", ".pub-add-btn", function () {
+                $(".pub-add-modal").modal();
+            }).on("click", ".pub-edit-btn", function () {
+                var $pubId = $(this).parents(".pub-item").attr("data");
+                var $pubApaText = $(this).parents(".pub-item").find(".apa-text").text();
+                var $pubFullTextUrl = $(this).parents(".pub-item").find(".full-text-url").attr("href");
+                var $pubDate = $(this).parents(".pub-item").find(".pub-year").text();
+                $("#pubEditId").val($pubId);
+                $("#pubEditDetail").val($pubApaText);
+                $("#pubEditLink").val($pubFullTextUrl);
+                $("#pubEditYear").val($pubDate);
+                $(".pub-edit-modal").modal();
+            }).on("click", ".pub-del-btn", function () {
+                if (confirm("Are you sure that you want to delete this publication?")) {
+                    var $ele = $(this).parents(".pub-item");
+                    var $pubId = $ele.attr("data");
+                    $.post("/system/pubs/delete/"+$pubId, function () {
+                        $ele.remove();
+                    });
+                }
+            })
+
+            $('.pub-add-modal').on('hidden.bs.modal', function (e) {
+                $(this).find(":input").val('');
+            })
+
+            $('.pub-edit-modal').on('hidden.bs.modal', function (e) {
+                $(this).find(":input").val('');
+            })
+        })
+    </script>
 </div>
 </body>
 </html>
