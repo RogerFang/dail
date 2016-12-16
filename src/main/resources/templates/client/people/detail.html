@@ -50,7 +50,7 @@
                             <ul class="pub-list" th:unless="${#lists.isEmpty(people.publications)}">
                                 <li class="pub-item" th:each="publication,status:${people.publications}">
                                     [[${status.index}]].[[${publication.apaText}]]
-                                    <a th:href="@{${publication.fullTextUrl}}" th:unless="${#strings.isEmpty(publication.fullTextUrl)}">[Full Text]</a>
+                                    <a target="_blank" th:href="@{${publication.fullTextUrl}}" th:unless="${#strings.isEmpty(publication.fullTextUrl)}">[Full Text]</a>
                                 </li>
                             </ul>
                         </div>

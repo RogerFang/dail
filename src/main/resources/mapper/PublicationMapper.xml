@@ -29,7 +29,7 @@
         delete from publication
         where id = #{id,jdbcType=INTEGER}
     </delete>
-    <insert id="insert" parameterType="com.dail.model.Publication">
+    <insert id="insert" parameterType="com.dail.model.Publication" useGeneratedKeys="true" keyProperty="id">
         insert into publication (id, create_time, full_text_url,
         people_id, pub_date, apa_text
         )
@@ -37,7 +37,7 @@
         #{peopleId,jdbcType=INTEGER}, #{pubDate,jdbcType=VARCHAR}, #{apaText,jdbcType=LONGVARCHAR}
         )
     </insert>
-    <insert id="insertSelective" parameterType="com.dail.model.Publication">
+    <insert id="insertSelective" parameterType="com.dail.model.Publication" useGeneratedKeys="true" keyProperty="id">
         insert into publication
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">

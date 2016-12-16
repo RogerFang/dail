@@ -5,7 +5,6 @@ import com.dail.model.SysUser;
 import com.dail.service.PeopleService;
 import com.dail.service.SysUserRoleService;
 import com.dail.service.SysUserService;
-import com.google.common.base.Strings;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -73,7 +72,7 @@ public class AdSysUserController {
     }*/
 
     @RequiresRoles("ADMIN")
-    @RequestMapping(value = "/bind/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/bind/for/{id}")
     public String people(@RequestParam(required = false, defaultValue = "1") Integer page,
                          @RequestParam(required = false, defaultValue = "30") Integer size,
                          @PathVariable Integer id,
@@ -91,7 +90,7 @@ public class AdSysUserController {
         if (peopleId != null){
             sysUserService.bind(id, peopleId);
         }
-       return "redirect:"+id;
+       return "redirect:/system/user";
     }
 
     @RequiresRoles("ADMIN")

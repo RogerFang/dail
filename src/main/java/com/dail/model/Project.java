@@ -1,7 +1,5 @@
 package com.dail.model;
 
-import com.google.common.collect.Lists;
-
 import java.util.Date;
 import java.util.List;
 
@@ -32,12 +30,6 @@ public class Project {
 
     private Department department;
 
-    private List<ResearchDirection> researchDirections;
-
-    private List<Integer> researchDirectionIds;
-
-    private List<Integer> directionIds;
-
     private List<People> participants;
 
     private List<Integer> participantIds;
@@ -66,30 +58,6 @@ public class Project {
 
     public void setParticipants(List<People> participants) {
         this.participants = participants;
-    }
-
-    public List<ResearchDirection> getResearchDirections() {
-        return researchDirections;
-    }
-
-    public void setResearchDirections(List<ResearchDirection> researchDirections) {
-        this.researchDirections = researchDirections;
-    }
-
-    public List<Integer> getResearchDirectionIds() {
-        List<Integer> list = Lists.newArrayList();
-        for (ResearchDirection direction: researchDirections){
-            list.add(direction.getId());
-        }
-        return list;
-    }
-
-    public List<Integer> getDirectionIds() {
-        return directionIds;
-    }
-
-    public void setDirectionIds(List<Integer> directionIds) {
-        this.directionIds = directionIds;
     }
 
     public Institution getInstitution() {

@@ -46,4 +46,11 @@ public class AdDepartmentController {
         departmentService.deleteByPrimaryKey(id);
         return new ResponseEntity<>("Delete successfully!", HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    @ResponseBody
+    public HttpEntity edit(Department department){
+        departmentService.updateByPrimaryKeySelective(department);
+        return new ResponseEntity<>("Edit successfully!", HttpStatus.OK);
+    }
 }

@@ -11,19 +11,17 @@
 <body>
 <div layout:fragment="content">
     <header th:unless="${#lists.isEmpty(slidePage.list)}">
-        <div class="lab-carousel carousel slide" data-ride="carousel">
+        <div class="lab-carousel carousel slide" data-ride="carousel" id="index-carousel">
             <!-- Indicators -->
             <ol class="carousel-indicators">
-                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                <li data-target="#carousel-example-generic" th:data-slide-to="${status.index}" th:class="${status.first}?active" th:each="slide,status:${slidePage.list}"></li>
             </ol>
-
             <!-- Wrapper for slides -->
-            <div class="carousel-inner" role="listbox" th:each="slide:${slidePage.list}">
-                <div class="item active">
-                    <img alt="轮播图" th:src="${slide.imgUrl}">
-                    <div class="carousel-caption">
-                        <a th:href="${slide.href}">
+            <div class="carousel-inner" role="listbox">
+                <div class="item" th:each="slide,status:${slidePage.list}" th:classappend="${status.first}?'active'">
+                    <img alt="carousel" th:src="${slide.imgUrl}">
+                    <div class="carousel-caption active">
+                        <a th:href="${slide.href}" target="_blank">
                             <h2 th:text="${slide.title}"></h2>
                             <p th:text="${slide.description}"></p>
                         </a>
@@ -39,6 +37,19 @@
                 <span class="sr-only">Next</span>
             </a>
         </div>
+
+        <script type="text/javascript">
+            $(function () {
+                $('.carousel-control.left').click(function() {
+                    $('#index-carousel').carousel('prev');
+                });
+
+                $('.carousel-control.right').click(function() {
+                    $('#index-carousel').carousel('next');
+                });
+            })
+
+        </script>
     </header>
     <main>
         <div class="container">
@@ -47,7 +58,7 @@
                     <h3>PROJECTS</h3>
                     <div th:unless="${#lists.isEmpty(projectPage.list)}">
                         <li class="col-lg-3 col-md-4 col-sm-6 col-xs-12" th:each="pro:${projectPage.list}">
-                            <a href="#" class="lab-project-item">
+                            <a th:href="@{/projects/detail/{id}(id=${pro.id})}" class="lab-project-item">
                                 <img th:src="${pro.imgUrl}">
                                 <p class="lab-project-desc" th:text="${pro.title}"></p>
                                 <div class="lab-project-detail">
@@ -56,16 +67,16 @@
                                 </div>
                             </a>
                         </li>
-                        <li class="more">
-                            <a href="#">ALL PROJECTS<span class=" glyphicon glyphicon-play-circle"></span></a>
-                        </li>
+                    </div>
+                    <div class="more">
+                        <a th:href="@{/projects}">ALL PROJECTS<span class=" glyphicon glyphicon-play-circle"></span></a>
                     </div>
                 </ul>
                 <ul class="lab-news col-lg-4 col-md-4 col-sm-12">
                     <h3>NEWS</h3>
                     <div th:unless="${#lists.isEmpty(newsPage.list)}">
                         <li th:each="news,status:${newsPage.list}" th:class="${not status.first}?'lab-news-item'">
-                            <a href="#" th:class="${status.first}?'image-news'">
+                            <a th:href="@{/news/detail/{id}(id=${news.id})}" th:class="${status.first}?'image-news'">
                                 <img th:src="${news.imgUrl}" th:if="${status.first}">
                                 <div th:class="${status.first}?'lab-news-desc'">
                                     <p th:text="${news.title}"></p>
@@ -74,7 +85,7 @@
                             </a>
                         </li>
                         <li class="more">
-                            <a href="#">ALL NEWS<span class=" glyphicon glyphicon-play-circle"></span></a>
+                            <a th:href="@{/news}">ALL NEWS<span class=" glyphicon glyphicon-play-circle"></span></a>
                         </li>
                     </div>
                 </ul>

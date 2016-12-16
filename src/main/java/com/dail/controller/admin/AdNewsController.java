@@ -53,7 +53,7 @@ public class AdNewsController {
         return "admin/news/list";
     }
 
-    @RequiresRoles("ADMIN")
+    @RequiresRoles(value = {"ADMIN","GENERAL"}, logical = Logical.OR)
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String add(Model model) {
         model.addAttribute("institutions", institutionService.selectAll());
@@ -61,7 +61,7 @@ public class AdNewsController {
         return "admin/news/add";
     }
 
-    @RequiresRoles("ADMIN")
+    @RequiresRoles(value = {"ADMIN","GENERAL"}, logical = Logical.OR)
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String add(News news,
                       MultipartFile file,

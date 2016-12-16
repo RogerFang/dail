@@ -18,5 +18,13 @@ public interface ToolService {
 
     PageInfo<Tool> page(int pageNumber, int pageSize);
 
+    PageInfo<Tool> pageByUid(int pageNumber, int pageSize, Integer uid);
+
     Tool selectByIdWithInfo(Integer id);
+
+    Tool selectByIdWithInfoUser(Integer id);
+
+    int insert(Tool record);
+
+    int update(Tool record);
 }

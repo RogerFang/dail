@@ -13,6 +13,9 @@
     <link th:href="@{/assets/css/common.css}" rel="stylesheet" type="text/css">
     <link th:href="@{/assets/css/nav.css}" rel="stylesheet" type="text/css">
     <link th:href="@{/assets/css/footer.css}" rel="stylesheet" type="text/css">
+
+    <script th:src="@{/webjars/jquery/jquery.min.js}" type="text/javascript"></script>
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}" type="text/javascript"></script>
 </head>
 <body>
 <nav class="has-bg">
@@ -34,18 +37,37 @@
             <li class="nav-item">
                 <a th:href="@{/pubs}">PUBLICATION</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item nav-input">
                 <form class="nav-search">
                     <input type="text" name="query" placeholder="input keyword">
                     <button type="submit"></button>
                 </form>
             </li>
-            <li shiro:notAuthenticated="">Please <a th:href="@{/login}">login</a></li>
-            <li shiro:authenticated="">
-                Hello, <span shiro:principal=""></span>
+            <li class="nav-item has-subnav" shiro:hasrole="GENERAL">
+                <a th:href="@{/system/people/edit}"><span class="glyphicon glyphicon-user"></span><span shiro:principal=""></span></a>
+                <ul class="subnav">
+                    <li class="subnav-item">
+                        <a th:href="@{/system/news}" target="_blank">My News</a>
+                    </li>
+                    <li class="subnav-item">
+                        <a th:href="@{/system/projects}" target="_blank">My Projects</a>
+                    </li>
+                    <li class="subnav-item">
+                        <a th:href="@{/system/tools}" target="_blank">My Tools</a>
+                    </li>
+                    <li class="subnav-item">
+                        <a th:href="@{/system/pubs/for}" target="_blank">My Publications</a>
+                    </li>
+                    <li class="subnav-item">
+                        <a th:href="@{/logout}">Sign Out</a>
+                    </li>
+                </ul>
             </li>
-            <li shiro:authenticated="">
-                <a th:href="@{/system}">BackStage Management</a>
+            <li class="nav-item" shiro:notAuthenticated="">
+                <a th:href="@{/login}"><span class="glyphicon glyphicon-user"></span>Sign In</a>
+            </li>
+            <li class="nav-item" shiro:hasrole="ADMIN">
+                <a th:href="@{/system}" target="_blank"><span class="glyphicon glyphicon-cog"></span>Admin</a>
             </li>
         </ul>
     </div>
@@ -80,13 +102,5 @@
         </div>
     </div>
 </footer>
-
-<script th:src="@{/webjars/jquery/jquery.min.js}" type="text/javascript"></script>
-<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}" type="text/javascript"></script>
-<script type="text/javascript">
-    $(function () {
-        $(".lab-carousel").carousel();
-    })
-</script>
 </body>
 </html>

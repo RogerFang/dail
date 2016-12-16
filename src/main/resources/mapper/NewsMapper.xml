@@ -34,7 +34,7 @@
     delete from news
     where id = #{id,jdbcType=INTEGER}
   </delete>
-    <insert id="insert" parameterType="com.dail.model.News">
+    <insert id="insert" parameterType="com.dail.model.News" useGeneratedKeys="true" keyProperty="id">
     insert into news (id, create_time, description, 
       img_url, title, department_id, 
       institution_id, last_modified_time, uid, 

@@ -18,7 +18,7 @@
             <h3 th:if="${user.people != null}">You have bind to <a th:href="@{/people/detail/{id}(id=${user.peopleId})}">[[${user.people.name}]]</a></h3>
             <h3>Select a member you want to bind below:</h3>
             <div class="member-area">
-                <form method="post" th:action="@{/system/user/bind/{id}(id=${user.id})}">
+                <form method="post" th:action="@{/system/user/bind/for/{id}(id=${user.id})}">
                     <div class="form-group">
                         <label>You can search member here:</label>
                         <input text="text" name="query" placeholder="Fast Search" class="form-control" th:value="${query}">
@@ -30,7 +30,7 @@
                         <li class="member-item" th:each="people:${peoplePage.list}" th:if="${people.id != user.peopleId}">
                             <div class="radio">
                                 <label>
-                                    <input type="radio" name="peopleId" th:value="${people.id}" th:selected="${people.id == user.peopleId}">
+                                    <input type="radio" name="peopleId" th:value="${people.id}" th:selected="${people.id == user.peopleId}" th:disabled="${people.sysUser != null}">
                                     <a th:text="${people.name}" th:href="@{/people/detail/{id}(id=${people.id})}"></a>
                                     <span th:if="${people.institution != null}">Institute: [[${people.institution.name}]]</span>
                                     <span th:if="${people.department != null}">Department: [[${people.department.name}]]</span>
@@ -44,6 +44,11 @@
             </div>
         </div>
     </main>
+    <script type="text/javascript">
+        $(function () {
+            $(".nav-item").eq(0).addClass("active");
+        })
+    </script>
 </div>
 </body>
 </html>

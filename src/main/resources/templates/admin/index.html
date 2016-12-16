@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+      layout:decorator="admin/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>News List</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <main>
+        <div class="container">
+            <h3>Hello <span shiro:principal=""></span>, Welcome to backstage!</h3>
+        </div>
+    </main>
+</div>
+</body>
+</html>

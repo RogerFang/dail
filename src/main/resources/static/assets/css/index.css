@@ -11,17 +11,19 @@ main{
     color: #7f1314;
 }
 
+
 .lab-project-item{
     display: block;
     position: relative;
     margin-bottom: 10px;
     overflow: hidden;
+    height: 200px;
 }
 
 .lab-project-item img{
     display: block;
     width: 100%;
-    height: auto;
+    height: 100%;
 }
 
 .lab-project-desc{
@@ -64,6 +66,15 @@ main{
     transition: all .4s ease-in-out 0s;
     color: #fff;
     padding: 10px 12px;
+}
+
+.lab-project>div:after,.lab-project>div>li:after{
+    content: '';
+    width: 0;
+    height: 0;
+    display: block;
+    clear: both;
+    visibility: hidden;
 }
 
 .lab-news-desc{

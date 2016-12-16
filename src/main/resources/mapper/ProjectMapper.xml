@@ -35,7 +35,7 @@
     delete from project
     where id = #{id,jdbcType=INTEGER}
   </delete>
-    <insert id="insert" parameterType="com.dail.model.Project">
+    <insert id="insert" parameterType="com.dail.model.Project" useGeneratedKeys="true" keyProperty="id">
     insert into project (id, create_time, description, 
       img_url, title, department_id, 
       institution_id, last_modified_time, continued_date, 
@@ -188,14 +188,12 @@
                      select="queryIns"/>
         <association property="department" column="department_id" javaType="com.dail.model.Department"
                      select="queryDep" />
-        <collection property="researchDirections" column="id" ofType="com.dail.model.ResearchDirection" select="com.dail.dao.ResearchDirectionMapper.selectByProjectId"/>
     </resultMap>
     <resultMap id="ResultMapWithBLOBsInfo" extends="ResultMapWithBLOBs" type="com.dail.model.Project">
         <association property="institution" column="institution_id" javaType="com.dail.model.Institution"
                      select="queryIns"/>
         <association property="department" column="department_id" javaType="com.dail.model.Department"
                      select="queryDep"/>
-        <collection property="researchDirections" column="id" ofType="com.dail.model.ResearchDirection" select="com.dail.dao.ResearchDirectionMapper.selectByProjectId"/>
     </resultMap>
     <resultMap id="ResultMapWithBLOBsDetail" extends="ResultMapWithBLOBs" type="com.dail.model.Project">
         <association property="institution" column="institution_id" javaType="com.dail.model.Institution"
@@ -204,7 +202,6 @@
                      select="queryDep"/>
         <association property="sysUser" column="uid" javaType="com.dail.model.SysUser"
                      select="queryUser"/>
-        <collection property="researchDirections" column="id" ofType="com.dail.model.ResearchDirection" select="com.dail.dao.ResearchDirectionMapper.selectByProjectId"/>
         <collection property="participants" column="id" ofType="com.dail.model.People" select="queryPeople"/>
     </resultMap>
     <resultMap id="InsMap" type="com.dail.model.Institution">

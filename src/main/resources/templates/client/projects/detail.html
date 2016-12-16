@@ -50,9 +50,6 @@
                         <p class="pro-ins" th:unless="${#strings.isEmpty(project.continuedDate)}">Time: [[${project.continuedDate}]]</p>
                         <p class="pro-ins" th:if="${project.institution != null}">Insititute: [[${project.institution.name}]]</p>
                         <p class="pro-depart" th:if="${project.department != null}">Department: [[${project.department.name}]]</p>
-                        <p class="pro-depart" th:unless="${#lists.isEmpty(project.researchDirections)}">
-                            Research Directions:  <span th:each="direction:${project.researchDirections}" th:remove="tag">[[${direction.name}]]  |</span>
-                        </p>
                         <div class="pro-detail" th:utext="${project.content}">
                         </div>
                     </div>

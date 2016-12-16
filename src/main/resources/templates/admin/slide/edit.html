@@ -40,13 +40,18 @@
                 </div>
             </form>
         </div>
-    </main>
-    <script th:src="@{/assets/js/imgPreview.js}" type="text/javascript"></script>
-    <script th:inline="javascript">
-        $(function () {
-            $(document).on("change","#uploadImg",function (e) {
-                imgPreview($("#carouselPreview img"),e);
+        <script th:src="@{/assets/js/imgPreview.js}" type="text/javascript"></script>
+        <script th:inline="javascript">
+            $(function () {
+                $(document).on("change","#uploadImg",function (e) {
+                    imgPreview($("#carouselPreview img"),e);
+                })
             })
+        </script>
+    </main>
+    <script type="text/javascript">
+        $(function () {
+            $(".nav-item").eq(7).addClass("active");
         })
     </script>
 </div>

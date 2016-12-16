@@ -33,7 +33,7 @@
     delete from people
     where id = #{id,jdbcType=INTEGER}
   </delete>
-    <insert id="insert" parameterType="com.dail.model.People">
+    <insert id="insert" parameterType="com.dail.model.People" useGeneratedKeys="true" keyProperty="id">
     insert into people (id, img_url, name, 
       position, sequence, department_id, 
       institution_id, email, pure_desc, 

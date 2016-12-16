@@ -52,7 +52,7 @@
                         <p class="tool-time">Time: [[${#dates.format(tool.createTime, 'MMM dd, yyyy')}]]</p>
                         <p class="tool-ins" th:if="${tool.institution != null}">Insititute: [[${tool.institution.name}]]</p>
                         <p class="tool-depart" th:if="${tool.department != null}">Department: [[${tool.department.name}]]</p>
-                        <div class="tool-desc" th:text="${tool.content}">
+                        <div class="tool-desc" th:utext="${tool.content}">
                         </div>
                     </div>
                     <div class="aside-area col-lg-4 col-md-4 col-sm-12 col-xs-12" th:unless="${#lists.isEmpty(newsPage.list)}">

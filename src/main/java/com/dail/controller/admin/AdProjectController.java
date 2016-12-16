@@ -34,8 +34,6 @@ public class AdProjectController {
     @Autowired
     private DepartmentService departmentService;
     @Autowired
-    private ResearchDirectionService researchDirectionService;
-    @Autowired
     private PeopleService peopleService;
     @Autowired
     private ArchiveService archiveService;
@@ -57,17 +55,16 @@ public class AdProjectController {
         return "admin/projects/list";
     }
 
-    @RequiresRoles("ADMIN")
+    @RequiresRoles(value = {"ADMIN","GENERAL"}, logical = Logical.OR)
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String add(Model model){
         model.addAttribute("institutions", institutionService.selectAll());
         model.addAttribute("departments", departmentService.selectAll());
-        model.addAttribute("researchDirections", researchDirectionService.selectAll());
         model.addAttribute("notparticipants", peopleService.selectAll());
         return "admin/projects/add";
     }
 
-    @RequiresRoles("ADMIN")
+    @RequiresRoles(value = {"ADMIN","GENERAL"}, logical = Logical.OR)
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String add(Project project,
                       MultipartFile file,
@@ -97,7 +94,6 @@ public class AdProjectController {
                 model.addAttribute("project", project);
                 model.addAttribute("institutions", institutionService.selectAll());
                 model.addAttribute("departments", departmentService.selectAll());
-                model.addAttribute("researchDirections", researchDirectionService.selectAll());
                 model.addAttribute("notparticipants", peopleService.selectAllNotParticipants(project.getParticipants()));
             }
         }

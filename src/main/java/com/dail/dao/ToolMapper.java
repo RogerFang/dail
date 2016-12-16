@@ -23,7 +23,11 @@ public interface ToolMapper {
 
     List<Tool> selectAllBaseInfo();
 
+    List<Tool> selectAllBaseInfoByUid(Integer uid);
+
     List<Tool> selectAllWithBlobInfo();
 
     Tool selectByIdWithInfo(Integer id);
+
+    Tool selectByIdWithInfoUser(Integer id);
 }

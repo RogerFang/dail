@@ -6,6 +6,7 @@
 <head>
     <title>Carousel Setting</title>=
     <link th:href="@{/assets/css/exsitingcarousel.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/assets/css/topAlert.css}" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div layout:fragment="content">
@@ -23,7 +24,7 @@
                     <button type="submit" class="btn btn-default btn-primary">Save</button>
                 </div>
             </form>
-            <h3 class="main-title">Carousel List<a th:href="@{/system/slide/add}" class="add-btn">Add Carousel</a></h3>
+            <h3 class="main-title">Carousel List<a th:href="@{/system/slide/add}" class="add-btn" target="_blank">Add Carousel</a></h3>
             <div class="carousel-item row" th:each="slide:${slidePage.list}" th:data="${slide.id}">
                 <div class="carousel-img col-lg-3 col-md-3 col-sm-3 col-xs-12">
                     <img th:src="@{${slide.imgUrl}}">
@@ -37,13 +38,14 @@
                     <div class="carousel-info">
                         <span class="carousel-seq">[[${slide.sequence}]]</span>
                         <div class="carousel-opera">
-                            <a th:href="@{/system/slide/edit/{id}(id=${slide.id})}" class="carousel-opera">编辑</a>
+                            <a th:href="@{/system/slide/edit/{id}(id=${slide.id})}" class="carousel-opera" target="_blank">编辑</a>
                             <a href="javascript:void(0);" class="carousel-opera delete-btn">删除</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <script th:src="@{/assets/js/jquery.topAlert.js}" type="text/javascript"></script>
         <script th:inline="javascript">
             $(function () {
                 $(".delete-btn").on("click", function () {
@@ -52,9 +54,13 @@
                        var $slideId = $ele.parents(".carousel-item").attr("data");
                        $.post("/system/slide/delete/"+$slideId, function () {
                            $ele.parents(".carousel-item").remove();
+                           $.topAlert({"text":"Delete successfully!", "type":"success"})
                        });
                    }
                 });
+
+                $(".nav-item").eq(7).addClass("active");
+
             });
         </script>
     </main>

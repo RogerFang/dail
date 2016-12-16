@@ -46,4 +46,11 @@ public class AdInstitutionController {
         institutionService.deleteByPrimaryKey(id);
         return new ResponseEntity<>("Delete successfully!", HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    @ResponseBody
+    public HttpEntity edit(Institution institution){
+        institutionService.updateByPrimaryKeySelective(institution);
+        return new ResponseEntity<>("Edit successfully!", HttpStatus.OK);
+    }
 }

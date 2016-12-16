@@ -9,12 +9,13 @@
         <result column="title" jdbcType="VARCHAR" property="title"/>
         <result column="department_id" jdbcType="INTEGER" property="departmentId"/>
         <result column="institution_id" jdbcType="INTEGER" property="institutionId"/>
+        <result column="uid" jdbcType="INTEGER" property="uid"/>
     </resultMap>
     <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.dail.model.Tool">
         <result column="content" jdbcType="LONGVARCHAR" property="content"/>
     </resultMap>
     <sql id="Base_Column_List">
-    id, create_time, description, img_url, title, department_id, institution_id
+    id, create_time, description, img_url, title, department_id, institution_id, uid
   </sql>
     <sql id="Blob_Column_List">
     content
@@ -31,15 +32,17 @@
     delete from tool
     where id = #{id,jdbcType=INTEGER}
   </delete>
-    <insert id="insert" parameterType="com.dail.model.Tool">
+    <insert id="insert" parameterType="com.dail.model.Tool" useGeneratedKeys="true" keyProperty="id">
     insert into tool (id, create_time, description, 
       img_url, title, department_id, 
-      institution_id, content)
+      institution_id, uid, content
+      )
     values (#{id,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{description,jdbcType=VARCHAR}, 
       #{imgUrl,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{departmentId,jdbcType=INTEGER}, 
-      #{institutionId,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR})
+      #{institutionId,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR}
+      )
   </insert>
-    <insert id="insertSelective" parameterType="com.dail.model.Tool">
+    <insert id="insertSelective" parameterType="com.dail.model.Tool" useGeneratedKeys="true" keyProperty="id">
         insert into tool
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -62,6 +65,9 @@
             </if>
             <if test="institutionId != null">
                 institution_id,
+            </if>
+            <if test="uid != null">
+                uid,
             </if>
             <if test="content != null">
                 content,
@@ -89,6 +95,9 @@
             <if test="institutionId != null">
                 #{institutionId,jdbcType=INTEGER},
             </if>
+            <if test="uid != null">
+                #{uid,jdbcType=INTEGER},
+            </if>
             <if test="content != null">
                 #{content,jdbcType=LONGVARCHAR},
             </if>
@@ -115,6 +124,9 @@
             <if test="institutionId != null">
                 institution_id = #{institutionId,jdbcType=INTEGER},
             </if>
+            <if test="uid != null">
+                uid = #{uid,jdbcType=INTEGER},
+            </if>
             <if test="content != null">
                 content = #{content,jdbcType=LONGVARCHAR},
             </if>
@@ -129,6 +141,7 @@
       title = #{title,jdbcType=VARCHAR},
       department_id = #{departmentId,jdbcType=INTEGER},
       institution_id = #{institutionId,jdbcType=INTEGER},
+      uid = #{uid,jdbcType=INTEGER},
       content = #{content,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -139,7 +152,8 @@
       img_url = #{imgUrl,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
       department_id = #{departmentId,jdbcType=INTEGER},
-      institution_id = #{institutionId,jdbcType=INTEGER}
+      institution_id = #{institutionId,jdbcType=INTEGER},
+      uid = #{uid,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
@@ -147,35 +161,52 @@
 
 
     <resultMap id="ResultMapWithInfo" extends="BaseResultMap" type="com.dail.model.Tool">
-        <association property="institution" column="institution_id" javaType="com.dail.model.Institution" select="queryIns">
-        </association>
-        <association property="department" column="department_id" javaType="com.dail.model.Department" select="queryDep">
-        </association>
+        <association property="institution" column="institution_id" javaType="com.dail.model.Institution"
+                     select="queryIns"/>
+        <association property="department" column="department_id" javaType="com.dail.model.Department"
+                     select="queryDep"/>
     </resultMap>
     <resultMap id="ResultMapWithBLOBsInfo" extends="ResultMapWithBLOBs" type="com.dail.model.Tool">
-        <association property="institution" column="institution_id" javaType="com.dail.model.Institution" select="queryIns">
-        </association>
-        <association property="department" column="department_id" javaType="com.dail.model.Department" select="queryDep">
-        </association>
+        <association property="institution" column="institution_id" javaType="com.dail.model.Institution"
+                     select="queryIns"/>
+        <association property="department" column="department_id" javaType="com.dail.model.Department"
+                     select="queryDep"/>
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBsInfoUser" extends="ResultMapWithBLOBsInfo" type="com.dail.model.Tool">
+        <association property="sysUser" column="uid" javaType="com.dail.model.SysUser"
+                     select="queryUser"/>
+    </resultMap>
+    <resultMap id="UserMap" type="com.dail.model.SysUser">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
     </resultMap>
     <resultMap id="InsMap" type="com.dail.model.Institution">
-        <id property="id" column="ins_id" />
-        <result property="name" column="ins_name" />
+        <id property="id" column="ins_id"/>
+        <result property="name" column="ins_name"/>
     </resultMap>
     <resultMap id="DepMap" type="com.dail.model.Department">
-        <id property="id" column="dep_id" />
-        <result property="name" column="dep_name" />
+        <id property="id" column="dep_id"/>
+        <result property="name" column="dep_name"/>
     </resultMap>
+    <select id="queryUser" resultMap="UserMap" parameterType="java.lang.Integer">
+        select id ,username from sys_user where id = #{id}
+    </select>
     <select id="queryIns" resultMap="InsMap" parameterType="java.lang.Integer">
-        select id as ins_id,name as ins_name from institution where id = #{id}
-    </select>
+    select id as ins_id,name as ins_name from institution where id = #{id}
+  </select>
     <select id="queryDep" resultMap="DepMap" parameterType="java.lang.Integer">
-        select id as dep_id,name as dep_name from department where id = #{id}
-    </select>
+    select id as dep_id,name as dep_name from department where id = #{id}
+  </select>
     <select id="selectAllBaseInfo" resultMap="ResultMapWithInfo">
         select
         <include refid="Base_Column_List"/>
         from tool order by create_time desc
+    </select>
+    <select id="selectAllBaseInfoByUid" resultMap="ResultMapWithInfo" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from tool
+        where uid = #{uid,jdbcType=INTEGER} order by create_time desc
     </select>
     <select id="selectAllWithBlobInfo" resultMap="ResultMapWithBLOBsInfo">
         select
@@ -185,6 +216,15 @@
         from tool order by create_time desc
     </select>
     <select id="selectByIdWithInfo" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBsInfo">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from tool
+        where id = #{id,jdbcType=INTEGER}
+        order by create_time desc
+    </select>
+    <select id="selectByIdWithInfoUser" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBsInfoUser">
         select
         <include refid="Base_Column_List"/>
         ,

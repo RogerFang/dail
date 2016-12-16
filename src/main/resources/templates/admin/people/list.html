@@ -6,6 +6,7 @@
 <head>
     <title>Member List</title>
     <link th:href="@{/assets/css/memberadmin.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/assets/css/topAlert.css}" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div layout:fragment="content">
@@ -19,7 +20,7 @@
                             <img th:src="@{${#strings.isEmpty(people.imgUrl)?'/assets/img/avatar.jpg':people.imgUrl}}">
                         </div>
                         <div class="mem-info">
-                            <p class="mem-name"><strong>Name:</strong>[[${people.name}]]</p>
+                            <p class="mem-name"><strong>Name:</strong><a th:href="@{/people/detail/{id}(id=${people.id})}" target="_blank">[[${people.name}]]</a></p>
                             <p class="mem-title" th:unless="${#strings.isEmpty(people.position)}"><strong>Title: </strong>[[${people.position}]]</p>
                             <p class="mem-depart" th:if="${people.institution != null}"><strong>Institute: </strong>[[${people.institution.name}]]</p>
                             <p class="mem-ins" th:if="${people.department != null}"><strong>Department: </strong>[[${people.department.name}]]</p>
@@ -41,7 +42,7 @@
             </div>
             <nav th:replace="fragment/page :: client(${peoplePage}, '/system/people')"/>
         </div>
-
+        <script th:src="@{/assets/js/jquery.topAlert.js}" type="text/javascript"></script>
         <script th:inline="javascript">
             $(function () {
                 $(".delete-btn").on("click", function () {
@@ -49,11 +50,13 @@
                     var $peopleId = $(this).parents(".mem-item").attr("data");
                     if(confirm("Are you sure you want to delete the member?")){
                         $.post("/system/people/delete/"+$peopleId, function () {
-                            alert("Delete successfully!");
                             $ele.parents(".mem-item").remove();
+                            $.topAlert({"text":"Delete successfully!", "type":"success"})
                         });
                     }
                 })
+
+                $(".nav-item").eq(3).addClass("active");
             })
         </script>
     </main>

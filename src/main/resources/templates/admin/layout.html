@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
@@ -18,14 +19,18 @@
 <body>
 <nav>
     <div class="nav-inner container">
-        <a th:href="@{/system}" class="nav-logo">Data and Innovation Lab</a>
-        <h2 class="pull-right">Content Management</h2>
+        <a th:href="@{/}" class="nav-logo">Data and Innovation Lab</a>
+        <h2 class="pull-right" shiro:hasrole="ADMIN">BackStage Management</h2>
+        <h2 class="pull-right" shiro:hasrole="GENERAL">Personal Management</h2>
     </div>
 </nav>
 <header>
     <ul class="header-inner container">
-        <li class="nav-item active">
+        <li class="nav-item" shiro:hasrole="ADMIN">
             <a th:href="@{/system/user}">USER</a>
+        </li>
+        <li class="nav-item" shiro:hasrole="GENERAL">
+            <a th:href="@{/system/people/edit}">INFORMATION</a>
         </li>
         <li class="nav-item">
             <a th:href="@{/system/news}">NEWS</a>
@@ -33,17 +38,23 @@
         <li class="nav-item">
             <a th:href="@{/system/projects}">PROJECTS</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" shiro:hasrole="ADMIN">
             <a th:href="@{/system/people}">MEMBERS</a>
         </li>
         <li class="nav-item">
             <a th:href="@{/system/tools}">TOOLS</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" shiro:hasrole="GENERAL">
+            <a th:href="@{/system/pubs/for}">PUBLICATIONS</a>
+        </li>
+        <li class="nav-item" shiro:hasrole="ADMIN">
             <a th:href="@{/system/ins}">INSTITUTES</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" shiro:hasrole="ADMIN">
             <a th:href="@{/system/dep}">DEPARTMENTS</a>
+        </li>
+        <li class="nav-item" shiro:hasrole="ADMIN">
+            <a th:href="@{/system/slide}">CAROUSELS</a>
         </li>
     </ul>
 </header>

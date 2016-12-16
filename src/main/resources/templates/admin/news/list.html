@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <title>News List</title>
     <link th:href="@{/assets/css/existingnews.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/assets/css/topAlert.css}" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div layout:fragment="content">
@@ -20,7 +21,7 @@
                     </div>
                     <div class="news-info">
                         <a th:href="@{/news/detail/{id}(id=${news.id})}" class="news-title" th:text="${news.title}" target="_blank"></a>
-                        <p class="news-meta"><span th:if="${news.sysUser != null}"><strong>By:</strong>[[${news.sysUser.username}]]</span><span><strong>Added time:</strong>[[${#dates.format(news.createTime, 'MMM dd, yyyy')}]]</span>
+                        <p class="news-meta"><span th:if="${news.sysUser != null}"><strong>By:</strong>[[${news.sysUser.username}]]</span><span><strong>created time:</strong>[[${#dates.format(news.createTime, 'MMM dd, yyyy')}]]</span>
                         </p>
                         <div class="news-abs">
                             [[${news.description}]]
@@ -35,18 +36,21 @@
             </ul>
             <nav th:replace="fragment/page :: client(${newsPage}, '/system/news')"/>
         </div>
-
+        <script th:src="@{/assets/js/jquery.topAlert.js}" type="text/javascript"></script>
         <script th:inline="javascript">
             $(function () {
                 $(".delete-btn").on("click", function (){
-                    var $newsId = $(this).parents("li").attr("data");
+                    var $ele = $(this).parents("li");
+                    var $newsId = $ele.attr("data");
                     if(confirm("Are you sure you want to delete the news?")) {
                         $.post("/system/news/delete/" + $newsId, function () {
-                            alert("Delete Successfully!");
-                            window.location.reload();
+                            $ele.remove();
+                            $.topAlert({"text":"Delete successfully!", "type":"success"})
                         });
                     }
                 });
+
+                $(".nav-item").eq(1).addClass("active");
             })
         </script>
     </main>

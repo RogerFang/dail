@@ -2,9 +2,7 @@ package com.dail.service.impl;
 
 import com.dail.dao.ProjectMapper;
 import com.dail.model.Project;
-import com.dail.model.ProjectDirectionKey;
 import com.dail.model.ProjectPeopleKey;
-import com.dail.service.ProjectDirectionService;
 import com.dail.service.ProjectPeopleService;
 import com.dail.service.ProjectService;
 import com.dail.util.StrUtil;
@@ -28,8 +26,6 @@ public class ProjectServiceImpl implements ProjectService {
     private ProjectMapper projectMapper;
     @Autowired
     private ProjectPeopleService projectPeopleService;
-    @Autowired
-    private ProjectDirectionService projectDirectionService;
 
     @Override
     public int deleteByPrimaryKey(Integer id) {
@@ -83,7 +79,6 @@ public class ProjectServiceImpl implements ProjectService {
         record.setLastModifiedTime(new Date());
         projectMapper.updateByPrimaryKeySelective(record);
         List<Integer> participantIds = record.getParticipantIds();
-        List<Integer> directionIds = record.getDirectionIds();
         if (participantIds != null && participantIds.size() > 0){
             projectPeopleService.deleteByProjectId(record.getId());
             for (Integer pid: participantIds){
@@ -91,15 +86,6 @@ public class ProjectServiceImpl implements ProjectService {
                 key.setPeopleId(pid);
                 key.setProjectId(record.getId());
                 projectPeopleService.insert(key);
-            }
-        }
-        if (directionIds != null && directionIds.size() > 0){
-            projectDirectionService.deleteByProjectId(record.getId());
-            for (Integer did: directionIds){
-                ProjectDirectionKey key = new ProjectDirectionKey();
-                key.setProjectId(record.getId());
-                key.setResearchDirectionId(did);
-                projectDirectionService.insert(key);
             }
         }
     }
@@ -113,21 +99,12 @@ public class ProjectServiceImpl implements ProjectService {
         record.setDescription(StrUtil.getShortContent(record.getContent(), MAX_LENGTH));
         projectMapper.insertSelective(record);
         List<Integer> participantIds = record.getParticipantIds();
-        List<Integer> directionIds = record.getDirectionIds();
         if (participantIds != null && participantIds.size() > 0){
             for (Integer pid: participantIds){
                 ProjectPeopleKey key = new ProjectPeopleKey();
                 key.setPeopleId(pid);
                 key.setProjectId(record.getId());
                 projectPeopleService.insert(key);
-            }
-        }
-        if (directionIds != null && directionIds.size() > 0){
-            for (Integer did: directionIds){
-                ProjectDirectionKey key = new ProjectDirectionKey();
-                key.setProjectId(record.getId());
-                key.setResearchDirectionId(did);
-                projectDirectionService.insert(key);
             }
         }
     }

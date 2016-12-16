@@ -17,11 +17,23 @@ public class Tool {
 
     private Integer institutionId;
 
+    private Integer uid;
+
     private String content;
+
+    private SysUser sysUser;
+
+    private Department department;
 
     private Institution institution;
 
-    private Department department;
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
 
     public Institution getInstitution() {
         return institution;
@@ -31,12 +43,12 @@ public class Tool {
         this.institution = institution;
     }
 
-    public Department getDepartment() {
-        return department;
+    public SysUser getSysUser() {
+        return sysUser;
     }
 
-    public void setDepartment(Department department) {
-        this.department = department;
+    public void setSysUser(SysUser sysUser) {
+        this.sysUser = sysUser;
     }
 
     public Integer getId() {
@@ -93,6 +105,14 @@ public class Tool {
 
     public void setInstitutionId(Integer institutionId) {
         this.institutionId = institutionId;
+    }
+
+    public Integer getUid() {
+        return uid;
+    }
+
+    public void setUid(Integer uid) {
+        this.uid = uid;
     }
 
     public String getContent() {

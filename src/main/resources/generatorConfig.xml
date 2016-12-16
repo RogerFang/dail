@@ -28,10 +28,10 @@
                          targetProject="E:\irlab\Java\dail\src\main\resources\">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
-        <javaClientGenerator targetPackage="com.dail.dao"
+        <!--<javaClientGenerator targetPackage="com.dail.dao"
                              targetProject="E:\irlab\Java\dail\src\main\java\" type="XMLMAPPER">
             <property name="enableSubPackages" value="true"/>
-        </javaClientGenerator>
+        </javaClientGenerator>-->
 
         <!--<table tableName="department" domainObjectName="Department" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
@@ -54,9 +54,9 @@
         <!--<table tableName="project_direction" domainObjectName="ProjectDirection" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"/>-->
-        <table tableName="publication" domainObjectName="Publication" enableCountByExample="false"
+        <!--<table tableName="publication" domainObjectName="Publication" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"/>
+               selectByExampleQueryId="false"/>-->
         <!--<table tableName="research_direction" domainObjectName="ResearchDirection" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"/>-->
@@ -75,9 +75,9 @@
         <!--<table tableName="sys_user_role" domainObjectName="SysUserRole" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"/>-->
-        <!--<table tableName="tool" domainObjectName="Tool" enableCountByExample="false"
+        <table tableName="tool" domainObjectName="Tool" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"/>-->
+               selectByExampleQueryId="false"/>
         <!--<table tableName="sys_const" domainObjectName="SysConst" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"/>-->

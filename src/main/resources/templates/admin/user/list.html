@@ -8,6 +8,7 @@
     <title>User List</title>
 
     <link th:href="@{/assets/css/useradmin.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/assets/css/topAlert.css}" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div layout:fragment="content">
@@ -46,11 +47,11 @@
                                     data-placement="top" title="Reset Password">
                                 <a class="glyphicon glyphicon-edit"></a>
                             </button>
-                            <button class="user-bind-btn admin-tooltip btn btn-default btn-primary"
+                            <div class="user-bind-btn admin-tooltip btn btn-default btn-primary"
                                     data-toggle="tooltip" data-placement="top" title="Bind User">
                                 <a class="glyphicon glyphicon-link"
-                                   th:href="@{/system/user/bind/{id}(id=${user.id})}"></a>
-                            </button>
+                                   th:href="@{/system/user/bind/for/{id}(id=${user.id})}"></a>
+                            </div>
                             <button class="user-del-btn admin-tooltip btn btn-default btn-danger" title="Delete User">
                                 <a class="glyphicon glyphicon-remove"></a>
                             </button>
@@ -122,7 +123,7 @@
         </form>
     </div>
 
-    <!--<script th:src="@{/webjars/.min.js}" type="text/javascript"></script>-->
+    <script th:src="@{/assets/js/jquery.topAlert.js}" type="text/javascript"></script>
     <script th:inline="javascript">
         $(function () {
             $(document).on("click", ".user-add-btn", function () {
@@ -135,6 +136,7 @@
                     var $userId = $ele.parents("tr").attr("data");
                     $.post("/system/user/delete/"+$userId, function () {
                         $ele.parents("tr").remove();
+                        $.topAlert({"text":"Delete successfully!", "type":"success"})
                     });
                 }
             }).on("click", ".user-edit-btn", function () {
@@ -152,6 +154,8 @@
             $('.user-edit-modal').on('hidden.bs.modal', function (e) {
                 $(this).find(":input").val('');
             })
+
+            $(".nav-item").eq(0).addClass("active");
         })
     </script>
 </div>
