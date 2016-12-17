@@ -2,17 +2,29 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Sign In</title>
+    <link th:href="@{/webjars/bootstrap/bootstrap.min.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/webjars/bootstrap/bootstrap-theme.min.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/assets/css/common.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/assets/css/login.css}" rel="stylesheet" type="text/css">
 </head>
 <body>
-<form th:action="@{/login}" method="post" th:object="${sysUser}">
-    <label th:for="${#ids.next('username')}">username: </label>
-    <input th:value="${username}" name="username">
-    <label th:for="${#ids.next('password')}">password: </label>
-    <input name="password">
-
-    <input type="submit" value="submit">
-</form>
-<span th:text="${msg}"></span>
+<section class="login-wrapper">
+    <section class="login">
+        <form th:action="@{/login}" method="post">
+            <h3>Data and Innovation Lab</h3>
+            <div class="form-group has-feedback">
+                <input class="form-control" name="username" placeholder="Enter username" type="text" th:value="${username}">
+                <small class="help-block"></small>
+            </div>
+            <div class="form-group has-feedback">
+                <input class="form-control" name="password" placeholder="Enter password" type="password">
+                <small class="help-block"></small>
+            </div>
+            <span class="help-block" th:text="${msg}"></span>
+            <button class="btn btn-primary" type="submit">Sign In</button>
+        </form>
+    </section>
+</section>
 </body>
 </html>

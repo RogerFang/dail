@@ -5,6 +5,7 @@ import com.dail.model.SysUser;
 import com.dail.service.PeopleService;
 import com.dail.service.SysUserRoleService;
 import com.dail.service.SysUserService;
+import com.google.common.base.Strings;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -45,8 +46,12 @@ public class AdSysUserController {
             // username existed
             redirectAttributes.addFlashAttribute("result", new Result(444));
         } else {
-            sysUserService.register(sysUser);
-            redirectAttributes.addFlashAttribute("result", new Result(666));
+            if (Strings.isNullOrEmpty(sysUser.getPassword()) || Strings.isNullOrEmpty(sysUser.getUsername())){
+                redirectAttributes.addFlashAttribute("result", new Result(333));
+            }else {
+                sysUserService.register(sysUser);
+                redirectAttributes.addFlashAttribute("result", new Result(666));
+            }
         }
         return "redirect:";
     }

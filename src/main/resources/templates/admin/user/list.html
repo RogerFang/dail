@@ -14,13 +14,6 @@
 <div layout:fragment="content">
     <main>
         <div class="container">
-            <div th:if="${result != null}" th:switch="${result.code}">
-                Message:
-                <span th:case="666">Register user successfully!</span>
-                <span th:case="444">Fail to register user, username has been registered!</span>
-                <span th:case="888">Reset password successfully!</span>
-                <span th:case="999">Fail to reset password!</span>
-            </div>
             <div class="row">
                 <h3 class="main-title">User List<a href="javascript:void (0);" class="user-add-btn pull-right">Register
                     User</a></h3>
@@ -156,6 +149,19 @@
             })
 
             $(".nav-item").eq(0).addClass("active");
+
+            var $resultCode = [[${result!=null?result.code:0}]];
+            if ($resultCode == 333){
+                $.topAlert({"text":"Fail to register user, username/password can not be null! ", "type":"fail", "time":"3000"})
+            }else if ($resultCode == 444){
+                $.topAlert({"text":"Fail to register user, username has been registered!", "type":"fail", "time":"3000"})
+            }else if($resultCode == 666){
+                $.topAlert({"text":"Register user successfully!", "type":"success", "time":"3000"})
+            }else if($resultCode == 888){
+                $.topAlert({"text":"Reset password successfully!", "type":"success", "time":"3000"})
+            }else if($resultCode == 999){
+                $.topAlert({"text":"Fail to reset password!", "type":"fail", "time":"3000"})
+            }
         })
     </script>
 </div>

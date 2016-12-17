@@ -90,3 +90,9 @@ main{
     text-align: center;
     width: 100%;
 }
+
+.help-block{
+    color: #a94442;
+    text-align: right;
+    font-weight: 700;
+}

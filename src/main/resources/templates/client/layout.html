@@ -23,6 +23,9 @@
         <a th:href="@{/}" class="nav-logo">Data and Innovation Lab</a>
         <ul class="nav-list">
             <li class="nav-item">
+                <a th:href="@{/}">HOME</a>
+            </li>
+            <li class="nav-item">
                 <a th:href="@{/news}">NEWS</a>
             </li>
             <li class="nav-item">
@@ -58,16 +61,16 @@
                     <li class="subnav-item">
                         <a th:href="@{/system/pubs/for}" target="_blank">My Publications</a>
                     </li>
-                    <li class="subnav-item">
-                        <a th:href="@{/logout}">Sign Out</a>
-                    </li>
                 </ul>
             </li>
             <li class="nav-item" shiro:notAuthenticated="">
-                <a th:href="@{/login}"><span class="glyphicon glyphicon-user"></span>Sign In</a>
+                <a th:href="@{/login}"><span class="glyphicon glyphicon-log-in"></span> Sign In</a>
             </li>
             <li class="nav-item" shiro:hasrole="ADMIN">
-                <a th:href="@{/system}" target="_blank"><span class="glyphicon glyphicon-cog"></span>Admin</a>
+                <a th:href="@{/system}" target="_blank"><span class="glyphicon glyphicon-cog"></span> Backstage</a>
+            </li>
+            <li class="nav-item" shiro:authenticated="">
+                <a th:href="@{/logout}"><span class="glyphicon glyphicon-log-out"></span> Sign Out</a>
             </li>
         </ul>
     </div>
