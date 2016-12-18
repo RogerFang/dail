@@ -30,4 +30,6 @@ public interface NewsMapper {
     List<News> selectAllWithBlob();
 
     News selectByPrimaryKeyWithDetail(Integer id);
+
+    List<News> searchAllBaseWithUser(String query);
 }

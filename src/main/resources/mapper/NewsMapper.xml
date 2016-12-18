@@ -208,25 +208,25 @@
     <select id="selectAllBase" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from news
+        from news order by create_time desc
     </select>
     <select id="selectAllBaseWithUser" resultMap="ResultMapWithUser">
         select
         <include refid="Base_Column_List"/>
-        from news
+        from news order by create_time desc
     </select>
     <select id="selectAllBaseWithUserByUid" parameterType="java.lang.Integer" resultMap="ResultMapWithUser">
         select
         <include refid="Base_Column_List"/>
         from news
-        where uid = #{userId,jdbcType=INTEGER}
+        where uid = #{userId,jdbcType=INTEGER} order by create_time desc
     </select>
     <select id="selectAllWithBlob" resultMap="ResultMapWithBLOBs">
         select
         <include refid="Base_Column_List"/>
         ,
         <include refid="Blob_Column_List"/>
-        from news
+        from news order by create_time desc
     </select>
     <select id="selectByPrimaryKeyWithDetail" parameterType="java.lang.Integer" resultMap="ResultMapWithDetail">
         select
@@ -234,6 +234,11 @@
         ,
         <include refid="Blob_Column_List"/>
         from news
-        where id = #{id,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER} order by create_time desc
+    </select>
+    <select id="searchAllBaseWithUser" resultMap="ResultMapWithUser" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from news where title like concat('%', #{query, jdbcType=VARCHAR},'%') order by create_time desc
     </select>
 </mapper>

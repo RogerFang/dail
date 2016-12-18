@@ -108,4 +108,11 @@ public class ProjectServiceImpl implements ProjectService {
             }
         }
     }
+
+    @Override
+    public PageInfo<Project> search(int pageNumber, int pageSize, String query) {
+        PageHelper.startPage(pageNumber, pageSize);
+        List<Project> projects = projectMapper.searchAllBaseInfo(StrUtil.filtersql(query));
+        return new PageInfo<>(projects);
+    }
 }

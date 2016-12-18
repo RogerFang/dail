@@ -27,4 +27,6 @@ public interface ProjectService {
     void update(Project record);
 
     void insert(Project record);
+
+    PageInfo<Project> search(int pageNumber, int pageSize, String query);
 }

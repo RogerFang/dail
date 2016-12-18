@@ -2,7 +2,6 @@ package com.dail.controller.client;
 
 import com.dail.model.People;
 import com.dail.service.PeopleService;
-import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,8 +23,7 @@ public class PeopleController {
     public String list(@RequestParam(required = false, defaultValue = "1") Integer page,
                        @RequestParam(required = false, defaultValue = "10") Integer size,
                        Model model) {
-        PageInfo<People> o = peopleService.pageWithInfo(page, size);
-        model.addAttribute("peoplePage", o);
+        model.addAttribute("peoplePage", peopleService.pageWithInfo(page, size));
         return "client/people/list";
     }
 

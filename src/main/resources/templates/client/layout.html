@@ -29,20 +29,20 @@
                 <a th:href="@{/news}">NEWS</a>
             </li>
             <li class="nav-item">
-                <a th:href="@{/projects}">PROJECTS</a>
+                <a th:href="@{/projects}">PROJECT</a>
             </li>
             <li class="nav-item">
                 <a th:href="@{/people}">MEMBER</a>
             </li>
             <li class="nav-item">
-                <a th:href="@{/tools}">TOOLS</a>
+                <a th:href="@{/tools}">TOOL</a>
             </li>
             <li class="nav-item">
                 <a th:href="@{/pubs}">PUBLICATION</a>
             </li>
             <li class="nav-item nav-input">
-                <form class="nav-search">
-                    <input type="text" name="query" placeholder="input keyword">
+                <form class="nav-search" th:action="@{/search}" method="post">
+                    <input type="text" name="query" placeholder="input keyword" th:value="${query}">
                     <button type="submit"></button>
                 </form>
             </li>

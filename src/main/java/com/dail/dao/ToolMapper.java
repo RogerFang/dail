@@ -30,4 +30,6 @@ public interface ToolMapper {
     Tool selectByIdWithInfo(Integer id);
 
     Tool selectByIdWithInfoUser(Integer id);
+
+    List<Tool> searchAllBaseInfo(String query);
 }

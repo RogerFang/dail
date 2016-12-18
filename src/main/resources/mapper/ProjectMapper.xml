@@ -268,4 +268,9 @@
         where id = #{id,jdbcType=INTEGER}
         order by create_time desc
     </select>
+    <select id="searchAllBaseInfo" resultMap="ResultMapWithInfo" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from project where title like concat('%', #{query, jdbcType=VARCHAR},'%') order by create_time desc
+    </select>
 </mapper>

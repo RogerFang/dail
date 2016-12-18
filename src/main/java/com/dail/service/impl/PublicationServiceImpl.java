@@ -3,6 +3,7 @@ package com.dail.service.impl;
 import com.dail.dao.PublicationMapper;
 import com.dail.model.Publication;
 import com.dail.service.PublicationService;
+import com.dail.util.StrUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,6 +78,13 @@ public class PublicationServiceImpl implements PublicationService {
     public PageInfo<Publication> pageWithInfo(int pageNumber, int pageSize) {
         PageHelper.startPage(pageNumber, pageSize);
         List<Publication> publications = publicationMapper.selectAllWithInfo();
+        return new PageInfo<>(publications);
+    }
+
+    @Override
+    public PageInfo<Publication> search(int pageNumber, int pageSize, String query) {
+        PageHelper.startPage(pageNumber, pageSize);
+        List<Publication> publications= publicationMapper.searchAll(StrUtil.filtersql(query));
         return new PageInfo<>(publications);
     }
 }

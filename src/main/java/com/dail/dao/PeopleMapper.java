@@ -37,4 +37,6 @@ public interface PeopleMapper {
     People selectByIdWithInfoUser(Integer id);
 
     List<People> selectAllNotParticipants(List<Integer> list);
+
+    List<People> searchAllBaseWithInfo(String query);
 }

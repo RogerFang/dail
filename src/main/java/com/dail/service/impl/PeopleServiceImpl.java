@@ -125,4 +125,11 @@ public class PeopleServiceImpl implements PeopleService {
             }
         }
     }
+
+    @Override
+    public PageInfo<People> search(int pageNumber, int pageSize, String query) {
+        PageHelper.startPage(pageNumber, pageSize);
+        List<People> peopleList = peopleMapper.searchAllBaseWithInfo(StrUtil.filtersql(query));
+        return new PageInfo<>(peopleList);
+    }
 }

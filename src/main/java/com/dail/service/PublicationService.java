@@ -29,4 +29,6 @@ public interface PublicationService {
     PageInfo<Publication> pageByPeopleId(int pageNumber, int pageSize, Integer peopleId);
 
     PageInfo<Publication> pageWithInfo(int pageNumber, int pageSize);
+
+    PageInfo<Publication> search(int pageNumber, int pageSize, String query);
 }

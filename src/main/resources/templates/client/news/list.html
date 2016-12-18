@@ -37,9 +37,9 @@
                     <h3>News</h3>
                     <ul class="news-list" th:unless="${#lists.isEmpty(newsPage.list)}">
                         <li class="news-item" th:each="news:${newsPage.list}">
-                            <a class="news-title" th:href="@{/news/detail/{id}(id=${news.id})}" th:text="${news.title}"></a>
+                            <a class="news-title" target="_blank" th:href="@{/news/detail/{id}(id=${news.id})}" th:text="${news.title}"></a>
                             <p class="news-time" th:text="${#dates.format(news.createTime, 'MMM dd, yyyy')}"></p>
-                            <p class="news-abs">[[${news.description}]]<a th:href="@{/news/detail/{id}(id=${news.id})}" class="more">more>></a></p>
+                            <p class="news-abs">[[${news.description}]]<a target="_blank" th:href="@{/news/detail/{id}(id=${news.id})}" class="more">more>></a></p>
                         </li>
                         <nav th:replace="fragment/page :: client(${newsPage}, '/news')"/>
                     </ul>

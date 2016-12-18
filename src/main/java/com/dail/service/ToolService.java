@@ -27,4 +27,6 @@ public interface ToolService {
     int insert(Tool record);
 
     int update(Tool record);
+
+    PageInfo<Tool> search(int pageNumber, int pageSize, String query);
 }

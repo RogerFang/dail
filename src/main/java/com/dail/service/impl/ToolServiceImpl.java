@@ -78,4 +78,11 @@ public class ToolServiceImpl implements ToolService {
         record.setDescription(StrUtil.getShortContent(record.getContent(), MAX_LENGTH));
         return toolMapper.updateByPrimaryKeySelective(record);
     }
+
+    @Override
+    public PageInfo<Tool> search(int pageNumber, int pageSize, String query) {
+        PageHelper.startPage(pageNumber, pageSize);
+        List<Tool> tools = toolMapper.searchAllBaseInfo(StrUtil.filtersql(query));
+        return new PageInfo<>(tools);
+    }
 }

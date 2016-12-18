@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="client/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Results</title>
+
+    <link th:href="@{/assets/css/news.css}" rel="stylesheet" type="text/css" th:if="${newsPage != null}">
+    <link th:href="@{/assets/css/project.css}" rel="stylesheet" type="text/css" th:if="${projectPage != null}">
+    <link th:href="@{/assets/css/people.css}" rel="stylesheet" type="text/css" th:if="${peoplePage != null}">
+    <link th:href="@{/assets/css/tools.css}" rel="stylesheet" type="text/css" th:if="${toolPage != null}">
+    <link th:href="@{/assets/css/publication.css}" rel="stylesheet" type="text/css" th:if="${pubPage != null}">
+
+</head>
+<body>
+
+<div layout:fragment="content">
+    <header class="nav-bg"></header>
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="main-aside col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    <h5>In This Section:</h5>
+                    <ul class="aside-nav">
+                        <li class="aside-nav-item" th:classappend="${type eq 'news'}?active">
+                            <a th:href="@{/search(type=news,query=${query})}">News</a>
+                        </li>
+                        <li class="aside-nav-item" th:classappend="${type eq 'project'}?active">
+                            <a th:href="@{/search(type=project,query=${query})}">Project</a>
+                        </li>
+                        <li class="aside-nav-item" th:classappend="${type eq 'people'}?active">
+                            <a th:href="@{/search(type=people,query=${query})}">Member</a>
+                        </li>
+                        <li class="aside-nav-item" th:classappend="${type eq 'tool'}?active">
+                            <a th:href="@{/search(type=tool,query=${query})}">Tool</a>
+                        </li>
+                        <li class="aside-nav-item" th:classappend="${type eq 'pub'}?active">
+                            <a th:href="@{/search(type=pub,query=${query})}">Publication</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="main-area col-lg-9 col-md-9 col-sm-12 col-xs-12 row" th:if="${newsPage != null}">
+                    <h3>News Search Results</h3>
+                    <ul class="news-list" th:unless="${#lists.isEmpty(newsPage.list)}">
+                        <li class="news-item" th:each="news:${newsPage.list}">
+                            <a class="news-title" th:href="@{/news/detail/{id}(id=${news.id})}"
+                               th:text="${news.title}"></a>
+                            <p class="news-time" th:text="${#dates.format(news.createTime, 'MMM dd, yyyy')}"></p>
+                            <p class="news-abs">[[${news.description}]]<a th:href="@{/news/detail/{id}(id=${news.id})}"
+                                                                          class="more">more>></a></p>
+                        </li>
+                        <nav th:replace="fragment/page :: client(${newsPage}, '/search?type=news'+${query!=null?'&query='+query:''})"/>
+                    </ul>
+                </div>
+                <div class="main-area col-lg-9 col-md-9 col-sm-12 col-xs-12 row" th:if="${projectPage != null}">
+                    <h3>Projects Search Results</h3>
+                    <ul class="pro-detail col-lg-8 col-md-8 col-sm-12 col-xs-12"
+                        th:unless="${#lists.isEmpty(projectPage.list)}">
+                        <li class="pro-item" th:each="project:${projectPage.list}">
+                            <div class="pro-name">
+                                <a th:href="@{/projects/detail/{id}(id=${project.id})}" th:text="${project.title}"></a>
+                            </div>
+                            <div class="pro-img pull-left" th:unless="${#strings.isEmpty(project.imgUrl)}">
+                                <img th:src="@{${project.imgUrl}}">
+                            </div>
+                            <p class="pro-time" th:if="${project.continuedDate != null}">Time:
+                                [[${project.continuedDate}]]</p>
+                            <p class="pro-ins" th:if="${project.institution != null}">Insititute:
+                                [[${project.institution.name}]]</p>
+                            <p class="pro-depart" th:if="${project.department != null}">Department:
+                                [[${project.department.name}]]</p>
+                            <div class="pro-desc" th:unless="${#strings.isEmpty(project.description)}">
+                                [[${project.description}]]
+                                <a th:href="@{/projects/detail/{id}(id=${project.id})}" class="pro-more">Read more>></a>
+                            </div>
+                        </li>
+                        <nav th:replace="fragment/page :: client(${projectPage}, '/search?type=project'+${query!=null?'&query='+query:''})"/>
+                    </ul>
+                </div>
+                <div class="main-area col-lg-9 col-md-9 col-sm-12 col-xs-12 row" th:if="${peoplePage!=null}">
+                    <h3>Members Search Results</h3>
+                    <div class="person-item col-lg-6 col-md-6 col-sm-12 col-xs-12" th:each="people:${peoplePage.list}">
+                        <div class="person-item-main">
+                            <div class="person-avatar pull-left">
+                                <img th:src="@{${#strings.isEmpty(people.imgUrl)?'/assets/img/avatar.jpg':people.imgUrl}}">
+                            </div>
+                            <div class="person-info">
+                                <h4><a th:href="@{/people/detail/{id}(id=${people.id})}" th:text="${people.name}"></a>
+                                </h4>
+                                <p><strong>Post:</strong><span
+                                        th:unless="${#strings.isEmpty(people.position)}">[[${people.position}]]</span></p>
+                                <p><strong>Institution:</strong><span th:if="${people.institution != null}">[[${people.institution.name}]]</span>
+                                </p>
+                                <p><strong>Department:</strong><span th:if="${people.department != null}">[[${people.department.name}]]</span>
+                                </p>
+                                <div class="person-desc" th:text="${people.pureDesc}">
+                                </div>
+                            </div>
+                        </div>
+                        <a th:href="@{/people/detail/{id}(id=${people.id})}" class="person-more">Read more<span
+                                class="glyphicon glyphicon-play-circle"></span></a>
+                        <div class="cover"></div>
+                    </div>
+                    <nav th:replace="fragment/page :: client(${peoplePage}, '/search?type=people'+${query!=null?'&query='+query:''})"/>
+                </div>
+                <div class="main-area col-lg-9 col-md-9 col-sm-12 col-xs-12 row" th:if="${toolPage!=null}">
+                    <h3>Tools Search Results</h3>
+                    <div class="tool-item col-lg-6 col-md-6 col-sm-12 col-xs-12" th:each="tool:${toolPage.list}">
+                        <div class="tool-item-main">
+                            <div class="tool-avatar" th:unless="${#strings.isEmpty(tool.imgUrl)}">
+                                <img th:src="@{${tool.imgUrl}}">
+                            </div>
+                            <div class="tool-info">
+                                <h4><a th:href="@{/tools/detail/{id}(id=${tool.id})}" th:text="${tool.title}"></a></h4>
+                                <p><strong>Time:</strong>[[${#dates.format(tool.createTime, 'MMM dd, yyyy')}]]</p>
+                                <p th:if="${tool.institution != null}"><strong>Institution:</strong>[[${tool.institution.name}]]</p>
+                                <p th:if="${tool.department != null}"><strong>Department:</strong>[[${tool.department.name}]]</p>
+                            </div>
+                            <div class="tool-desc">
+                                [[${tool.description}]]
+                                <a th:href="@{/tools/detail/{id}(id=${tool.id})}">Read More>></a>
+                            </div>
+                        </div>
+                        <nav th:replace="fragment/page :: client(${toolPage}, '/search?type=tool'+${query!=null?'&query='+query:''})"/>
+                    </div>
+                </div>
+                <div class="main-area col-lg-9 col-md-9 col-sm-12 col-xs-12 row" th:if="${pubPage != null}">
+                    <h3>Publications Search Results</h3>
+                    <ul class="pub-list" th:unless="${#lists.isEmpty(pubPage.list)}">
+                        <li class="pub-item" th:each="pub:${pubPage.list}">
+                            [[${pub.apaText}]]
+                            <a th:href="@{${pub.fullTextUrl}}" th:unless="${#strings.isEmpty(pub.fullTextUrl)}">[Full Text]</a>
+                        </li>
+                        <nav th:replace="fragment/page :: client(${pubPage}, '/search?type=pub'+${query!=null?'&query='+query:''})"/>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

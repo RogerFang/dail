@@ -35,4 +35,6 @@ public interface PeopleService {
     void update(People record);
 
     void insert(People record);
+
+    PageInfo<People> search(int pageNumber, int pageSize, String query);
 }

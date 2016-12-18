@@ -25,4 +25,6 @@ public interface NewsService {
     void insert(News news);
 
     void update(News news);
+
+    PageInfo<News> search(int pageNumber, int pageSize, String query);
 }

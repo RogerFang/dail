@@ -275,4 +275,9 @@
             </foreach>
         </if>
     </select>
+    <select id="searchAllBaseWithInfo" resultMap="ResultMapWithInfo" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List" />
+        from people where name like concat('%', #{query, jdbcType=VARCHAR}, '%') order by sequence desc, name desc
+    </select>
 </mapper>

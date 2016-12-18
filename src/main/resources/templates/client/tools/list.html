@@ -43,7 +43,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="main-area col-lg-9 col-md-9 col-sm-12 col-xs-12 row" th:unless="${#lists.isEmpty(toolPage.list)}">
+                <div class="main-area col-lg-9 col-md-9 col-sm-12 col-xs-12 row" th:if="${toolPage!=null}">
                     <h3>Tools</h3>
                     <div class="tool-item col-lg-6 col-md-6 col-sm-12 col-xs-12" th:each="tool:${toolPage.list}">
                         <div class="tool-item-main">
@@ -51,14 +51,14 @@
                                 <img th:src="@{${tool.imgUrl}}">
                             </div>
                             <div class="tool-info">
-                                <h4><a th:href="@{/tools/detail/{id}(id=${tool.id})}" th:text="${tool.title}"></a></h4>
+                                <h4><a target="_blank" th:href="@{/tools/detail/{id}(id=${tool.id})}" th:text="${tool.title}"></a></h4>
                                 <p><strong>Time:</strong>[[${#dates.format(tool.createTime, 'MMM dd, yyyy')}]]</p>
                                 <p th:if="${tool.institution != null}"><strong>Institution:</strong>[[${tool.institution.name}]]</p>
                                 <p th:if="${tool.department != null}"><strong>Department:</strong>[[${tool.department.name}]]</p>
                             </div>
                             <div class="tool-desc">
                                 [[${tool.description}]]
-                                <a th:href="@{/tools/detail/{id}(id=${tool.id})}">Read More>></a>
+                                <a target="_blank" th:href="@{/tools/detail/{id}(id=${tool.id})}">Read More>></a>
                             </div>
                         </div>
                         <nav th:replace="fragment/page :: client(${toolPage}, '/tools')"/>

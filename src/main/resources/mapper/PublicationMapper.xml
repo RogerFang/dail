@@ -155,4 +155,11 @@
         <include refid="Blob_Column_List"/>
         from publication order by pub_date desc, create_time desc
     </select>
+    <select id="searchAll" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from publication where apa_text like concat('%', #{query,jdbcType=VARCHAR}, '%') order by pub_date desc, create_time desc
+    </select>
 </mapper>

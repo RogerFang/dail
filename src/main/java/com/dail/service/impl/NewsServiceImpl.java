@@ -45,14 +45,14 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     public PageInfo<News> page(int pageNumber, int pageSize) {
-        PageHelper.startPage(pageNumber, pageSize, "id desc");
+        PageHelper.startPage(pageNumber, pageSize);
         List<News> newsList = newsMapper.selectAllBaseWithUser();
         return new PageInfo<>(newsList);
     }
 
     @Override
     public PageInfo<News> pageByUid(int pageNumber, int pageSize, Integer uid) {
-        PageHelper.startPage(pageNumber, pageSize, "id desc");
+        PageHelper.startPage(pageNumber, pageSize);
         List<News> newsList = newsMapper.selectAllBaseWithUserByUid(uid);
         return new PageInfo<>(newsList);
     }
@@ -76,5 +76,12 @@ public class NewsServiceImpl implements NewsService {
         news.setLastModifiedTime(new Date());
         news.setDescription(StrUtil.getShortContent(news.getContent(), MAX_LENGTH));
         newsMapper.updateByPrimaryKeySelective(news);
+    }
+
+    @Override
+    public PageInfo<News> search(int pageNumber, int pageSize, String query) {
+        PageHelper.startPage(pageNumber, pageSize);
+        List<News> newsList = newsMapper.searchAllBaseWithUser(StrUtil.filtersql(query));
+        return new PageInfo<>(newsList);
     }
 }

@@ -30,4 +30,6 @@ public interface ProjectMapper {
     Project selectByIdWithInfo(Integer id);
 
     Project selectByIdWithDetail(Integer id);
+
+    List<Project> searchAllBaseInfo(String query);
 }

@@ -28,4 +28,6 @@ public interface PublicationMapper {
     List<Publication> selectAll();
 
     List<Publication> selectAllWithInfo();
+
+    List<Publication> searchAll(String query);
 }

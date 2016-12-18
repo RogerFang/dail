@@ -47,7 +47,7 @@
                     <ul class="pro-detail col-lg-8 col-md-8 col-sm-12 col-xs-12" th:unless="${#lists.isEmpty(projectPage.list)}">
                         <li class="pro-item" th:each="project:${projectPage.list}">
                             <div class="pro-name">
-                                <a th:href="@{/projects/detail/{id}(id=${project.id})}" th:text="${project.title}"></a>
+                                <a target="_blank" th:href="@{/projects/detail/{id}(id=${project.id})}" th:text="${project.title}"></a>
                             </div>
                             <div class="pro-img pull-left" th:unless="${#strings.isEmpty(project.imgUrl)}">
                                 <img th:src="@{${project.imgUrl}}">
@@ -57,7 +57,7 @@
                             <p class="pro-depart" th:if="${project.department != null}">Department: [[${project.department.name}]]</p>
                             <div class="pro-desc" th:unless="${#strings.isEmpty(project.description)}">
                                 [[${project.description}]]
-                                <a th:href="@{/projects/detail/{id}(id=${project.id})}" class="pro-more">Read more>></a>
+                                <a target="_blank" th:href="@{/projects/detail/{id}(id=${project.id})}" class="pro-more">Read more>></a>
                             </div>
                         </li>
                         <nav th:replace="fragment/page :: client(${projectPage}, '/projects')"/>
